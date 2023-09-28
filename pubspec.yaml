@@ -24,6 +24,8 @@ dependencies:
   purchases_flutter:
   flutter_hooks:
   flutter_map:
+  flutter_local_notifications:
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
