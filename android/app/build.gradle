@@ -22,6 +22,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 android {
     namespace "agency.cinnamon.cinnamon_riverpod_2"
     compileSdkVersion flutter.compileSdkVersion

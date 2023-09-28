@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "884763953749",
+    "project_id": "tripfindercinnamon",
+    "storage_bucket": "tripfindercinnamon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884763953749:android:a52010bc002ccb828962dc",
+        "android_client_info": {
+          "package_name": "agency.cinnamon.cinnamon_riverpod_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw9E7XlRACZdcsnKKQONRpMzasc4_J_Ps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
