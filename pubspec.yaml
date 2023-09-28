@@ -1,0 +1,43 @@
+name: cinnamon_riverpod_2
+description: "Riverpod Template"
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0-191.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod:
+  hooks_riverpod:
+  cupertino_icons: ^1.0.2
+  go_router:
+  firebase_core:
+  firebase_auth:
+  cloud_firestore:
+  equatable:
+  hive_flutter:
+  simple_logger:
+  dio:
+  purchases_flutter:
+  flutter_hooks:
+  flutter_map:
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  custom_lint:
+  riverpod_lint:
+  flutter_lints:
+  build_runner:
+  flutter_gen_runner:
+
+
+flutter:
+  assets:
+    - assets/images/cinnamon.jpeg
+
+  uses-material-design: true
+
+
