@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final httpServiceProvider = Provider<HttpService>((ref) => DioHttpService(ref));
 
 abstract interface class HttpService {
+  Future<void> init();
   Future<T> request<T>(BaseHttpRequest request, {required T Function(Map<String, dynamic> response) converter});
 }
 
