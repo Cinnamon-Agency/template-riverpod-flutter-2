@@ -1,5 +1,4 @@
 import 'package:cinnamon_riverpod_2/features/splash/controller/splash_controller.dart';
-import 'package:cinnamon_riverpod_2/features/splash/controller/splash_state.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:cinnamon_riverpod_2/infra/lifecycle/lifecycle_provider.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
@@ -17,7 +16,7 @@ class SplashPage extends ConsumerStatefulWidget {
 class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObserver {
   @override
   void initState() {
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -25,8 +24,7 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (previous, next) {
       if (next.hasValue) {
-        final state = next.asData!.value as SplashState;
-        GoRouter.of(context).push(RoutePaths.home);
+        GoRouter.of(context).go(RoutePaths.onboarding);
       }
       if (next.hasError) {
         logger.info('Error in splash page ${next.error}');
@@ -44,7 +42,7 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

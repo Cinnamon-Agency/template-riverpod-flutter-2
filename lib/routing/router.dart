@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/planner/planner_home/planner_home_page.dart';
 import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:go_router/go_router.dart';
 class RoutePaths {
   static const splash = '/';
   static const home = '/home';
+  static const onboarding = '/onboarding';
 }
 
 final GoRouter router = GoRouter(
@@ -13,17 +15,26 @@ final GoRouter router = GoRouter(
   observers: [SimpleNavigationObserver()],
   routes: <RouteBase>[
     GoRoute(
-        path: RoutePaths.splash,
-        builder: (BuildContext context, GoRouterState state) {
-          return const SplashPage();
-        },
-        routes: const []),
+      path: RoutePaths.splash,
+      builder: (BuildContext context, GoRouterState state) {
+        return const SplashPage();
+      },
+      routes: const [],
+    ),
     GoRoute(
-        path: RoutePaths.home,
-        builder: (BuildContext context, GoRouterState state) {
-          return const PlannerHomePage();
-        },
-        routes: const []),
+      path: RoutePaths.home,
+      builder: (BuildContext context, GoRouterState state) {
+        return const PlannerHomePage();
+      },
+      routes: const [],
+    ),
+    GoRoute(
+      path: RoutePaths.onboarding,
+      builder: (BuildContext context, GoRouterState state) {
+        return const OnboardingPage();
+      },
+      routes: const [],
+    ),
   ],
 );
 
