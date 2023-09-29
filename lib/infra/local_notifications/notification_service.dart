@@ -10,4 +10,5 @@ final notificationServiceProvider = Provider<NotificationService>((ref) {
 abstract interface class NotificationService {
   Future<void> init();
   Future<void> scheduleNotifications(List<AppNotification> notifications);
+  Future<void> cancelAll();
 }

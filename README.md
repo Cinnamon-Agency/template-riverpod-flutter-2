@@ -2,7 +2,7 @@
 
 ### Infra
 Holds the infrastructure that is usually shared across the features, such as http, local storage, in app purchases, notifications.
-This ideally should __not__ contain any UI related code. 
+This should __not__ contain any UI related code. 
 In this example we are using both Services and Repositories + Data Sources, the reason for that is
 to show how Repositories help when using Firestore. Services in this case are "enchanced" Data Sources.
 
