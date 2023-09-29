@@ -1,7 +1,9 @@
+import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/splash/controller/splash_controller.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:cinnamon_riverpod_2/infra/lifecycle/lifecycle_provider.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
+import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,7 +26,10 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (previous, next) {
       if (next.hasValue) {
-        GoRouter.of(context).go(RoutePaths.onboarding);
+        Future.delayed(const Duration(seconds: 1), () {
+          /// Delay routing 1 second, so that the logo is seen
+          GoRouter.of(context).go(RoutePaths.onboarding);
+        });
       }
       if (next.hasError) {
         logger.info('Error in splash page ${next.error}');
@@ -32,7 +37,17 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
       }
     });
 
-    return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    return Scaffold(
+        body: Center(
+      child: Hero(
+        tag: HeroAnimationTags.splashLogo,
+        child: AppIcons.icon(
+          AppIcons.earthPlane,
+          size: 80,
+          color: Colors.green.shade200,
+        ),
+      ),
+    ));
   }
 
   @override

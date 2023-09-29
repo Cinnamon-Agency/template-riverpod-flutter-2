@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/onboarding_page_view.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/page_indicator.dart';
 import 'package:cinnamon_riverpod_2/features/shared/primary_button.dart';
@@ -26,7 +27,10 @@ class OnboardingPage extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcons.icon(AppIcons.earthPlane, size: 40, color: Colors.green.shade200),
+                Hero(
+                  tag: HeroAnimationTags.splashLogo,
+                  child: AppIcons.icon(AppIcons.earthPlane, size: 40, color: Colors.green.shade200),
+                ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
