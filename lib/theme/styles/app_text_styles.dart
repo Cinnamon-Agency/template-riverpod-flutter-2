@@ -5,4 +5,6 @@ abstract class AppTextStyles {
   TextStyle get primaryButtonTextStyle;
 
   TextStyle get titleMediumTextStyle;
+
+  TextStyle get headlineSmallTextStyle;
 }

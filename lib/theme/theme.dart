@@ -10,7 +10,7 @@ final appTheme = AppTheme();
 class AppTheme {
   final ThemeData lightTheme = ThemeData(
     primaryColor: lightAppColors.primaryColor,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: lightAppColors.backgroundColor,
     dialogBackgroundColor: Colors.white,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
@@ -32,20 +32,54 @@ class AppTheme {
             defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
       ),
     ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: lightAppColors.tertiaryColor,
+        foregroundColor: lightAppColors.primaryColorDark,
+        disabledBackgroundColor: lightAppColors.neutrals700,
+        disabledForegroundColor: lightAppColors.neutrals800,
+        textStyle: darkAppTextStyles.primaryButtonTextStyle,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        splashFactory:
+            defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
+      ),
+    ),
 
     /// SPLASHES
     splashFactory: defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
     splashColor: lightAppColors.tertiaryColor,
 
+    /// TEXT
     textTheme: TextTheme(
       titleMedium: lightAppTextStyles.titleMediumTextStyle,
+      headlineSmall: lightAppTextStyles.headlineSmallTextStyle,
+    ),
+
+    /// INPUTS
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: TextStyle(
+        color: lightAppColors.primaryColor,
+      ),
+      contentPadding: const EdgeInsets.all(20),
+      iconColor: lightAppColors.primaryColor,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: darkAppColors.primaryColor,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      filled: true,
+      fillColor: lightAppColors.neutralsWhite,
     ),
   );
 
   final ThemeData darkTheme = ThemeData(
     primaryColor: darkAppColors.primaryColor,
-
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: darkAppColors.backgroundColor,
     dialogBackgroundColor: Colors.black,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
@@ -58,7 +92,19 @@ class AppTheme {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         backgroundColor: darkAppColors.primaryColor,
-        foregroundColor: lightAppColors.primaryColorDark,
+        foregroundColor: darkAppColors.primaryColorDark,
+        disabledBackgroundColor: lightAppColors.neutrals700,
+        disabledForegroundColor: lightAppColors.neutrals800,
+        textStyle: darkAppTextStyles.primaryButtonTextStyle,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        splashFactory:
+            defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: TextButton.styleFrom(
+        backgroundColor: darkAppColors.tertiaryColor,
+        foregroundColor: darkAppColors.primaryColorDark,
         disabledBackgroundColor: lightAppColors.neutrals700,
         disabledForegroundColor: lightAppColors.neutrals800,
         textStyle: darkAppTextStyles.primaryButtonTextStyle,
@@ -72,8 +118,31 @@ class AppTheme {
     splashFactory: defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
     splashColor: darkAppColors.tertiaryColor,
 
+    /// TEXT
     textTheme: TextTheme(
       titleMedium: darkAppTextStyles.titleMediumTextStyle,
+      headlineSmall: darkAppTextStyles.headlineSmallTextStyle,
+    ),
+
+    /// INPUTS
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: TextStyle(
+        color: lightAppColors.primaryColor,
+      ),
+      contentPadding: const EdgeInsets.all(20),
+      iconColor: lightAppColors.primaryColor,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: darkAppColors.primaryColor,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      filled: true,
+      fillColor: lightAppColors.neutralsBlack,
     ),
   );
 }

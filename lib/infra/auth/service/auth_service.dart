@@ -8,6 +8,9 @@ final authServiceProvider = Provider((ref) => FirebaseAuthService());
 
 abstract interface class AuthService {
   Future<void> init();
-  Future<void> signInAnon();
   Stream<fb.User?> get authStateChanges;
+
+  Future<void> signInAnon();
+
+  Future<void> createUser({required String email, required String password});
 }

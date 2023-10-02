@@ -17,5 +17,5 @@ class DarkAppColors extends AppColors {
   Color get tertiaryColor => Colors.green.shade100;
 
   @override
-  Color get backgroundColor => Colors.black;
+  Color get backgroundColor => const Color(0xFF111211);
 }

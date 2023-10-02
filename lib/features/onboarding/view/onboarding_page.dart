@@ -78,7 +78,7 @@ class OnboardingPage extends ConsumerWidget {
                   child: PrimaryButton(
                     /// TODO: Remove hard-coded text
                     text: 'Get Started',
-                    onPressed: () {},
+                    onPressed: () => controller.onPressStart(context),
                     isDisabled: !state.onboardingFinished,
                   ),
                 )

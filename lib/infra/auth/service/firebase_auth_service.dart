@@ -10,12 +10,20 @@ class FirebaseAuthService implements AuthService {
   Future<void> init() async {}
 
   @override
+  Stream<User?> get authStateChanges => auth.authStateChanges();
+
+  @override
   Future<void> signInAnon() async {
     if (auth.currentUser == null) await auth.signInAnonymously();
   }
 
   @override
-  Stream<User?> get authStateChanges => auth.authStateChanges();
+  Future<void> createUser({
+    required String email,
+    required String password,
+  }) async {
+    await auth.createUserWithEmailAndPassword(email: email, password: password);
+  }
 
   Future<void> logout() {
     return auth.signOut();

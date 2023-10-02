@@ -16,4 +16,10 @@ class LightAppTextStyles extends AppTextStyles {
         color: lightAppColors.neutralsBlack,
         fontWeight: FontWeight.w500,
       );
+
+  @override
+  TextStyle get headlineSmallTextStyle => TextStyle(
+        color: lightAppColors.neutralsBlack,
+        fontWeight: FontWeight.w700,
+      );
 }

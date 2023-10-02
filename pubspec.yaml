@@ -25,6 +25,8 @@ dependencies:
   flutter_hooks:
   flutter_map:
   flutter_svg: 
+  flutter_form_builder:
+  form_builder_validators:
 
 dev_dependencies:
   flutter_test:

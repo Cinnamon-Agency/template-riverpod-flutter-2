@@ -15,8 +15,21 @@ class $AssetsIconsGen {
   /// File path: assets/icons/earth_plane.svg
   String get earthPlane => 'assets/icons/earth_plane.svg';
 
+  /// File path: assets/icons/social_apple.svg
+  String get socialApple => 'assets/icons/social_apple.svg';
+
+  /// File path: assets/icons/social_email.svg
+  String get socialEmail => 'assets/icons/social_email.svg';
+
+  /// File path: assets/icons/social_facebook.svg
+  String get socialFacebook => 'assets/icons/social_facebook.svg';
+
+  /// File path: assets/icons/social_google.svg
+  String get socialGoogle => 'assets/icons/social_google.svg';
+
   /// List of all assets
-  List<String> get values => [earthPlane];
+  List<String> get values =>
+      [earthPlane, socialApple, socialEmail, socialFacebook, socialGoogle];
 }
 
 class $AssetsImagesGen {

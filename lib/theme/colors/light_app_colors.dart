@@ -17,5 +17,5 @@ class LightAppColors extends AppColors {
   Color get tertiaryColor => Colors.green.shade100;
 
   @override
-  Color get backgroundColor => Colors.white;
+  Color get backgroundColor => const Color(0xFFF0F5F0);
 }

@@ -16,4 +16,10 @@ final class DarkAppTextStyles extends AppTextStyles {
         color: darkAppColors.neutralsWhite,
         fontWeight: FontWeight.w500,
       );
+
+  @override
+  TextStyle get headlineSmallTextStyle => TextStyle(
+        color: darkAppColors.neutralsWhite,
+        fontWeight: FontWeight.w700,
+      );
 }
