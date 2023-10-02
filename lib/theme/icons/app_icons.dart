@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AppIcons {
-  // Define local assets
-  static const String earthPlane = 'assets/icons/earth_plane.svg';
-
   static const double sizeSmall = 24;
   static const double sizeMedium = 32;
 

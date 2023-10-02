@@ -2,8 +2,8 @@ import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/onboarding_page_view.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/page_indicator.dart';
 import 'package:cinnamon_riverpod_2/features/shared/primary_button.dart';
+import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
 import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
-import 'package:cinnamon_riverpod_2/theme/icons/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +29,11 @@ class OnboardingPage extends ConsumerWidget {
               children: [
                 Hero(
                   tag: HeroAnimationTags.splashLogo,
-                  child: AppIcons.icon(AppIcons.earthPlane, size: 40, color: Colors.green.shade200),
+                  child: AppIcons.icon(
+                    Assets.icons.earthPlane,
+                    size: 40,
+                    color: Colors.green.shade200,
+                  ),
                 ),
                 Expanded(
                   child: Column(
@@ -44,17 +48,17 @@ class OnboardingPage extends ConsumerWidget {
                           /// TODO: Extract this
                           children: [
                             OnboardingPageView(
-                              imagePath: AppImages.socialSharing,
+                              imagePath: Assets.images.socialSharing,
                               text:
                                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                             ),
                             OnboardingPageView(
-                              imagePath: AppImages.teamCollaboration,
+                              imagePath: Assets.images.teamCollaboration,
                               text:
                                   'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                             ),
                             OnboardingPageView(
-                              imagePath: AppImages.travelling,
+                              imagePath: Assets.images.travelling,
                               text:
                                   'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
                             ),

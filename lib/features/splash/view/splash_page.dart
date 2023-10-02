@@ -1,5 +1,6 @@
 import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/splash/controller/splash_controller.dart';
+import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:cinnamon_riverpod_2/infra/lifecycle/lifecycle_provider.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
@@ -42,7 +43,7 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
       child: Hero(
         tag: HeroAnimationTags.splashLogo,
         child: AppIcons.icon(
-          AppIcons.earthPlane,
+          Assets.icons.earthPlane,
           size: 80,
           color: Colors.green.shade200,
         ),
