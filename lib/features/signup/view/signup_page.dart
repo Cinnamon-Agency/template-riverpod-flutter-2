@@ -3,18 +3,17 @@ import 'package:cinnamon_riverpod_2/features/signup/controllers/signup_controlle
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SignupPage extends HookConsumerWidget {
-  SignupPage({super.key});
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>(), const []);
 
-    final controller = ref.watch(signupControllerProvider.notifier);
+    final controller = ref.read(signupControllerProvider.notifier);
     final state = ref.watch(signupControllerProvider);
 
     final formState = formKey.currentState;

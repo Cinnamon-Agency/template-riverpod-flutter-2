@@ -49,7 +49,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RoutePaths.signup,
       builder: (BuildContext context, GoRouterState state) {
-        return SignupPage();
+        return const SignupPage();
       },
       routes: const [],
     ),

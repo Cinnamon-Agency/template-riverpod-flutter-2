@@ -10,7 +10,7 @@ final onboardingControllerProvider = StateNotifierProvider.autoDispose<Onboardin
 );
 
 class OnboardingController extends StateNotifier<OnboardingState> {
-  OnboardingController() : super(OnboardingState());
+  OnboardingController() : super(const OnboardingState());
 
   final pageController = PageController();
 

@@ -13,7 +13,7 @@ class StartPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(onboardingControllerProvider.notifier);
+    final controller = ref.read(onboardingControllerProvider.notifier);
 
     return Scaffold(
       body: SafeArea(

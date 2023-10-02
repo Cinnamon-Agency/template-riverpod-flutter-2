@@ -11,7 +11,7 @@ class SignupController extends AutoDisposeNotifier<SignupState> {
 
   @override
   SignupState build() {
-    return SignupState();
+    return const SignupState();
   }
 
   void validateFields(bool valid) {
