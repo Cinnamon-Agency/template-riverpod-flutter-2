@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/features/login/view/login_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/start_page.dart';
 import 'package:cinnamon_riverpod_2/features/planner/planner_home/planner_home_page.dart';
@@ -12,6 +13,7 @@ class RoutePaths {
   static const onboarding = '/onboarding';
   static const start = '/start';
   static const signup = '/signup';
+  static const login = '/login';
 }
 
 final GoRouter router = GoRouter(
@@ -50,6 +52,13 @@ final GoRouter router = GoRouter(
       path: RoutePaths.signup,
       builder: (BuildContext context, GoRouterState state) {
         return const SignupPage();
+      },
+      routes: const [],
+    ),
+    GoRoute(
+      path: RoutePaths.login,
+      builder: (BuildContext context, GoRouterState state) {
+        return const LoginPage();
       },
       routes: const [],
     ),

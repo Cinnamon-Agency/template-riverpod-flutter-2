@@ -63,7 +63,7 @@ class StartPage extends ConsumerWidget {
                   ),
                   _buildSignInButton(SecondaryButton(
                     text: 'Log in',
-                    onPressed: () {},
+                    onPressed: () => controller.onPressLogin(context),
                   )),
                 ],
               )

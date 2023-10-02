@@ -29,4 +29,6 @@ class OnboardingController extends StateNotifier<OnboardingState> {
   void onPressStart(BuildContext context) => GoRouter.of(context).go(RoutePaths.start);
 
   void onPressSignUp(BuildContext context) => GoRouter.of(context).push(RoutePaths.signup);
+
+  void onPressLogin(BuildContext context) => GoRouter.of(context).push(RoutePaths.login);
 }
