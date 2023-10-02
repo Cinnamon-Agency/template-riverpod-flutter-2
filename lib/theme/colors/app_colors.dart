@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
-  /// Primary app color
-  Color get primaryColor;
-  Color get primaryColorDark;
-
-  /// Secondary app color
-  Color get secondaryColor;
-
-  /// Tertiary app color
-  Color get tertiaryColor;
+  /// Primary app colors
+  Color get primary100;
+  Color get primary200;
+  Color get primary300;
+  Color get primary400;
+  Color get primary500;
+  Color get primary600;
+  Color get primaryDark;
 
   /// App background color (e.g. for Scaffolds)
   Color get backgroundColor;

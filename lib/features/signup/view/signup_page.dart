@@ -31,7 +31,8 @@ class SignupPage extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Text(
                   'Sign up for a TripFinder account',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Expanded(

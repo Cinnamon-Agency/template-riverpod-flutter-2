@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/gen/fonts.gen.dart';
 import 'package:cinnamon_riverpod_2/theme/colors/dark_app_colors.dart';
 import 'package:cinnamon_riverpod_2/theme/colors/light_app_colors.dart';
 import 'package:cinnamon_riverpod_2/theme/styles/dark_app_text_styles.dart';
@@ -9,9 +10,13 @@ final appTheme = AppTheme();
 
 class AppTheme {
   final ThemeData lightTheme = ThemeData(
-    primaryColor: lightAppColors.primaryColor,
+    fontFamily: FontFamily.manrope,
+
+    primaryColor: lightAppColors.primary100,
     scaffoldBackgroundColor: lightAppColors.backgroundColor,
     dialogBackgroundColor: Colors.white,
+
+    /// TRANSITION
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -22,10 +27,10 @@ class AppTheme {
     /// BUTTONS
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: lightAppColors.primaryColor,
-        foregroundColor: lightAppColors.primaryColorDark,
-        disabledBackgroundColor: lightAppColors.neutrals100,
-        disabledForegroundColor: lightAppColors.neutrals300,
+        backgroundColor: lightAppColors.primary100,
+        foregroundColor: lightAppColors.primaryDark,
+        disabledBackgroundColor: lightAppColors.primary600,
+        disabledForegroundColor: lightAppColors.neutralsWhite,
         textStyle: lightAppTextStyles.primaryButtonTextStyle,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         splashFactory:
@@ -34,8 +39,8 @@ class AppTheme {
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: lightAppColors.tertiaryColor,
-        foregroundColor: lightAppColors.primaryColorDark,
+        backgroundColor: lightAppColors.primary500,
+        foregroundColor: lightAppColors.primaryDark,
         disabledBackgroundColor: lightAppColors.neutrals700,
         disabledForegroundColor: lightAppColors.neutrals800,
         textStyle: darkAppTextStyles.primaryButtonTextStyle,
@@ -47,28 +52,35 @@ class AppTheme {
 
     /// SPLASHES
     splashFactory: defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
-    splashColor: lightAppColors.tertiaryColor,
+    splashColor: lightAppColors.primary300,
 
     /// TEXT
     textTheme: TextTheme(
       titleMedium: lightAppTextStyles.titleMediumTextStyle,
+      headlineLarge: lightAppTextStyles.headlineLargeTextStyle,
       headlineSmall: lightAppTextStyles.headlineSmallTextStyle,
+      bodyLarge: lightAppTextStyles.bodyLargeTextStyle,
+      bodyMedium: lightAppTextStyles.bodyMediumTextStyle,
+      bodySmall: lightAppTextStyles.bodySmallTextStyle,
+      labelMedium: lightAppTextStyles.labelMediumTextStyle,
     ),
 
     /// INPUTS
     inputDecorationTheme: InputDecorationTheme(
       floatingLabelStyle: TextStyle(
-        color: lightAppColors.primaryColor,
+        color: lightAppColors.primary100,
       ),
+      hintStyle: TextStyle(color: darkAppColors.backgroundColor),
+      labelStyle: TextStyle(color: darkAppColors.backgroundColor),
       contentPadding: const EdgeInsets.all(20),
-      iconColor: lightAppColors.primaryColor,
+      iconColor: lightAppColors.primary100,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(8),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: darkAppColors.primaryColor,
+          color: darkAppColors.primary100,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -78,9 +90,13 @@ class AppTheme {
   );
 
   final ThemeData darkTheme = ThemeData(
-    primaryColor: darkAppColors.primaryColor,
+    fontFamily: FontFamily.manrope,
+
+    primaryColor: darkAppColors.primary100,
     scaffoldBackgroundColor: darkAppColors.backgroundColor,
     dialogBackgroundColor: Colors.black,
+
+    /// TRANSITION
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -91,10 +107,10 @@ class AppTheme {
     /// BUTTONS
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: darkAppColors.primaryColor,
-        foregroundColor: darkAppColors.primaryColorDark,
-        disabledBackgroundColor: lightAppColors.neutrals700,
-        disabledForegroundColor: lightAppColors.neutrals800,
+        backgroundColor: darkAppColors.primary100,
+        foregroundColor: darkAppColors.neutralsWhite,
+        disabledBackgroundColor: lightAppColors.primary300,
+        disabledForegroundColor: lightAppColors.primary600,
         textStyle: darkAppTextStyles.primaryButtonTextStyle,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         splashFactory:
@@ -103,8 +119,8 @@ class AppTheme {
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: darkAppColors.tertiaryColor,
-        foregroundColor: darkAppColors.primaryColorDark,
+        backgroundColor: darkAppColors.primary300,
+        foregroundColor: darkAppColors.neutralsWhite,
         disabledBackgroundColor: lightAppColors.neutrals700,
         disabledForegroundColor: lightAppColors.neutrals800,
         textStyle: darkAppTextStyles.primaryButtonTextStyle,
@@ -116,33 +132,40 @@ class AppTheme {
 
     /// SPLASHES
     splashFactory: defaultTargetPlatform == TargetPlatform.android ? InkSparkle.splashFactory : NoSplash.splashFactory,
-    splashColor: darkAppColors.tertiaryColor,
+    splashColor: darkAppColors.primary300,
 
     /// TEXT
     textTheme: TextTheme(
       titleMedium: darkAppTextStyles.titleMediumTextStyle,
+      headlineLarge: darkAppTextStyles.headlineLargeTextStyle,
       headlineSmall: darkAppTextStyles.headlineSmallTextStyle,
+      bodyLarge: darkAppTextStyles.bodyLargeTextStyle,
+      bodyMedium: darkAppTextStyles.bodyMediumTextStyle,
+      bodySmall: darkAppTextStyles.bodySmallTextStyle,
+      labelMedium: darkAppTextStyles.labelMediumTextStyle,
     ),
 
     /// INPUTS
     inputDecorationTheme: InputDecorationTheme(
       floatingLabelStyle: TextStyle(
-        color: lightAppColors.primaryColor,
+        color: lightAppColors.primary100,
       ),
+      hintStyle: TextStyle(color: lightAppColors.backgroundColor),
+      labelStyle: TextStyle(color: lightAppColors.backgroundColor),
       contentPadding: const EdgeInsets.all(20),
-      iconColor: lightAppColors.primaryColor,
+      iconColor: lightAppColors.primary100,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(8),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: darkAppColors.primaryColor,
+          color: darkAppColors.primary100,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
       filled: true,
-      fillColor: lightAppColors.neutralsBlack,
+      fillColor: lightAppColors.neutrals900,
     ),
   );
 }

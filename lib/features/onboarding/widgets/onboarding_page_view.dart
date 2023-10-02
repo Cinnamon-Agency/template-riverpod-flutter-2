@@ -24,10 +24,13 @@ class OnboardingPageView extends StatelessWidget {
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 32),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
           ],
         ),

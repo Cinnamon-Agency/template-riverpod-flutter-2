@@ -37,7 +37,7 @@ class PageIndicatorItem extends StatelessWidget {
         width: 8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isActive ? Theme.of(context).primaryColor : lightAppColors.neutrals200,
+          color: isActive ? Theme.of(context).primaryColor : lightAppColors.primary600,
         ),
       );
 }

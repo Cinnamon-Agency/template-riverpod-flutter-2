@@ -6,5 +6,15 @@ abstract class AppTextStyles {
 
   TextStyle get titleMediumTextStyle;
 
+  TextStyle get headlineLargeTextStyle;
+
   TextStyle get headlineSmallTextStyle;
+
+  TextStyle get bodyLargeTextStyle;
+
+  TextStyle get bodyMediumTextStyle;
+
+  TextStyle get bodySmallTextStyle;
+
+  TextStyle get labelMediumTextStyle;
 }

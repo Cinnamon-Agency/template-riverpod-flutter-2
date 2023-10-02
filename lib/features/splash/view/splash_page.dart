@@ -45,7 +45,7 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
         child: AppIcons.icon(
           Assets.icons.earthPlane,
           size: 80,
-          color: Colors.green.shade200,
+          color: Theme.of(context).primaryColor,
         ),
       ),
     ));

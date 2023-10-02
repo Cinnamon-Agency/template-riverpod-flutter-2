@@ -45,7 +45,11 @@ class TextIconButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AppIcons.icon(iconPath, size: 16),
+          AppIcons.icon(
+            iconPath,
+            size: 16,
+            color: Theme.of(context).textButtonTheme.style?.foregroundColor?.resolve({MaterialState.pressed}),
+          ),
           const SizedBox(width: 8),
           Text(text),
         ],

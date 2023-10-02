@@ -32,7 +32,7 @@ class OnboardingPage extends ConsumerWidget {
                   child: AppIcons.icon(
                     Assets.icons.earthPlane,
                     size: 40,
-                    color: Colors.green.shade200,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Expanded(
