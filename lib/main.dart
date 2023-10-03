@@ -29,6 +29,7 @@ class TripFinder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp.router(
       title: 'Trip Finder',
       routerDelegate: router.routerDelegate,

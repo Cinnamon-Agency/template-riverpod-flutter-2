@@ -22,12 +22,15 @@ dependencies:
   simple_logger:
   dio:
   purchases_flutter:
+  collection:
   flutter_hooks:
   flutter_map:
   flutter_svg: 
   flutter_form_builder:
   form_builder_validators:
 
+  flutter_local_notifications:
+  timezone:
 dev_dependencies:
   flutter_test:
     sdk: flutter

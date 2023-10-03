@@ -16,7 +16,10 @@ class DioHttpService implements HttpService {
   final ProviderRef ref;
   final dio = Dio();
 
-  DioHttpService(this.ref) {
+  DioHttpService(this.ref);
+
+@override
+  Future<void> init() async {
     dio.options.baseUrl = "http://localhost:3000";
 
     dio.interceptors.add(InterceptorsWrapper(onRequest: (r, h) async {

@@ -53,7 +53,7 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    ref.read(lifecycleProvider.notifier).state = state;
+    ref.read(lifeCycleControllerProvider.notifier).updateState(state);
   }
 
   @override

@@ -1,14 +1,18 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import './storage_service.dart';
 
 /// Implementation of [StorageService] with [Hive]
-class HiveStorageService extends StorageService {
+final class HiveStorageService extends StorageService {
   late Box<dynamic> hiveBox;
 
   @override
   Future<void> init() async {
-    await Hive.initFlutter();
+    if (Platform.isAndroid || Platform.isIOS) await Hive.initFlutter();
+
     return _openBox('box');
   }
 

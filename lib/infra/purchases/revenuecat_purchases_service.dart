@@ -40,7 +40,7 @@ class RevenuecatPurchasesService implements PurchasesService {
 
   @override
   Future<PurchaseEntity> purchaseProduct(Product product) {
-    return Purchases.purchasePackage((product as RevenuecatProduct).implRef).then((value) async{
+    return Purchases.purchasePackage((product as RevenuecatProduct).implRef).then((value) async {
       await Purchases.syncPurchases();
       return _getPurchaseStatus();
     });

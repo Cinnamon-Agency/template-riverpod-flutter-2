@@ -2,7 +2,7 @@
 
 ### Infra
 Holds the infrastructure that is usually shared across the features, such as http, local storage, in app purchases, notifications.
-This ideally should __not__ contain any UI related code. 
+This should __not__ contain any UI related code. 
 In this example we are using both Services and Repositories + Data Sources, the reason for that is
 to show how Repositories help when using Firestore. Services in this case are "enchanced" Data Sources.
 
@@ -34,19 +34,21 @@ You may group them by directories if you have a lot of them.
 - you can use services and repositories in [Async]Notifiers/FutureProviders/StreamProviders
 - do NOT user data sources in [Async]Notifiers/FutureProviders/StreamProviders
 - repository should ALWAYS return a model, never an entity even if they are the same (they have same fields)
+  - you may use ```typedef Model = Entity``` , or better ```class Model extends Entity```
 - sometimes it is easier to call a FutureProvider instead of calling a repository in a [Async]Notifier - ALWAYS document this 
 - lean to using AutoDisposeable in [Async]Notifiers/FutureProviders/StreamProviders 
 - models MUST be immutable, use copyWith to change a field
-- models Must have equatable implemented or use @freezed
+- models MUST have equatable implemented or use @freezed
 - models, if constructed from entity, must have factory constructor fromEntity or static method fromEntity
 - entities can optionally have equatable implemented
 - never call repository/datasource/service from a widget/view, always call a controller
 - do not use StateProvider unless its a "stateless" global provider
-- do not initialize Repositories/Services when making a controller, rather make a getter and invoke when needed
+- do not declare Repositories/Services as final in controller, rather make a getter and invoke when needed
+  - although services and repositories are mostly stateless and have pure functions, using getters allows us to ensure we are using the latest instance 
 ```
 AuthService get _authService => ref.read(authServiceProvider);
 ```
-- in case you want to rebuild controller simply watch it in build method
+- in case you want to rebuild controller when a service/repo updates simply watch it in build method
 
 
 
