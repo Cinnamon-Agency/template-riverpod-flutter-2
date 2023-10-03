@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/constants/constants.dart';
 import 'package:cinnamon_riverpod_2/features/shared/primary_button.dart';
 import 'package:cinnamon_riverpod_2/features/signup/controllers/signup_controller.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class SignupPage extends HookConsumerWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
                   'Sign up for a TripFinder account',
                   style: Theme.of(context).textTheme.headlineLarge,
@@ -38,35 +39,36 @@ class SignupPage extends HookConsumerWidget {
               Expanded(
                 child: FormBuilder(
                   key: formKey,
+                  onChanged: () {
+                    /// Save the validation status each time a field has changed
+                    /// to enable/disable the sign up button
+                    controller.validateFields(formState?.isValid ?? false);
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
-                          const SizedBox(height: 32),
-                          FormBuilderTextField(
-                            name: 'email',
-                            decoration: const InputDecoration(labelText: 'Email'),
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(),
-                              // FormBuilderValidators.email(),
-                            ]),
-                            onChanged: (_) {
-                              controller.validateFields(formState?.isValid ?? false);
-                            },
-                          ),
-                          const SizedBox(height: 32),
-                          FormBuilderTextField(
-                            name: 'password',
-                            decoration: const InputDecoration(labelText: 'Password'),
-                            obscureText: true,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(),
-                            ]),
-                            onChanged: (_) {
-                              controller.validateFields(formState?.isValid ?? false);
-                            },
-                          ),
+                          const SizedBox(height: 24),
+                          _buildFormField(formState, 'email', 'Email', [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.email(),
+                          ]),
+                          const SizedBox(height: 24),
+                          _buildFormField(formState, 'password', 'Password', [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.match(AppConstants.passwordRegex.pattern),
+                          ]),
+                          const SizedBox(height: 24),
+                          _buildFormField(formState, 'confirm-password', 'Confirm password', [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.equal(password),
+                          ]),
+                          const SizedBox(height: 16),
+                          Text(
+                            "Password should be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one digit.",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )
                         ],
                       ),
                       _buildButton(
@@ -94,6 +96,32 @@ class SignupPage extends HookConsumerWidget {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 4),
       child: button,
+    );
+  }
+
+  Widget _buildFormField(
+    FormBuilderState? formState,
+    String fieldName,
+    String fieldLabel,
+    List<String? Function(String?)> formValidators, {
+    bool obscureText = false,
+  }) {
+    return Focus(
+      onFocusChange: (focus) {
+        /// Trigger a validation of the field each time it loses focus.
+        /// This is a workaround, as using FormBuilder's autoValidate mode
+        /// triggers a validation of all fields (even if they haven't been filled yet).
+        if (focus == false) {
+          formState?.fields[fieldName]?.validate(focusOnInvalid: false);
+        }
+      },
+      child: FormBuilderTextField(
+        name: fieldName,
+        decoration: InputDecoration(labelText: fieldLabel),
+        obscureText: obscureText,
+        autocorrect: false,
+        validator: FormBuilderValidators.compose(formValidators),
+      ),
     );
   }
 }

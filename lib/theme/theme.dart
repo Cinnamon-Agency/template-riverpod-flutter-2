@@ -84,8 +84,30 @@ class AppTheme {
         ),
         borderRadius: BorderRadius.circular(8),
       ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: lightAppColors.error,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: lightAppColors.error,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      errorStyle: TextStyle(color: lightAppColors.error),
       filled: true,
       fillColor: lightAppColors.neutralsWhite,
+    ),
+
+    /// SNACKBAR
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: lightAppColors.primaryDark,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      contentTextStyle: lightAppTextStyles.bodyMediumTextStyle.copyWith(color: lightAppColors.neutralsWhite),
     ),
   );
 
@@ -164,8 +186,30 @@ class AppTheme {
         ),
         borderRadius: BorderRadius.circular(8),
       ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: darkAppColors.error,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: darkAppColors.error,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      errorStyle: TextStyle(color: darkAppColors.error),
       filled: true,
       fillColor: lightAppColors.neutrals900,
+    ),
+
+    /// SNACKBAR
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: darkAppColors.primary600,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      contentTextStyle: lightAppTextStyles.bodyMediumTextStyle,
     ),
   );
 }

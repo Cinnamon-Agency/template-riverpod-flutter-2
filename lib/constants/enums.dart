@@ -4,3 +4,17 @@
 enum HeroAnimationTags {
   splashLogo,
 }
+
+/// The result of a user authentication action.
+enum AuthResultStatus {
+  successful,
+  emailAlreadyExists,
+  wrongPassword,
+  weakPassword,
+  userNotFound,
+  invalidEmail,
+  invalidLoginCredentials,
+  operationNotAllowed,
+  tooManyRequests,
+  undefined,
+}
