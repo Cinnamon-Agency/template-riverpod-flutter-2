@@ -24,4 +24,6 @@ abstract class AppColors {
   Color get neutrals800 => const Color(0xFF313131);
   Color get neutrals900 => const Color(0xFF1E1E1E);
   Color get neutralsBlack => const Color(0xFF000000);
+
+  Color get error;
 }

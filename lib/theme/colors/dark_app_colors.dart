@@ -27,4 +27,7 @@ class DarkAppColors extends AppColors {
 
   @override
   Color get backgroundColor => const Color(0xFF111211);
+
+  @override
+  Color get error => const Color(0xFFcb4154);
 }

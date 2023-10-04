@@ -1,3 +1,5 @@
+import 'package:cinnamon_riverpod_2/constants/enums.dart';
+import 'package:cinnamon_riverpod_2/helpers/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,26 +15,51 @@ class FirebaseAuthService implements AuthService {
   Stream<User?> get authStateChanges => auth.authStateChanges();
 
   @override
-  Future<void> signInAnon() async {
-    if (auth.currentUser == null) await auth.signInAnonymously();
+  Future<AuthResultStatus> signInAnon() async {
+    try {
+      if (auth.currentUser == null) await auth.signInAnonymously();
+      return AuthResultStatus.successful;
+    } catch (e) {
+      return AuthResultHandler.handleException(e);
+    }
   }
 
   @override
-  Future<void> createUser({
+  Future<AuthResultStatus> createUser({
     required String email,
     required String password,
   }) async {
-    await auth.createUserWithEmailAndPassword(email: email, password: password);
+    try {
+      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      return AuthResultStatus.successful;
+    } catch (e) {
+      return AuthResultHandler.handleException(e);
+    }
   }
 
   @override
-  Future<void> logIn({
+  Future<AuthResultStatus> logIn({
     required String email,
     required String password,
   }) async {
-    await auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return AuthResultStatus.successful;
+    } catch (e) {
+      return AuthResultHandler.handleException(e);
+    }
   }
 
+  @override
+  Future<AuthResultStatus> signInWithApple() async => throw UnimplementedError();
+
+  @override
+  Future<AuthResultStatus> signInWithGoogle() async => throw UnimplementedError();
+
+  @override
+  Future<AuthResultStatus> signInWithFacebook() async => throw UnimplementedError();
+
+  @override
   Future<void> logout() {
     return auth.signOut();
   }

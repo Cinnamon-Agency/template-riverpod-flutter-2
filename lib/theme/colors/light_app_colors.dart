@@ -27,4 +27,7 @@ class LightAppColors extends AppColors {
 
   @override
   Color get backgroundColor => const Color(0xFFF0F5F0);
+
+  @override
+  Color get error => const Color(0xFFa32638);
 }
