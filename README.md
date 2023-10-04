@@ -49,7 +49,8 @@ You may group them by directories if you have a lot of them.
 AuthService get _authService => ref.read(authServiceProvider);
 ```
 - in case you want to rebuild controller when a service/repo updates simply watch it in build method
-
+- make use of exceptions - dont return true/false, or Type/null - throw an exception instead
+  - take TravelerException as inspiration
 
 
 ### UI

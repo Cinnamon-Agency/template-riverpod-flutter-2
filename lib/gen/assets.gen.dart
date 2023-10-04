@@ -28,8 +28,7 @@ class $AssetsIconsGen {
   String get socialGoogle => 'assets/icons/social_google.svg';
 
   /// List of all assets
-  List<String> get values =>
-      [earthPlane, socialApple, socialEmail, socialFacebook, socialGoogle];
+  List<String> get values => [earthPlane, socialApple, socialEmail, socialFacebook, socialGoogle];
 }
 
 class $AssetsImagesGen {
@@ -39,8 +38,7 @@ class $AssetsImagesGen {
   String get beach => 'assets/images/beach.svg';
 
   /// File path: assets/images/cinnamon.jpeg
-  AssetGenImage get cinnamon =>
-      const AssetGenImage('assets/images/cinnamon.jpeg');
+  AssetGenImage get cinnamon => const AssetGenImage('assets/images/cinnamon.jpeg');
 
   /// File path: assets/images/fun_moments.svg
   String get funMoments => 'assets/images/fun_moments.svg';
@@ -58,15 +56,7 @@ class $AssetsImagesGen {
   String get travelling => 'assets/images/travelling.svg';
 
   /// List of all assets
-  List<dynamic> get values => [
-        beach,
-        cinnamon,
-        funMoments,
-        journey,
-        socialSharing,
-        teamCollaboration,
-        travelling
-      ];
+  List<dynamic> get values => [beach, cinnamon, funMoments, journey, socialSharing, teamCollaboration, travelling];
 }
 
 class Assets {

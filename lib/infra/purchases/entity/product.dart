@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:purchases_flutter/models/package_wrapper.dart';
-import 'package:purchases_flutter/models/store_product_wrapper.dart';
 
 typedef RevenuecatProduct = Product<Package>;
 

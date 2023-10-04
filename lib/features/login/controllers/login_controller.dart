@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../infra/auth/service/auth_service.dart';
 import 'login_state.dart';
 
@@ -18,7 +19,10 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
     state = state.copyWith(allFieldsValid: valid);
   }
 
-  void triggerLoginWithEmail({required String email, required String password}) {
-    _authService.logIn(email: email, password: password);
+  Future triggerLoginWithEmail({required String email, required String password}) {
+    state = state.copyWith(isLoading: true);
+    return _authService
+        .logIn(email: email, password: password)
+        .whenComplete(() => state = state.copyWith(isLoading: false));
   }
 }
