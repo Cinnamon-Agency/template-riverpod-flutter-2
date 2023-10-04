@@ -1,5 +1,4 @@
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
-import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';

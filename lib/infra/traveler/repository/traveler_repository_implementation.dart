@@ -1,4 +1,3 @@
-import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 
@@ -12,14 +11,17 @@ final class TravelerRepositoryImpl implements TravelerRepository {
   TravelerRepositoryImpl(this._travelerDataSource, this._userId);
 
   @override
-  Future<Traveler> getProfile() {
-    return _travelerDataSource.getTraveler(_userId).then((value) => Traveler.fromEntity(value));
-
+  Future<void> checkUsernameAvailable(String username) async {
+    return _travelerDataSource.checkUsernameAvailable(username);
   }
 
+  @override
+  Future<Traveler> createProfile({required String username, required String email}) async {
+    return _travelerDataSource.createTraveler(_userId, username, email).then((value) => Traveler.fromEntity(value));
+  }
 
-
+  @override
+  Stream<Traveler> myProfile() {
+    return _travelerDataSource.getTraveler(_userId).map((entity) => Traveler.fromEntity(entity));
+  }
 }
-
-
-

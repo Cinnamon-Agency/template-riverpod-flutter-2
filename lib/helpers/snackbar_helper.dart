@@ -6,7 +6,7 @@ class SnackbarHelper {
   ///
   /// Optionally, a custom [duration] can be set.
   /// Snackbar theme is defined in app's `ThemeData`.
-  void showSnackbar(BuildContext context, String message, {int duration = 2000}) {
+  static void showTFSnackbar(BuildContext context, String message, {int duration = 2000}) {
     // Hide the currently active snackbar, if it exists
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
 

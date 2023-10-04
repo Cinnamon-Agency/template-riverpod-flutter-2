@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cinnamon_riverpod_2/infra/purchases/entity/product.dart';
 import 'package:cinnamon_riverpod_2/infra/purchases/entity/purchase_entity.dart';
 import 'package:cinnamon_riverpod_2/infra/purchases/purchases_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class RevenuecatPurchasesService implements PurchasesService {

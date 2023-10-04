@@ -14,7 +14,7 @@ class TripRepositoryImplementation implements TripRepository {
     return _tripDataSource.getTripItineraries(_userId).asyncMap((entities) async {
       return Future.wait(entities.map((entity) async {
         final travelers = entity.ownerIds.map((id) async {
-          return _travelerDataSource.getTraveler(id);
+          return _travelerDataSource.getTraveler(id).first;
         }).toList();
         final awaited = await Future.wait(travelers);
         return TripItinerary.fromEntity(entity, awaited);

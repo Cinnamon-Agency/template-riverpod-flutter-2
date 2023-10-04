@@ -37,5 +37,3 @@ abstract class BaseHttpRequest {
     this.contentType = Headers.jsonContentType,
   });
 }
-
-

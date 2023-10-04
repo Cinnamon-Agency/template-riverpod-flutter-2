@@ -65,6 +65,17 @@ final GoRouter router = GoRouter(
   ],
 );
 
+
+extension GoRouterEXT on GoRouter {
+  void pushAndRemoveUntil(String path, [Object? data]) {
+    while (canPop()) {
+      pop();
+    }
+    pushReplacement(path, extra: data);
+  }
+}
+
+
 class SimpleNavigationObserver extends RouteObserver {
   static String? currentRoute = RoutePaths.splash;
 

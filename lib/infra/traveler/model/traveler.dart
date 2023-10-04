@@ -8,7 +8,7 @@ class Traveler extends Equatable {
   Traveler(this.name);
 
   factory Traveler.fromEntity(TravelerEntity entity) {
-    return Traveler(entity.name);
+    return Traveler(entity.username);
   }
 
   @override

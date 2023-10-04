@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cinnamon_riverpod_2/infra/http/http_service.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// use this as means to implement your token
@@ -18,7 +17,7 @@ class DioHttpService implements HttpService {
 
   DioHttpService(this.ref);
 
-@override
+  @override
   Future<void> init() async {
     dio.options.baseUrl = "http://localhost:3000";
 

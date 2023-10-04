@@ -7,7 +7,7 @@ class CoTraveler extends Equatable {
   CoTraveler(this.name);
 
   factory CoTraveler.fromEntity(TravelerEntity entity) {
-    return CoTraveler(entity.name);
+    return CoTraveler(entity.username);
   }
 
   @override

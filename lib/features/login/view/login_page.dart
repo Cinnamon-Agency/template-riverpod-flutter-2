@@ -1,10 +1,14 @@
 import 'package:cinnamon_riverpod_2/features/login/controllers/login_controller.dart';
 import 'package:cinnamon_riverpod_2/features/shared/primary_button.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
+import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
+import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LoginPage extends HookConsumerWidget {
@@ -76,11 +80,19 @@ class LoginPage extends HookConsumerWidget {
                         _buildButton(
                           PrimaryButton(
                             text: 'Log in',
+                            isLoading: state.isLoading,
                             onPressed: state.allFieldsValid
-                                ? () {
+                                ? () async {
                                     // Finish autofill
                                     TextInput.finishAutofillContext();
-                                    controller.triggerLoginWithEmail(email: email, password: password);
+                                    try {
+                                      await controller.triggerLoginWithEmail(email: email, password: password);
+                                      GoRouter.of(context).pushAndRemoveUntil(RoutePaths.home);
+                                    } on AuthException catch (e) {
+                                      if (context.mounted) {
+                                        SnackbarHelper.showTFSnackbar(context, e.message);
+                                      }
+                                    }
                                   }
                                 : null,
                           ),

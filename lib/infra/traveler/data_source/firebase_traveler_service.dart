@@ -1,13 +1,34 @@
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import '../repository/traveler_exceptions.dart';
 
 class FirebaseTravelerDataSource implements TravelerDataSource {
   final collection = FirebaseFirestore.instance.collection('travelers');
 
   @override
-  Future<TravelerEntity> getTraveler(String id) async {
-    return collection.doc(id).snapshots().first.then((doc) => TravelerEntity.fromDoc(doc));
+  Stream<TravelerEntity> getTraveler(String id) {
+    return collection.doc(id).snapshots().map((doc) => TravelerEntity.fromDoc(doc));
+  }
+
+  @override
+  Future<TravelerEntity> createTraveler(String userId, String username, String email) async {
+    final existing = await collection.doc(userId).get();
+    if (existing.exists) {
+      throw TravelerExistsException();
+    }
+    final traveler = TravelerEntity(id: userId, username: username, email: email);
+    await collection.doc(userId).set(traveler.toMap());
+    return traveler;
+  }
+
+  @override
+  Future<void> checkUsernameAvailable(String username) {
+    return collection.where('username', isEqualTo: username).get().then((value) {
+      if (value.docs.isNotEmpty) {
+        throw UsernameTakenException();
+      }
+    });
   }
 }

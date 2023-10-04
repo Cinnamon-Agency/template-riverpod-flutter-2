@@ -1,6 +1,9 @@
 import 'package:cinnamon_riverpod_2/constants/constants.dart';
 import 'package:cinnamon_riverpod_2/features/shared/primary_button.dart';
 import 'package:cinnamon_riverpod_2/features/signup/controllers/signup_controller.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
+import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -20,6 +23,7 @@ class SignupPage extends HookConsumerWidget {
     final formState = formKey.currentState;
 
     String email = formState?.fields['email']?.value ?? '';
+    String name = formState?.fields['name']?.value ?? '';
     String password = formState?.fields['password']?.value ?? '';
 
     return Scaffold(
@@ -50,6 +54,10 @@ class SignupPage extends HookConsumerWidget {
                       Column(
                         children: [
                           const SizedBox(height: 24),
+                          _buildFormField(formState, 'name', 'Username', [
+                            FormBuilderValidators.required(),
+                          ]),
+                          const SizedBox(height: 24),
                           _buildFormField(formState, 'email', 'Email', [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.email(),
@@ -74,8 +82,22 @@ class SignupPage extends HookConsumerWidget {
                       _buildButton(
                         PrimaryButton(
                           text: 'Sign up',
+                          isDisabled: state.isLoading,
                           onPressed: state.allFieldsValid
-                              ? () => controller.triggerSignupWithEmail(email: email, password: password)
+                              ? () async {
+                                  try {
+                                    await controller.triggerSignupWithEmail(
+                                        email: email, password: password, username: name);
+                                  } on AuthException catch (e) {
+                                    if (context.mounted) {
+                                      SnackbarHelper.showTFSnackbar(context, e.message);
+                                    }
+                                  } on TravelerException catch (e) {
+                                    if (context.mounted) {
+                                      SnackbarHelper.showTFSnackbar(context, e.message);
+                                    }
+                                  }
+                                }
                               : null,
                         ),
                       ),
