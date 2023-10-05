@@ -1,12 +1,12 @@
 import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/onboarding_page_view.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/page_indicator.dart';
-import 'package:cinnamon_riverpod_2/features/shared/primary_button.dart';
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
 import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../shared/buttons/primary_button.dart';
 import '../controllers/onboarding_controller.dart';
 
 class OnboardingPage extends ConsumerWidget {

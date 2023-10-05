@@ -1,6 +1,4 @@
-
-
-sealed  class AuthException implements Exception {
+sealed class AuthException implements Exception {
   final String message;
 
   AuthException(this.message);
@@ -21,7 +19,6 @@ class WeakPasswordException extends AuthException {
 class UserNotFoundException extends AuthException {
   UserNotFoundException() : super("User not found.");
 }
-
 
 class InvalidEmailException extends AuthException {
   InvalidEmailException() : super("Invalid email.");

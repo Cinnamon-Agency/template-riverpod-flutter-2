@@ -10,9 +10,12 @@ final tripRepositoryProvider = Provider<TripRepository>((ref) {
   final userId = ref.watch(userIdProvider);
   final tripDataSource = ref.watch(tripDataSourceProvider);
   final travelerDataSource = ref.watch(travelerDataSourceProvider);
+
   return TripRepositoryImplementation(tripDataSource, travelerDataSource, userId);
 });
 
 abstract interface class TripRepository {
   Stream<List<TripItinerary>> getTripItineraries();
+
+  Future<void> createMocked();
 }

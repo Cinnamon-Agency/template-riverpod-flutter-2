@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 final appTheme = AppTheme();
 
 class AppTheme {
-  final ThemeData lightTheme = ThemeData(
+    ThemeData get lightTheme => ThemeData(
     fontFamily: FontFamily.manrope,
 
     primaryColor: lightAppColors.primary100,
@@ -100,6 +100,9 @@ class AppTheme {
       filled: true,
       fillColor: lightAppColors.neutralsWhite,
     ),
+    navigationBarTheme: NavigationBarThemeData(
+      indicatorColor: lightAppColors.primary100,
+    ),
 
     /// SNACKBAR
     snackBarTheme: SnackBarThemeData(
@@ -111,7 +114,7 @@ class AppTheme {
     ),
   );
 
-  final ThemeData darkTheme = ThemeData(
+    ThemeData get darkTheme => ThemeData(
     fontFamily: FontFamily.manrope,
 
     primaryColor: darkAppColors.primary100,

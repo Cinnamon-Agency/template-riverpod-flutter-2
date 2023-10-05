@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../entity/trip_itinerary.dart';
@@ -10,4 +11,5 @@ final tripDataSourceProvider = Provider<TripDataSource>((ref) {
 abstract interface class TripDataSource {
   Stream<List<TripItineraryEntity>> getTripItineraries(String userId);
   Future<void> createTrip(TripItineraryEntity tripItineraryEntity);
-}
+
+ }

@@ -8,9 +8,6 @@ class LoginState extends Equatable {
     this.isLoading = false,
   });
 
-
-
-
   @override
   List<Object?> get props => [
         allFieldsValid,

@@ -23,7 +23,7 @@ class RevenuecatPurchasesService implements PurchasesService {
   }
 
   @override
-  Future<List<Product>> getProducts() {
+  Future<List<ProductEntity>> getProducts() {
     return Purchases.getOfferings().then((value) =>
         value.current?.availablePackages
             .map((e) => RevenuecatProduct(
@@ -38,7 +38,7 @@ class RevenuecatPurchasesService implements PurchasesService {
   }
 
   @override
-  Future<PurchaseEntity> purchaseProduct(Product product) {
+  Future<PurchaseEntity> purchaseProduct(ProductEntity product) {
     return Purchases.purchasePackage((product as RevenuecatProduct).implRef).then((value) async {
       await Purchases.syncPurchases();
       return _getPurchaseStatus();

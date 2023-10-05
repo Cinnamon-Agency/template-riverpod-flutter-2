@@ -28,8 +28,10 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
     ref.listen(splashControllerProvider, (previous, next) {
       if (next.hasValue) {
         Future.delayed(const Duration(seconds: 1), () {
+          final value = next.requireValue;
+
           /// Delay routing 1 second, so that the logo is seen
-          GoRouter.of(context).go(RoutePaths.onboarding);
+          GoRouter.of(context).go(value.isAnon ? RoutePaths.onboarding : RoutePaths.home);
         });
       }
       if (next.hasError) {

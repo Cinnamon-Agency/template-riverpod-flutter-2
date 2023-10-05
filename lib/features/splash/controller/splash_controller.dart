@@ -4,6 +4,7 @@ import 'package:cinnamon_riverpod_2/features/splash/controller/splash_state.dart
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/http/http_service.dart';
 import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../infra/local_notifications/notification_service.dart';
@@ -30,7 +31,6 @@ class SplashController extends AutoDisposeAsyncNotifier<SplashState> {
     // await purchases.init();
     //
     // await notifications.init();
-
     return SplashState(user.isAnonymous);
   }
 }

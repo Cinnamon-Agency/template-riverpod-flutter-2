@@ -9,7 +9,7 @@ final purchaseServiceProvider = Provider<PurchasesService>((ref) {
 
 abstract interface class PurchasesService {
   Future<PurchaseEntity> init();
-  Future<List<Product>> getProducts();
-  Future<PurchaseEntity> purchaseProduct(Product product);
+  Future<List<ProductEntity>> getProducts();
+  Future<PurchaseEntity> purchaseProduct(ProductEntity product);
   Future<PurchaseEntity> restorePurchases();
 }

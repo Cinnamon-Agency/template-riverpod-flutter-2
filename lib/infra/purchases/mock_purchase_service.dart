@@ -4,10 +4,10 @@ import 'package:cinnamon_riverpod_2/infra/purchases/purchases_service.dart';
 
 class MockPurchaseService implements PurchasesService {
   @override
-  Future<List<Product>> getProducts() async {
+  Future<List<ProductEntity>> getProducts() async {
     return [
-      const Product(id: "1", name: "test1", description: "test1", price: "1usd", implRef: null),
-      const Product(id: "2", name: "test2", description: "test2", price: "2usd", implRef: null),
+      const ProductEntity(id: "1", name: "test1", description: "test1", price: "1usd", implRef: null),
+      const ProductEntity(id: "2", name: "test2", description: "test2", price: "2usd", implRef: null),
     ];
   }
 
@@ -17,7 +17,7 @@ class MockPurchaseService implements PurchasesService {
   }
 
   @override
-  Future<PurchaseEntity> purchaseProduct(Product product) async {
+  Future<PurchaseEntity> purchaseProduct(ProductEntity product) async {
     return const PurchaseEntity(premiumActive: true, isTrial: false);
   }
 

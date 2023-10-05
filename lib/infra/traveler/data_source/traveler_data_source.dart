@@ -8,7 +8,7 @@ final travelerDataSourceProvider = Provider<TravelerDataSource>((ref) {
 });
 
 abstract interface class TravelerDataSource {
-  Stream<TravelerEntity> getTraveler(String userId);
+  Future<TravelerEntity> getTraveler(String userId);
 
   Future<TravelerEntity> createTraveler(String userId, String username, String email);
 
