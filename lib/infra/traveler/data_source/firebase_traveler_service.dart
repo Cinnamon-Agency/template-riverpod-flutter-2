@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,8 +10,14 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
   final collection = FirebaseFirestore.instance.collection('travelers');
 
   @override
-  Stream<TravelerEntity> getTraveler(String id) {
-    return collection.doc(id).snapshots().map((doc) => TravelerEntity.fromDoc(doc));
+  Future<TravelerEntity> getTraveler(String id) {
+    return collection.doc(id).get().then((value) {
+      if (value.exists) {
+        return TravelerEntity.fromDoc(value);
+      } else {
+        throw TravelerNotFoundException();
+      }
+    });
   }
 
   @override

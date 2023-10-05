@@ -8,22 +8,23 @@ to show how Repositories help when using Firestore. Services in this case are "e
 
 ### Features 
 Contains individual features of the app that are independent of each other or not closely related.
-For example Splash is an independed feature in sense that other featured do not depend on it, but splash depends on pretty much everything in infra.
+Sometimes you may have a situation where you need to access an user from home page, even though
+user controller is in eg Profile feature, that is unavoidable - but do strive to make features independent.
+For example Splash is an independent feature in sense that other features do not depend on it, but splash depends on pretty much everything in infra.
 
 Each Feature should have its own folder with the following structure:
 ```
 feature_name
-    - controller
-    - models (this is if controller does not already get models from a repository)
+    - controllers
+        - feature_name_controller.dart
+        - feature_name_state.dart
     - view
+        - feature_name_page.dart
         - widgets        
 ```
 ### Helpers
 Contains helper classes that are used across the app, such as extensions, utils, etc.
 You may group them by directories if you have a lot of them.
- 
-
-### Usage
 
 
 #### Logic
@@ -51,8 +52,14 @@ AuthService get _authService => ref.read(authServiceProvider);
 - in case you want to rebuild controller when a service/repo updates simply watch it in build method
 - make use of exceptions - dont return true/false, or Type/null - throw an exception instead
   - take TravelerException as inspiration
-
+- when using streams from repository, wrap them with a provider so that they are properly disposed on rebuilds
 
 ### UI
 - don't place eg ScrollController in notifier, use hooks instead 
 - for forms always use flutter_form_builder and make custom fields if needed, never use TextFormField directly
+- don't place text/scroll/etc controllers in Notifiers or their states, use hooks or consumerstateful widgets
+  - if you place them in Notifier, you will have to dispose them manually on ref.dispose
+
+
+### Testing
+- generally if you can make tests for repositories and services

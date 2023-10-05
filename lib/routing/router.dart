@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/features/home/view/home_page.dart';
 import 'package:cinnamon_riverpod_2/features/login/view/login_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/start_page.dart';
@@ -30,7 +31,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RoutePaths.home,
       builder: (BuildContext context, GoRouterState state) {
-        return const PlannerHomePage();
+        return const HomePage();
       },
       routes: const [],
     ),
@@ -65,7 +66,6 @@ final GoRouter router = GoRouter(
   ],
 );
 
-
 extension GoRouterEXT on GoRouter {
   void pushAndRemoveUntil(String path, [Object? data]) {
     while (canPop()) {
@@ -74,7 +74,6 @@ extension GoRouterEXT on GoRouter {
     pushReplacement(path, extra: data);
   }
 }
-
 
 class SimpleNavigationObserver extends RouteObserver {
   static String? currentRoute = RoutePaths.splash;

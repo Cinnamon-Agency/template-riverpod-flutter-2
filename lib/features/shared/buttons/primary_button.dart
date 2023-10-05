@@ -17,13 +17,19 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 450),
+      constraints: const BoxConstraints(maxWidth: 450),
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: TextButton(
         onPressed: isDisabled ? null : onPressed,
         child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
+            ? const Center(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
               )
             : Text(text),
       ),

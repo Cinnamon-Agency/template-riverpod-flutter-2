@@ -1,9 +1,10 @@
 import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
+import 'package:equatable/equatable.dart';
 
 import '../data_source/traveler_data_source.dart';
 
-final class TravelerRepositoryImpl implements TravelerRepository {
+final class TravelerRepositoryImpl with EquatableMixin implements TravelerRepository {
   final TravelerDataSource _travelerDataSource;
 
   final String _userId;
@@ -21,7 +22,10 @@ final class TravelerRepositoryImpl implements TravelerRepository {
   }
 
   @override
-  Stream<Traveler> myProfile() {
-    return _travelerDataSource.getTraveler(_userId).map((entity) => Traveler.fromEntity(entity));
-  }
+  Future<Traveler> myProfile() async {
+    return Traveler.fromEntity(await _travelerDataSource.getTraveler(_userId));
+   }
+
+  @override
+  List<Object?> get props => [_userId];
 }

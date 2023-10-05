@@ -12,7 +12,7 @@ final travelerRepositoryProvider = Provider<TravelerRepository>((ref) {
 });
 
 abstract interface class TravelerRepository {
-  Stream<Traveler> myProfile();
+  Future<Traveler> myProfile();
 
   Future<void> checkUsernameAvailable(String username);
 

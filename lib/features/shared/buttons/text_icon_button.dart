@@ -1,7 +1,7 @@
 import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 
-import '../../gen/assets.gen.dart';
+import '../../../gen/assets.gen.dart';
 
 class TextIconButton extends StatelessWidget {
   final String text;

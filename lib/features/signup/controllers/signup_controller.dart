@@ -1,5 +1,3 @@
-import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
-import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_exceptions.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,12 +21,9 @@ class SignupController extends AutoDisposeNotifier<SignupState> {
     state = state.copyWith(allFieldsValid: valid);
   }
 
-
-
   Future<void> triggerSignupWithEmail(
       {required String email, required String password, required String username}) async {
-    state = this.state.copyWith(loading: true);
-
+    state = state.copyWith(loading: true);
     try {
       await _travelerRepo.checkUsernameAvailable(username);
 
@@ -42,5 +37,3 @@ class SignupController extends AutoDisposeNotifier<SignupState> {
     }
   }
 }
-
-

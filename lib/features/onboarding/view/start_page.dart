@@ -1,11 +1,11 @@
-import 'package:cinnamon_riverpod_2/features/shared/secondary_button.dart';
-import 'package:cinnamon_riverpod_2/features/shared/text_icon_button.dart';
+import 'package:cinnamon_riverpod_2/features/shared/buttons/text_icon_button.dart';
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constants/enums.dart';
 import '../../../theme/icons/app_icons.dart';
+import '../../shared/buttons/secondary_button.dart';
 import '../controllers/onboarding_controller.dart';
 
 class StartPage extends ConsumerWidget {
