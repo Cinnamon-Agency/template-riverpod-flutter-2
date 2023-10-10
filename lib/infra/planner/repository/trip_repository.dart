@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/infra/planner/data_source/trip_data_source.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository_implementation.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
@@ -17,5 +18,5 @@ final tripRepositoryProvider = Provider<TripRepository>((ref) {
 abstract interface class TripRepository {
   Stream<List<TripItinerary>> getTripItineraries();
 
-  Future<void> createMocked();
+  Future<void> createMocked( );
 }
