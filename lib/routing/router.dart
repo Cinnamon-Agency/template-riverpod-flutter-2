@@ -2,7 +2,6 @@ import 'package:cinnamon_riverpod_2/features/home/view/home_page.dart';
 import 'package:cinnamon_riverpod_2/features/login/view/login_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/start_page.dart';
-import 'package:cinnamon_riverpod_2/features/planner/planner_home/planner_home_page.dart';
 import 'package:cinnamon_riverpod_2/features/signup/view/signup_page.dart';
 import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
 import 'package:flutter/material.dart';

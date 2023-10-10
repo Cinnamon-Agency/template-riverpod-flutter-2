@@ -34,15 +34,16 @@ You may group them by directories if you have a lot of them.
 - don't inject repositories/datasources into services, rather follow the repo + ds pattern
 - you can use services and repositories in [Async]Notifiers/FutureProviders/StreamProviders
 - do NOT user data sources in [Async]Notifiers/FutureProviders/StreamProviders
-- repository should ALWAYS return a model, never an entity even if they are the same (they have same fields)
+- repository should ALWAYS return a model, **NEVER** an entity even if they are the same (they have same fields)
   - you may use ```typedef Model = Entity``` , or better ```class Model extends Entity```
 - sometimes it is easier to call a FutureProvider instead of calling a repository in a [Async]Notifier - ALWAYS document this 
 - lean to using AutoDisposeable in [Async]Notifiers/FutureProviders/StreamProviders 
-- models MUST be immutable, use copyWith to change a field
-- models MUST have equatable implemented or use @freezed
-- models, if constructed from entity, must have factory constructor fromEntity or static method fromEntity
+- models **MUST** be immutable, use copyWith to change a field
+- models **MUST** have equatable implemented or use @freezed
+- states **MUST** be immutable, use copyWith to change a field, and MUSH have equatable implemented or use @freezed
+- models, if constructed from entity, **MUST** have factory constructor fromEntity or static method fromEntity
 - entities can optionally have equatable implemented
-- never call repository/datasource/service from a widget/view, always call a controller
+- **NEVER** call repository/datasource/service from a widget/view, always call a controller
 - do not use StateProvider unless its a "stateless" global provider
 - do not declare Repositories/Services as final in controller, rather make a getter and invoke when needed
   - although services and repositories are mostly stateless and have pure functions, using getters allows us to ensure we are using the latest instance 
@@ -56,7 +57,7 @@ AuthService get _authService => ref.read(authServiceProvider);
 
 ### UI
 - don't place eg ScrollController in notifier, use hooks instead 
-- for forms always use flutter_form_builder and make custom fields if needed, never use TextFormField directly
+- for forms always use flutter_form_builder and make custom fields if needed, **NEVER** use TextFormField directly
 - don't place text/scroll/etc controllers in Notifiers or their states, use hooks or consumerstateful widgets
   - if you place them in Notifier, you will have to dispose them manually on ref.dispose
 

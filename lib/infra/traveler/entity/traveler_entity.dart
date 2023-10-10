@@ -12,7 +12,6 @@ class TravelerEntity {
   });
 
   factory TravelerEntity.fromDoc(DocumentSnapshot doc) {
-    print(doc);
     return TravelerEntity(
       id: doc.id,
       username: doc["username"],

@@ -8,7 +8,7 @@ final httpServiceProvider = Provider<HttpService>((ref) => DioHttpService(ref));
 
 abstract interface class HttpService {
   Future<void> init();
-  Future<T> request<T>(BaseHttpRequest request, {required T Function(Map<String, dynamic> response) converter});
+  Future<T> request<T>(BaseHttpRequest request, {required T Function(Map<String, dynamic> response) transformer});
 }
 
 Map<String, dynamic> defaultConverter(Map<String, dynamic> map) {
@@ -18,7 +18,9 @@ Map<String, dynamic> defaultConverter(Map<String, dynamic> map) {
 enum RequestType { get, post, patch }
 
 abstract class BaseHttpRequest {
+  // use when you want to override the base url set in dio
   final String? url;
+
   final String endpoint;
   final RequestType type;
   final String contentType;
