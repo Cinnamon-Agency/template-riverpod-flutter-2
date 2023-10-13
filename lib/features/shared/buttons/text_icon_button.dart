@@ -1,7 +1,6 @@
+import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
 import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
-
-import '../../../gen/assets.gen.dart';
 
 class TextIconButton extends StatelessWidget {
   final String text;
@@ -20,22 +19,22 @@ class TextIconButton extends StatelessWidget {
   });
 
   factory TextIconButton.appleSignIn({VoidCallback? onPressed}) => TextIconButton(
-        text: 'Continue with Apple',
-        iconPath: Assets.icons.socialApple,
-        onPressed: onPressed,
-      );
+    text: 'Continue with Apple',
+    iconPath: Assets.icons.socialApple,
+    onPressed: onPressed,
+  );
 
   factory TextIconButton.googleSignIn({VoidCallback? onPressed}) => TextIconButton(
-        text: 'Continue with Google',
-        iconPath: Assets.icons.socialGoogle,
-        onPressed: onPressed,
-      );
+    text: 'Continue with Google',
+    iconPath: Assets.icons.socialGoogle,
+    onPressed: onPressed,
+  );
 
   factory TextIconButton.emailSignIn({VoidCallback? onPressed}) => TextIconButton(
-        text: 'Continue with email',
-        iconPath: Assets.icons.socialEmail,
-        onPressed: onPressed,
-      );
+    text: 'Continue with email',
+    iconPath: Assets.icons.socialEmail,
+    onPressed: onPressed,
+  );
 
   @override
   Widget build(BuildContext context) {
