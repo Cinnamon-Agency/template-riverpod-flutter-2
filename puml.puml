@@ -1,0 +1,781 @@
+@startuml
+set namespaceSeparator ::
+
+class "cinnamon_riverpod_2::infra::purchases::purchases_service.dart::PurchasesService" {
+  +dynamic init()
+  +dynamic getProducts()
+  +dynamic purchaseProduct()
+  +dynamic restorePurchases()
+}
+
+class "cinnamon_riverpod_2::infra::purchases::revenuecat_purchases_service.dart::RevenuecatPurchasesService" {
+  +dynamic init()
+  +dynamic getProducts()
+  +dynamic purchaseProduct()
+  +dynamic restorePurchases()
+  -dynamic _getPurchaseStatus()
+  -dynamic _getCustomerInfo()
+}
+
+"cinnamon_riverpod_2::infra::purchases::purchases_service.dart::PurchasesService" <|-- "cinnamon_riverpod_2::infra::purchases::revenuecat_purchases_service.dart::RevenuecatPurchasesService"
+
+class "cinnamon_riverpod_2::infra::purchases::entity::product.dart::Product" {
+  +String id
+  +String name
+  +String description
+  +String price
+  +T implRef
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::purchases::entity::product.dart::Product"
+
+class "cinnamon_riverpod_2::infra::purchases::entity::purchase_entity.dart::PurchaseEntity" {
+  +bool premiumActive
+  +bool isTrial
+}
+
+class "cinnamon_riverpod_2::infra::purchases::mock_purchase_service.dart::MockPurchaseService" {
+  +dynamic getProducts()
+  +dynamic init()
+  +dynamic purchaseProduct()
+  +dynamic restorePurchases()
+}
+
+"cinnamon_riverpod_2::infra::purchases::purchases_service.dart::PurchasesService" <|-- "cinnamon_riverpod_2::infra::purchases::mock_purchase_service.dart::MockPurchaseService"
+
+class "cinnamon_riverpod_2::infra::auth::entity::user_entity.dart::UserEntity" {
+  +String uid
+  +String jwt
+  +bool isAnonymous
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::auth::entity::user_entity.dart::UserEntity"
+
+class "cinnamon_riverpod_2::infra::auth::service::firebase_auth_service.dart::FirebaseAuthService" {
+  +FirebaseAuth auth
+  +Stream<User?> authStateChanges
+  +dynamic init()
+  +dynamic signInAnon()
+  +dynamic createUser()
+  +dynamic logIn()
+  +dynamic signInWithApple()
+  +dynamic signInWithGoogle()
+  +dynamic signInWithFacebook()
+  +dynamic logout()
+}
+
+"cinnamon_riverpod_2::infra::auth::service::firebase_auth_service.dart::FirebaseAuthService" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"
+"cinnamon_riverpod_2::infra::auth::service::firebase_auth_service.dart::FirebaseAuthService" o-- "dart::async::Stream<User>"
+"cinnamon_riverpod_2::infra::auth::service::auth_service.dart::AuthService" <|-- "cinnamon_riverpod_2::infra::auth::service::firebase_auth_service.dart::FirebaseAuthService"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_service.dart::AuthService" {
+  +Stream<dynamic> authStateChanges
+  +dynamic init()
+  +dynamic signInAnon()
+  +dynamic createUser()
+  +dynamic logIn()
+  +dynamic signInWithApple()
+  +dynamic signInWithGoogle()
+  +dynamic signInWithFacebook()
+  +dynamic logout()
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_service.dart::AuthService" o-- "dart::async::Stream<dynamic>"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" {
+  +String message
+}
+
+"dart::core::Exception" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::EmailAlreadyExistsException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::EmailAlreadyExistsException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::WrongPasswordException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::WrongPasswordException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::WeakPasswordException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::WeakPasswordException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::UserNotFoundException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::UserNotFoundException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::InvalidEmailException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::InvalidEmailException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::InvalidLoginCredentialsException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::InvalidLoginCredentialsException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::OperationNotAllowedException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::OperationNotAllowedException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::TooManyRequestsException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::TooManyRequestsException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::UndefinedAuthException" {
+}
+
+"cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthException" <|-- "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::UndefinedAuthException"
+
+class "cinnamon_riverpod_2::infra::auth::service::auth_result_handler.dart::AuthResultHandler" {
+  {static} +AuthException handleException()
+}
+
+class "cinnamon_riverpod_2::infra::planner::repository::trip_repository_implementation.dart::TripRepositoryImplementation" {
+  -TripDataSource _tripDataSource
+  -TravelerDataSource _travelerDataSource
+  -String _userId
+  +Stream<List<TripItinerary>> getTripItineraries()
+}
+
+"cinnamon_riverpod_2::infra::planner::repository::trip_repository_implementation.dart::TripRepositoryImplementation" o-- "cinnamon_riverpod_2::infra::planner::data_source::trip_data_source.dart::TripDataSource"
+"cinnamon_riverpod_2::infra::planner::repository::trip_repository_implementation.dart::TripRepositoryImplementation" o-- "cinnamon_riverpod_2::infra::traveler::data_source::traveler_data_source.dart::TravelerDataSource"
+"cinnamon_riverpod_2::infra::planner::repository::trip_repository.dart::TripRepository" <|-- "cinnamon_riverpod_2::infra::planner::repository::trip_repository_implementation.dart::TripRepositoryImplementation"
+
+class "cinnamon_riverpod_2::infra::planner::repository::trip_repository.dart::TripRepository" {
+  +Stream<List<TripItinerary>> getTripItineraries()
+}
+
+class "cinnamon_riverpod_2::infra::planner::data_source::firebase_trip_datasource.dart::FirebaseTripDataSource" {
+  +CollectionReference<Map<String, dynamic>> collection
+  +Stream<List<TripItineraryEntity>> getTripItineraries()
+  +dynamic createTrip()
+}
+
+"cinnamon_riverpod_2::infra::planner::data_source::firebase_trip_datasource.dart::FirebaseTripDataSource" o-- "cloud_firestore::cloud_firestore.dart::CollectionReference<Map<String, dynamic>>"
+"cinnamon_riverpod_2::infra::planner::data_source::trip_data_source.dart::TripDataSource" <|-- "cinnamon_riverpod_2::infra::planner::data_source::firebase_trip_datasource.dart::FirebaseTripDataSource"
+
+class "cinnamon_riverpod_2::infra::planner::data_source::trip_data_source.dart::TripDataSource" {
+  +Stream<List<TripItineraryEntity>> getTripItineraries()
+  +dynamic createTrip()
+}
+
+class "cinnamon_riverpod_2::infra::planner::entity::trip_location.dart::TripLocationEntity" {
+  +String id
+  +String name
+  +Duration duration
+  +bool isVisited
+  +LatLng location
+  +Map<String, dynamic> toMap()
+}
+
+"cinnamon_riverpod_2::infra::planner::entity::trip_location.dart::TripLocationEntity" o-- "latlong2::latlong.dart::LatLng"
+
+class "cinnamon_riverpod_2::infra::planner::entity::trip_itinerary.dart::TripItineraryEntity" {
+  +String id
+  +String name
+  +String description
+  +String? imageUrl
+  +List<TripLocationEntity> locations
+  +List<String> ownerIds
+  +Map<String, dynamic> toMap()
+}
+
+class "cinnamon_riverpod_2::infra::planner::model::trip_location.dart::TripLocation" {
+  +String id
+  +String name
+  +Duration duration
+  +bool isVisited
+  +LatLng location
+  +List<Object?> props
+}
+
+"cinnamon_riverpod_2::infra::planner::model::trip_location.dart::TripLocation" o-- "latlong2::latlong.dart::LatLng"
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::planner::model::trip_location.dart::TripLocation"
+
+class "cinnamon_riverpod_2::infra::planner::model::trip_itinerary.dart::TripItinerary" {
+  +String id
+  +String name
+  +String description
+  +String? imageUrl
+  +List<TripLocation> locations
+  +List<CoTraveler> travelers
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::planner::model::trip_itinerary.dart::TripItinerary"
+
+class "cinnamon_riverpod_2::infra::lifecycle::lifecycle_provider.dart::LifeCycleController" {
+  -Map<Object, dynamic Function(AppLifecycleState)> _listeners
+  +AppLifecycleState build()
+  +void updateState()
+  +void addListener()
+  +void removeListener()
+}
+
+"riverpod::src::notifier.dart::Notifier" <|-- "cinnamon_riverpod_2::infra::lifecycle::lifecycle_provider.dart::LifeCycleController"
+
+class "cinnamon_riverpod_2::infra::storage::hive_storage_service.dart::HiveStorageService" {
+  +Box<dynamic> hiveBox
+  +dynamic init()
+  -dynamic _openBox()
+  +dynamic closeBox()
+  +dynamic deleteValue()
+  +String? getValue()
+  +dynamic setValue()
+  +dynamic clear()
+}
+
+"cinnamon_riverpod_2::infra::storage::hive_storage_service.dart::HiveStorageService" o-- "hive::hive.dart::Box<dynamic>"
+"cinnamon_riverpod_2::infra::storage::storage_service.dart::StorageService" <|-- "cinnamon_riverpod_2::infra::storage::hive_storage_service.dart::HiveStorageService"
+
+class "cinnamon_riverpod_2::infra::storage::storage_service.dart::LocalStorageKeys" {
+}
+
+abstract class "cinnamon_riverpod_2::infra::storage::storage_service.dart::StorageService" {
+  +dynamic init()
+  +dynamic deleteValue()
+  +String? getValue()
+  +dynamic clear()
+  +dynamic setValue()
+}
+
+class "cinnamon_riverpod_2::infra::http::http_service.dart::HttpService" {
+  +dynamic init()
+  +dynamic request()
+}
+
+abstract class "cinnamon_riverpod_2::infra::http::http_service.dart::BaseHttpRequest" {
+  +String? url
+  +String endpoint
+  +RequestType type
+  +String contentType
+  +String path
+  +FutureOr<Map<String, dynamic>> toMap()
+}
+
+"cinnamon_riverpod_2::infra::http::http_service.dart::BaseHttpRequest" o-- "cinnamon_riverpod_2::infra::http::http_service.dart::RequestType"
+
+class "cinnamon_riverpod_2::infra::http::http_service.dart::RequestType" {
+  +int index
+  {static} +List<RequestType> values
+  {static} +RequestType get
+  {static} +RequestType post
+  {static} +RequestType patch
+}
+
+"cinnamon_riverpod_2::infra::http::http_service.dart::RequestType" o-- "cinnamon_riverpod_2::infra::http::http_service.dart::RequestType"
+"dart::core::Enum" <|-- "cinnamon_riverpod_2::infra::http::http_service.dart::RequestType"
+
+class "cinnamon_riverpod_2::infra::http::dio_http_service.dart::DioHttpService" {
+  +ProviderRef<dynamic> ref
+  +Dio dio
+  +dynamic init()
+  +dynamic request()
+  -dynamic _post()
+  -dynamic _patch()
+  -dynamic _get()
+}
+
+"cinnamon_riverpod_2::infra::http::dio_http_service.dart::DioHttpService" o-- "riverpod::src::provider.dart::ProviderRef<dynamic>"
+"cinnamon_riverpod_2::infra::http::dio_http_service.dart::DioHttpService" o-- "dio::src::dio.dart::Dio"
+"cinnamon_riverpod_2::infra::http::http_service.dart::HttpService" <|-- "cinnamon_riverpod_2::infra::http::dio_http_service.dart::DioHttpService"
+
+class "cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::TravelerException" {
+  +String message
+}
+
+"dart::core::Exception" <|-- "cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::TravelerException"
+
+class "cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::UsernameTakenException" {
+}
+
+"cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::TravelerException" <|-- "cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::UsernameTakenException"
+
+class "cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::TravelerExistsException" {
+}
+
+"cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::TravelerException" <|-- "cinnamon_riverpod_2::infra::traveler::repository::traveler_exceptions.dart::TravelerExistsException"
+
+class "cinnamon_riverpod_2::infra::traveler::repository::traveler_repository.dart::TravelerRepository" {
+  +Stream<Traveler> myProfile()
+  +dynamic checkUsernameAvailable()
+  +dynamic createProfile()
+}
+
+class "cinnamon_riverpod_2::infra::traveler::repository::traveler_repository_implementation.dart::TravelerRepositoryImpl" {
+  -TravelerDataSource _travelerDataSource
+  -String _userId
+  +dynamic checkUsernameAvailable()
+  +dynamic createProfile()
+  +Stream<Traveler> myProfile()
+}
+
+"cinnamon_riverpod_2::infra::traveler::repository::traveler_repository_implementation.dart::TravelerRepositoryImpl" o-- "cinnamon_riverpod_2::infra::traveler::data_source::traveler_data_source.dart::TravelerDataSource"
+"cinnamon_riverpod_2::infra::traveler::repository::traveler_repository.dart::TravelerRepository" <|-- "cinnamon_riverpod_2::infra::traveler::repository::traveler_repository_implementation.dart::TravelerRepositoryImpl"
+
+class "cinnamon_riverpod_2::infra::traveler::data_source::firebase_traveler_service.dart::FirebaseTravelerDataSource" {
+  +CollectionReference<Map<String, dynamic>> collection
+  +Stream<TravelerEntity> getTraveler()
+  +dynamic createTraveler()
+  +dynamic checkUsernameAvailable()
+}
+
+"cinnamon_riverpod_2::infra::traveler::data_source::firebase_traveler_service.dart::FirebaseTravelerDataSource" o-- "cloud_firestore::cloud_firestore.dart::CollectionReference<Map<String, dynamic>>"
+"cinnamon_riverpod_2::infra::traveler::data_source::traveler_data_source.dart::TravelerDataSource" <|-- "cinnamon_riverpod_2::infra::traveler::data_source::firebase_traveler_service.dart::FirebaseTravelerDataSource"
+
+class "cinnamon_riverpod_2::infra::traveler::data_source::traveler_data_source.dart::TravelerDataSource" {
+  +Stream<TravelerEntity> getTraveler()
+  +dynamic createTraveler()
+  +dynamic checkUsernameAvailable()
+}
+
+class "cinnamon_riverpod_2::infra::traveler::entity::traveler_entity.dart::TravelerEntity" {
+  +String id
+  +String username
+  +String email
+  +Map<String, dynamic> toMap()
+}
+
+class "cinnamon_riverpod_2::infra::traveler::model::cotraveler.dart::CoTraveler" {
+  +String name
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::traveler::model::cotraveler.dart::CoTraveler"
+
+class "cinnamon_riverpod_2::infra::traveler::model::traveler.dart::Traveler" {
+  +String name
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::traveler::model::traveler.dart::Traveler"
+
+class "cinnamon_riverpod_2::infra::local_notifications::entity::notification.dart::AppNotification" {
+  +String id
+  +String title
+  +String description
+  +Map<String, dynamic> payload
+  +TZDateTime scheduledDate
+  +List<Object?> props
+}
+
+"cinnamon_riverpod_2::infra::local_notifications::entity::notification.dart::AppNotification" o-- "timezone::src::date_time.dart::TZDateTime"
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::infra::local_notifications::entity::notification.dart::AppNotification"
+
+class "cinnamon_riverpod_2::infra::local_notifications::notification_service.dart::NotificationService" {
+  +dynamic init()
+  +dynamic scheduleNotifications()
+  +dynamic cancelAll()
+}
+
+class "cinnamon_riverpod_2::infra::local_notifications::local_notification_service.dart::LocalNotificationServiceImpl" {
+  -FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin
+  +dynamic init()
+  +dynamic scheduleNotifications()
+  +void onDidReceiveLocalNotification()
+  +void onDidReceiveNotificationResponse()
+  +dynamic cancelAll()
+  -dynamic _schedule()
+}
+
+"cinnamon_riverpod_2::infra::local_notifications::local_notification_service.dart::LocalNotificationServiceImpl" o-- "flutter_local_notifications::src::flutter_local_notifications_plugin.dart::FlutterLocalNotificationsPlugin"
+"cinnamon_riverpod_2::infra::local_notifications::notification_service.dart::NotificationService" <|-- "cinnamon_riverpod_2::infra::local_notifications::local_notification_service.dart::LocalNotificationServiceImpl"
+
+class "cinnamon_riverpod_2::constants::enums.dart::HeroAnimationTags" {
+  +int index
+  {static} +List<HeroAnimationTags> values
+  {static} +HeroAnimationTags splashLogo
+}
+
+"cinnamon_riverpod_2::constants::enums.dart::HeroAnimationTags" o-- "cinnamon_riverpod_2::constants::enums.dart::HeroAnimationTags"
+"dart::core::Enum" <|-- "cinnamon_riverpod_2::constants::enums.dart::HeroAnimationTags"
+
+class "cinnamon_riverpod_2::constants::constants.dart::AppConstants" {
+  {static} +RegExp passwordRegex
+}
+
+class "cinnamon_riverpod_2::features::splash::controller::splash_state.dart::SplashState" {
+  +bool isAnon
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::features::splash::controller::splash_state.dart::SplashState"
+
+class "cinnamon_riverpod_2::features::splash::controller::splash_controller.dart::SplashController" {
+  +FutureOr<SplashState> build()
+}
+
+"riverpod::src::async_notifier.dart::AutoDisposeAsyncNotifier" <|-- "cinnamon_riverpod_2::features::splash::controller::splash_controller.dart::SplashController"
+
+class "cinnamon_riverpod_2::features::splash::view::splash_page.dart::SplashPage" {
+  +ConsumerState<SplashPage> createState()
+}
+
+"flutter_riverpod::src::consumer.dart::ConsumerStatefulWidget" <|-- "cinnamon_riverpod_2::features::splash::view::splash_page.dart::SplashPage"
+
+class "cinnamon_riverpod_2::features::splash::view::splash_page.dart::_SplashPageState" {
+  +void initState()
+  +Widget build()
+  +void didChangeAppLifecycleState()
+  +void dispose()
+}
+
+"flutter_riverpod::src::consumer.dart::ConsumerState" <|-- "cinnamon_riverpod_2::features::splash::view::splash_page.dart::_SplashPageState"
+"flutter::src::widgets::binding.dart::WidgetsBindingObserver" <|-- "cinnamon_riverpod_2::features::splash::view::splash_page.dart::_SplashPageState"
+
+class "cinnamon_riverpod_2::features::planner::planner_creator::planner_creator_page.dart::BenchPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::planner::planner_creator::planner_creator_page.dart::BenchPage"
+
+class "cinnamon_riverpod_2::features::planner::planner_home::planner_home_page.dart::PlannerHomePage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::planner::planner_home::planner_home_page.dart::PlannerHomePage"
+
+class "cinnamon_riverpod_2::features::signup::view::signup_page.dart::SignupPage" {
+  +Widget build()
+  -Widget _buildButton()
+  -Widget _buildFormField()
+}
+
+"hooks_riverpod::src::consumer.dart::HookConsumerWidget" <|-- "cinnamon_riverpod_2::features::signup::view::signup_page.dart::SignupPage"
+
+class "cinnamon_riverpod_2::features::signup::controllers::signup_controller.dart::SignupController" {
+  -AuthService _authService
+  -TravelerRepository _travelerRepo
+  +SignupState build()
+  +void validateFields()
+  +dynamic triggerSignupWithEmail()
+}
+
+"cinnamon_riverpod_2::features::signup::controllers::signup_controller.dart::SignupController" o-- "cinnamon_riverpod_2::infra::auth::service::auth_service.dart::AuthService"
+"cinnamon_riverpod_2::features::signup::controllers::signup_controller.dart::SignupController" o-- "cinnamon_riverpod_2::infra::traveler::repository::traveler_repository.dart::TravelerRepository"
+"riverpod::src::notifier.dart::AutoDisposeNotifier" <|-- "cinnamon_riverpod_2::features::signup::controllers::signup_controller.dart::SignupController"
+
+class "cinnamon_riverpod_2::features::signup::controllers::signup_state.dart::SignupState" {
+  +bool allFieldsValid
+  +bool isLoading
+  +List<Object?> props
+  +SignupState copyWith()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::features::signup::controllers::signup_state.dart::SignupState"
+
+class "cinnamon_riverpod_2::features::shared::primary_button.dart::PrimaryButton" {
+  +String text
+  +void Function()? onPressed
+  +bool isDisabled
+  +bool isLoading
+  +Widget build()
+}
+
+"cinnamon_riverpod_2::features::shared::primary_button.dart::PrimaryButton" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::shared::primary_button.dart::PrimaryButton"
+
+class "cinnamon_riverpod_2::features::shared::secondary_button.dart::SecondaryButton" {
+  +String text
+  +void Function()? onPressed
+  +bool isDisabled
+  +Widget build()
+}
+
+"cinnamon_riverpod_2::features::shared::secondary_button.dart::SecondaryButton" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::shared::secondary_button.dart::SecondaryButton"
+
+class "cinnamon_riverpod_2::features::shared::text_icon_button.dart::TextIconButton" {
+  +String text
+  +String iconPath
+  +void Function()? onPressed
+  +bool isDisabled
+  +Color? customColor
+  +Widget build()
+}
+
+"cinnamon_riverpod_2::features::shared::text_icon_button.dart::TextIconButton" o-- "dart::ui::void Function()"
+"cinnamon_riverpod_2::features::shared::text_icon_button.dart::TextIconButton" o-- "dart::ui::Color"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::shared::text_icon_button.dart::TextIconButton"
+
+class "cinnamon_riverpod_2::features::login::view::login_page.dart::LoginPage" {
+  +Widget build()
+  -Widget _buildButton()
+  -Widget _buildFormField()
+}
+
+"hooks_riverpod::src::consumer.dart::HookConsumerWidget" <|-- "cinnamon_riverpod_2::features::login::view::login_page.dart::LoginPage"
+
+class "cinnamon_riverpod_2::features::login::controllers::login_controller.dart::LoginController" {
+  -AuthService _authService
+  +LoginState build()
+  +void validateFields()
+  +dynamic triggerLoginWithEmail()
+}
+
+"cinnamon_riverpod_2::features::login::controllers::login_controller.dart::LoginController" o-- "cinnamon_riverpod_2::infra::auth::service::auth_service.dart::AuthService"
+"riverpod::src::notifier.dart::AutoDisposeNotifier" <|-- "cinnamon_riverpod_2::features::login::controllers::login_controller.dart::LoginController"
+
+class "cinnamon_riverpod_2::features::login::controllers::login_state.dart::LoginState" {
+  +bool allFieldsValid
+  +bool isLoading
+  +List<Object?> props
+  +LoginState copyWith()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::features::login::controllers::login_state.dart::LoginState"
+
+class "cinnamon_riverpod_2::features::onboarding::view::onboarding_page.dart::OnboardingPage" {
+  +Widget build()
+}
+
+"flutter_riverpod::src::consumer.dart::ConsumerWidget" <|-- "cinnamon_riverpod_2::features::onboarding::view::onboarding_page.dart::OnboardingPage"
+
+class "cinnamon_riverpod_2::features::onboarding::view::start_page.dart::StartPage" {
+  +Widget build()
+  -Widget _buildSignInButton()
+}
+
+"flutter_riverpod::src::consumer.dart::ConsumerWidget" <|-- "cinnamon_riverpod_2::features::onboarding::view::start_page.dart::StartPage"
+
+class "cinnamon_riverpod_2::features::onboarding::controllers::onboarding_state.dart::OnboardingState" {
+  +int currentPage
+  +bool onboardingFinished
+  +List<Object?> props
+  +OnboardingState copyWith()
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "cinnamon_riverpod_2::features::onboarding::controllers::onboarding_state.dart::OnboardingState"
+
+class "cinnamon_riverpod_2::features::onboarding::controllers::onboarding_controller.dart::OnboardingController" {
+  +PageController pageController
+  +void updateCurrentPage()
+  +void onPressStart()
+  +void onPressSignUp()
+  +void onPressLogin()
+}
+
+"cinnamon_riverpod_2::features::onboarding::controllers::onboarding_controller.dart::OnboardingController" o-- "flutter::src::widgets::page_view.dart::PageController"
+"state_notifier::state_notifier.dart::StateNotifier" <|-- "cinnamon_riverpod_2::features::onboarding::controllers::onboarding_controller.dart::OnboardingController"
+
+class "cinnamon_riverpod_2::features::onboarding::widgets::onboarding_page_view.dart::OnboardingPageView" {
+  +String imagePath
+  +String text
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::onboarding::widgets::onboarding_page_view.dart::OnboardingPageView"
+
+class "cinnamon_riverpod_2::features::onboarding::widgets::page_indicator.dart::PageIndicator" {
+  +int currentPageIndex
+  +int totalPageNumber
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::onboarding::widgets::page_indicator.dart::PageIndicator"
+
+class "cinnamon_riverpod_2::features::onboarding::widgets::page_indicator.dart::PageIndicatorItem" {
+  +bool isActive
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::features::onboarding::widgets::page_indicator.dart::PageIndicatorItem"
+
+class "cinnamon_riverpod_2::firebase_options.dart::DefaultFirebaseOptions" {
+  {static} +FirebaseOptions web
+  {static} +FirebaseOptions android
+  {static} +FirebaseOptions ios
+  {static} +FirebaseOptions currentPlatform
+}
+
+"cinnamon_riverpod_2::firebase_options.dart::DefaultFirebaseOptions" o-- "firebase_core_platform_interface::firebase_core_platform_interface.dart::FirebaseOptions"
+
+class "cinnamon_riverpod_2::gen::assets.gen.dart::$AssetsIconsGen" {
+  +String earthPlane
+  +String socialApple
+  +String socialEmail
+  +String socialFacebook
+  +String socialGoogle
+  +List<String> values
+}
+
+class "cinnamon_riverpod_2::gen::assets.gen.dart::$AssetsImagesGen" {
+  +String beach
+  +AssetGenImage cinnamon
+  +String funMoments
+  +String journey
+  +String socialSharing
+  +String teamCollaboration
+  +String travelling
+  +List<dynamic> values
+}
+
+"cinnamon_riverpod_2::gen::assets.gen.dart::$AssetsImagesGen" o-- "cinnamon_riverpod_2::gen::assets.gen.dart::AssetGenImage"
+
+class "cinnamon_riverpod_2::gen::assets.gen.dart::Assets" {
+  {static} +$AssetsIconsGen icons
+  {static} +$AssetsImagesGen images
+}
+
+"cinnamon_riverpod_2::gen::assets.gen.dart::Assets" o-- "cinnamon_riverpod_2::gen::assets.gen.dart::$AssetsIconsGen"
+"cinnamon_riverpod_2::gen::assets.gen.dart::Assets" o-- "cinnamon_riverpod_2::gen::assets.gen.dart::$AssetsImagesGen"
+
+class "cinnamon_riverpod_2::gen::assets.gen.dart::AssetGenImage" {
+  -String _assetName
+  +String path
+  +String keyName
+  +Image image()
+  +ImageProvider<Object> provider()
+}
+
+class "cinnamon_riverpod_2::gen::fonts.gen.dart::FontFamily" {
+  {static} +String manrope
+}
+
+class "cinnamon_riverpod_2::main.dart::TripFinder" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "cinnamon_riverpod_2::main.dart::TripFinder"
+
+class "cinnamon_riverpod_2::theme::styles::light_app_text_styles.dart::LightAppTextStyles" {
+  +TextStyle primaryButtonTextStyle
+  +TextStyle titleMediumTextStyle
+  +TextStyle headlineLargeTextStyle
+  +TextStyle headlineSmallTextStyle
+  +TextStyle bodyLargeTextStyle
+  +TextStyle bodyMediumTextStyle
+  +TextStyle bodySmallTextStyle
+  +TextStyle labelMediumTextStyle
+}
+
+"cinnamon_riverpod_2::theme::styles::light_app_text_styles.dart::LightAppTextStyles" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"cinnamon_riverpod_2::theme::styles::app_text_styles.dart::AppTextStyles" <|-- "cinnamon_riverpod_2::theme::styles::light_app_text_styles.dart::LightAppTextStyles"
+
+abstract class "cinnamon_riverpod_2::theme::styles::app_text_styles.dart::AppTextStyles" {
+  +TextStyle primaryButtonTextStyle
+  +TextStyle titleMediumTextStyle
+  +TextStyle headlineLargeTextStyle
+  +TextStyle headlineSmallTextStyle
+  +TextStyle bodyLargeTextStyle
+  +TextStyle bodyMediumTextStyle
+  +TextStyle bodySmallTextStyle
+  +TextStyle labelMediumTextStyle
+}
+
+"cinnamon_riverpod_2::theme::styles::app_text_styles.dart::AppTextStyles" o-- "flutter::src::painting::text_style.dart::TextStyle"
+
+class "cinnamon_riverpod_2::theme::styles::dark_app_text_styles.dart::DarkAppTextStyles" {
+  +TextStyle primaryButtonTextStyle
+  +TextStyle titleMediumTextStyle
+  +TextStyle headlineLargeTextStyle
+  +TextStyle headlineSmallTextStyle
+  +TextStyle bodyLargeTextStyle
+  +TextStyle bodyMediumTextStyle
+  +TextStyle bodySmallTextStyle
+  +TextStyle labelMediumTextStyle
+}
+
+"cinnamon_riverpod_2::theme::styles::dark_app_text_styles.dart::DarkAppTextStyles" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"cinnamon_riverpod_2::theme::styles::app_text_styles.dart::AppTextStyles" <|-- "cinnamon_riverpod_2::theme::styles::dark_app_text_styles.dart::DarkAppTextStyles"
+
+class "cinnamon_riverpod_2::theme::colors::light_app_colors.dart::LightAppColors" {
+  +Color primary100
+  +Color primary200
+  +Color primary300
+  +Color primary400
+  +Color primary500
+  +Color primary600
+  +Color primaryDark
+  +Color backgroundColor
+  +Color error
+}
+
+"cinnamon_riverpod_2::theme::colors::light_app_colors.dart::LightAppColors" o-- "dart::ui::Color"
+"cinnamon_riverpod_2::theme::colors::app_colors.dart::AppColors" <|-- "cinnamon_riverpod_2::theme::colors::light_app_colors.dart::LightAppColors"
+
+class "cinnamon_riverpod_2::theme::colors::dark_app_colors.dart::DarkAppColors" {
+  +Color primary100
+  +Color primary200
+  +Color primary300
+  +Color primary400
+  +Color primary500
+  +Color primary600
+  +Color primaryDark
+  +Color backgroundColor
+  +Color error
+}
+
+"cinnamon_riverpod_2::theme::colors::dark_app_colors.dart::DarkAppColors" o-- "dart::ui::Color"
+"cinnamon_riverpod_2::theme::colors::app_colors.dart::AppColors" <|-- "cinnamon_riverpod_2::theme::colors::dark_app_colors.dart::DarkAppColors"
+
+abstract class "cinnamon_riverpod_2::theme::colors::app_colors.dart::AppColors" {
+  +Color primary100
+  +Color primary200
+  +Color primary300
+  +Color primary400
+  +Color primary500
+  +Color primary600
+  +Color primaryDark
+  +Color backgroundColor
+  +Color neutralsWhite
+  +Color neutrals100
+  +Color neutrals200
+  +Color neutrals300
+  +Color neutrals400
+  +Color neutrals500
+  +Color neutrals600
+  +Color neutrals700
+  +Color neutrals800
+  +Color neutrals900
+  +Color neutralsBlack
+  +Color error
+}
+
+"cinnamon_riverpod_2::theme::colors::app_colors.dart::AppColors" o-- "dart::ui::Color"
+
+class "cinnamon_riverpod_2::theme::icons::app_icons.dart::AppIcons" {
+  {static} +double sizeSmall
+  {static} +double sizeMedium
+  {static} +bool isSvg()
+  {static} +Widget icon()
+}
+
+class "cinnamon_riverpod_2::theme::theme.dart::AppTheme" {
+  +ThemeData lightTheme
+  +ThemeData darkTheme
+}
+
+"cinnamon_riverpod_2::theme::theme.dart::AppTheme" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+class "cinnamon_riverpod_2::routing::router.dart::RoutePaths" {
+  {static} +String splash
+  {static} +String home
+  {static} +String onboarding
+  {static} +String start
+  {static} +String signup
+  {static} +String login
+}
+
+class "cinnamon_riverpod_2::routing::router.dart::SimpleNavigationObserver" {
+  {static} +String? currentRoute
+  +void didPush()
+}
+
+"flutter::src::widgets::routes.dart::RouteObserver" <|-- "cinnamon_riverpod_2::routing::router.dart::SimpleNavigationObserver"
+
+class "cinnamon_riverpod_2::helpers::snackbar_helper.dart::SnackbarHelper" {
+  {static} +void showTFSnackbar()
+}
+
+
+@enduml

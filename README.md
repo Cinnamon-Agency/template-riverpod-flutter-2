@@ -1,5 +1,9 @@
 # Riverpod Template (TripFinder app)
 
+### Documentation
+https://pub.dev/packages/dcdg
+
+
 ### Infra
 Holds the infrastructure that is usually shared across the features, such as http, local storage, in app purchases, notifications.
 This should __not__ contain any UI related code. 
@@ -63,3 +67,22 @@ AuthService get _authService => ref.read(authServiceProvider);
 
 ### Testing
 - if you can make tests for repositories and services
+
+
+
+
+### Explaining Architectual Decisions
+
+
+- Why not use code generation for Riverpod?
+  - Not using it because onboarding will be hard, and builds will take long
+
+- Why use code generation for assets?
+  - Makes using assets compile time safe
+
+- Why isn't freezed used?
+  - In my opinion freezed is most useful when you need advanced copy with, but other features are
+unecceary because Dart added sealed classes. Please use dart data class plugin to generate copy with method
+  
+
+
