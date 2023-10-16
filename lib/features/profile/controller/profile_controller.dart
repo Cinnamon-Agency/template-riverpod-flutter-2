@@ -3,24 +3,24 @@ import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final AutoDisposeStateNotifierProvider<ProfileController, ProfileState>
+final AutoDisposeNotifierProvider<ProfileController, ProfileState>
     profileControllerProvider =
-    StateNotifierProvider.autoDispose<ProfileController, ProfileState>(
-  (AutoDisposeStateNotifierProviderRef<ProfileController, ProfileState> ref) =>
-      ProfileController(ref.read(authServiceProvider)),
+    NotifierProvider.autoDispose<ProfileController, ProfileState>(
+  () => ProfileController(),
 );
 
-class ProfileController extends StateNotifier<ProfileState> {
-  ProfileController(this.firebaseAuthService) : super(const ProfileState());
-
-  FirebaseAuthService firebaseAuthService;
+class ProfileController extends AutoDisposeNotifier<ProfileState> {
+  FirebaseAuthService get _authService => ref.read(authServiceProvider);
 
   Future<bool> logOut() async {
     state = const ProfileState(loading: true);
 
-    await firebaseAuthService.logout();
+    await _authService.logout();
 
     state = const ProfileState(loading: false);
-    return firebaseAuthService.auth.currentUser == null;
+    return _authService.auth.currentUser == null;
   }
+
+  @override
+  ProfileState build() => const ProfileState();
 }
