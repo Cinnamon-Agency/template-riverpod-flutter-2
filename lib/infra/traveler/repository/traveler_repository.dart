@@ -13,9 +13,10 @@ final Provider<TravelerRepository> travelerRepositoryProvider =
   return TravelerRepositoryImpl(travelerDataSource, userId);
 });
 
-final FutureProvider<Traveler> profileDataProvider = FutureProvider<Traveler>(
-    (FutureProviderRef<Traveler> ref) =>
-        ref.watch(travelerRepositoryProvider).getProfileData());
+final AutoDisposeFutureProvider<Traveler> profileDataProvider =
+    AutoDisposeFutureProvider<Traveler>(
+        (AutoDisposeFutureProviderRef<Traveler> ref) =>
+            ref.watch(travelerRepositoryProvider).getProfileData());
 
 abstract interface class TravelerRepository {
   Future<Traveler> getProfileData();
@@ -27,4 +28,6 @@ abstract interface class TravelerRepository {
     required String email,
     bool sendPushNotifications,
   });
+
+  Future<void> updatePushNotificationsFlag(bool flag);
 }

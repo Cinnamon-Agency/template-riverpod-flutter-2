@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +7,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../repository/traveler_exceptions.dart';
 
 class FirebaseTravelerDataSource implements TravelerDataSource {
+  FirebaseTravelerDataSource(this.userID);
+
+  final String userID;
+
   final CollectionReference<Map<String, dynamic>> collection =
       FirebaseFirestore.instance.collection('travelers');
 
@@ -50,5 +56,18 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
         throw UsernameTakenException();
       }
     });
+  }
+
+  @override
+  Future<void> updatePushNotificationsFlag(bool flag) async {
+    try {
+      DocumentReference<Map<String, dynamic>> doc = collection.doc(userID);
+      await doc.update(<String, dynamic>{
+        'sendPushNotifications': flag,
+      });
+    } catch (e) {
+      log('Failed to update "sendPushNotifications" value.');
+      rethrow;
+    }
   }
 }

@@ -74,15 +74,24 @@ class ProfilePage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 10),
                             SecondaryButton(
-                              text: 'Notifications',
-                              onPressed: () => log('Notification settings'),
-                              fullWidthSpan: true,
-                            ),
-                            const SizedBox(height: 10),
-                            SecondaryButton(
                               text: 'Settings',
                               onPressed: () => log('Settings'),
                               fullWidthSpan: true,
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Push notifications',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                ),
+                                Switch.adaptive(
+                                  value: state.notificationsFlag,
+                                  onChanged: controller.toggleNotifications,
+                                ),
+                              ],
                             ),
                             SizedBox(
                                 height:

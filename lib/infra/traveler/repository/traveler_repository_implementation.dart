@@ -40,4 +40,8 @@ final class TravelerRepositoryImpl with EquatableMixin implements TravelerReposi
 
   @override
   List<Object?> get props => [_userId];
+
+  @override
+  Future<void> updatePushNotificationsFlag(bool flag) =>
+      _travelerDataSource.updatePushNotificationsFlag(flag);
 }
