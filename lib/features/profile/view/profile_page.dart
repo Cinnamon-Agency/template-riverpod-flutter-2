@@ -5,6 +5,8 @@ import 'package:cinnamon_riverpod_2/features/profile/controller/profile_state.da
 import 'package:cinnamon_riverpod_2/features/shared/buttons/secondary_button.dart';
 import 'package:cinnamon_riverpod_2/features/shared/dialogs/confirmation_dialog.dart';
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +20,7 @@ class ProfilePage extends ConsumerWidget {
     final ProfileController controller =
         ref.read(profileControllerProvider.notifier);
     final ProfileState state = ref.watch(profileControllerProvider);
+    final AsyncValue<Traveler> profileData = ref.watch(profileDataProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -40,7 +43,11 @@ class ProfilePage extends ConsumerWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Username',
+              switch (profileData) {
+                AsyncData<Traveler>(:final Traveler value) => value.name,
+                AsyncError<Traveler>() => 'Username N/A',
+                _ => '',
+              },
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 10),

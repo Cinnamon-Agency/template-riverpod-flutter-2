@@ -5,16 +5,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/service/firebase_auth_service.dart';
 import '../data_source/traveler_data_source.dart';
 
-final travelerRepositoryProvider = Provider<TravelerRepository>((ref) {
-  final travelerDataSource = ref.watch(travelerDataSourceProvider);
-  final userId = ref.watch(userIdProvider);
+final Provider<TravelerRepository> travelerRepositoryProvider =
+    Provider<TravelerRepository>((ProviderRef<TravelerRepository> ref) {
+  final TravelerDataSource travelerDataSource =
+      ref.watch(travelerDataSourceProvider);
+  final String userId = ref.watch(userIdProvider);
   return TravelerRepositoryImpl(travelerDataSource, userId);
 });
 
+final FutureProvider<Traveler> profileDataProvider = FutureProvider<Traveler>(
+    (FutureProviderRef<Traveler> ref) =>
+        ref.watch(travelerRepositoryProvider).getProfileData());
+
 abstract interface class TravelerRepository {
-  Future<Traveler> myProfile();
+  Future<Traveler> getProfileData();
 
   Future<void> checkUsernameAvailable(String username);
 
-  Future<Traveler> createProfile({required String username, required String email});
+  Future<Traveler> createProfile({
+    required String username,
+    required String email,
+    bool sendPushNotifications,
+  });
 }

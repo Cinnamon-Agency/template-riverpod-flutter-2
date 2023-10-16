@@ -21,6 +21,7 @@ dependencies:
   dio:
   firebase_core:
   firebase_auth:
+  firebase_messaging:
   cloud_firestore:
   flutter_local_notifications:
   purchases_flutter:
