@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmationDialog extends StatelessWidget {
@@ -34,15 +35,24 @@ class ConfirmationDialog extends StatelessWidget {
         direction: Axis.vertical,
         children: <Widget>[
           if (title != null)
-            Text(
-              title!,
-              style: Theme.of(context).textTheme.titleMedium,
+            Container(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.sizeOf(context).width * 0.7),
+              child: AutoSizeText(
+                title!,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
           if (title != null) const Divider(),
-          Text(
-            bodyText,
-            style: Theme.of(context).textTheme.titleMedium,
+          Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.sizeOf(context).width * 0.7),
+            child: Text(
+              bodyText,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
+          const Divider(),
           Container(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.sizeOf(context).width * 0.7,
