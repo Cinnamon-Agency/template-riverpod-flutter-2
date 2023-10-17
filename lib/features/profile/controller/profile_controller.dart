@@ -20,6 +20,17 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     state = ProfileState(notificationsFlag: flag);
   }
 
+  Future<void> deleteUserAccount() async {
+    state = const ProfileState(loading: true);
+
+    try {
+      await _authService.deleteAccount();
+    } catch (e) {
+      state = const ProfileState(loading: false);
+      rethrow;
+    }
+  }
+
   Future<bool> logOut() async {
     state = const ProfileState(loading: true);
 

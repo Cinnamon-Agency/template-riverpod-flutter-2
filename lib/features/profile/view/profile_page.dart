@@ -8,6 +8,7 @@ import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -89,7 +90,14 @@ class ProfilePage extends ConsumerWidget {
                                 ),
                                 Switch.adaptive(
                                   value: state.notificationsFlag,
-                                  onChanged: controller.toggleNotifications,
+                                  onChanged: (bool value) {
+                                    try {
+                                      controller.toggleNotifications(value);
+                                    } catch (e) {
+                                      SnackbarHelper.showTFSnackbar(context,
+                                          'Failed to change the value. Please try again.');
+                                    }
+                                  },
                                 ),
                               ],
                             ),
@@ -98,7 +106,29 @@ class ProfilePage extends ConsumerWidget {
                                     MediaQuery.sizeOf(context).height * 0.1),
                             SecondaryButton(
                               text: 'Delete Account',
-                              onPressed: () => log('Delete Account'),
+                              onPressed: () => showDialog(
+                                context: context,
+                                builder: (BuildContext ctx) =>
+                                    ConfirmationDialog(
+                                  title:
+                                      'Are you sure you want to delete the account?',
+                                  bodyText:
+                                      'Deleting an account is irreversible, you will lose all of your account-related data.',
+                                  onCancel: () => Navigator.pop(ctx),
+                                  onConfirm: () async {
+                                    GoRouter.of(ctx).pop();
+                                    try {
+                                      await controller.deleteUserAccount();
+                                      GoRouter.of(context)
+                                          .pushReplacement(RoutePaths.start);
+                                    } catch (e) {
+                                      log('E: ${e as FirebaseException}');
+                                      SnackbarHelper.showTFSnackbar(
+                                          context, '${e.message}');
+                                    }
+                                  },
+                                ),
+                              ),
                               fullWidthSpan: true,
                             ),
                             const SizedBox(height: 10),

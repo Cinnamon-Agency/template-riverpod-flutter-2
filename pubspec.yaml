@@ -28,6 +28,7 @@ dependencies:
   hive_flutter:
 
   # Utils
+  auto_size_text:
   simple_logger:
   timezone:
   equatable:

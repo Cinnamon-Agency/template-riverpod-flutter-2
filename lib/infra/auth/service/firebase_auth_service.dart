@@ -1,6 +1,6 @@
-import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/entity/user_entity.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,6 +60,11 @@ class FirebaseAuthService implements AuthService {
   Future<void> logout() {
     return auth.signOut();
   }
+
+  @override
+  Future<void> deleteAccount() async => auth.currentUser != null
+      ? await auth.currentUser?.delete()
+      : throw Exception('User does not exist.');
 }
 
 final firebaseUserProvider = StreamProvider<UserEntity>((ref) async* {
