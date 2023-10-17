@@ -13,6 +13,9 @@ final class TravelerRepositoryImpl with EquatableMixin implements TravelerReposi
   TravelerRepositoryImpl(this._travelerDataSource, this._userId);
 
   @override
+  List<Object?> get props => <Object?>[_userId];
+
+  @override
   Future<void> checkUsernameAvailable(String username) async {
     return _travelerDataSource.checkUsernameAvailable(username);
   }
@@ -39,9 +42,9 @@ final class TravelerRepositoryImpl with EquatableMixin implements TravelerReposi
   }
 
   @override
-  List<Object?> get props => [_userId];
-
-  @override
   Future<void> updatePushNotificationsFlag(bool flag) =>
       _travelerDataSource.updatePushNotificationsFlag(flag);
+
+  @override
+  Future<void> deleteProfile() => _travelerDataSource.deleteTraveler();
 }

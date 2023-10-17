@@ -70,4 +70,15 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteTraveler() async{
+    try {
+      DocumentReference<Map<String, dynamic>> doc = collection.doc(userID);
+      await doc.delete();
+    } catch (e) {
+      log('Failed to delete user $userID.');
+      rethrow;
+    }
+  }
 }

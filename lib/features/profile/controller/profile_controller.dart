@@ -1,6 +1,7 @@
 import 'package:cinnamon_riverpod_2/features/profile/controller/profile_state.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +16,8 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);
 
+  TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
+
   Future<void> toggleNotifications(bool flag) async {
     await _travelerRepo.updatePushNotificationsFlag(flag);
     state = ProfileState(notificationsFlag: flag);
@@ -24,7 +27,9 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     state = const ProfileState(loading: true);
 
     try {
-      await _authService.deleteAccount();
+      await /*_authService.deleteAccount().then((_) => _travelerRepo
+          .deleteProfile()
+          .then((_) => */_tripRepo.removeUserTrips()/*))*/;
     } catch (e) {
       state = const ProfileState(loading: false);
       rethrow;

@@ -1,9 +1,8 @@
+import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository_implementation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../auth/service/firebase_auth_service.dart';
-import '../data_source/traveler_data_source.dart';
 
 final Provider<TravelerRepository> travelerRepositoryProvider =
     Provider<TravelerRepository>((ProviderRef<TravelerRepository> ref) {
@@ -30,4 +29,6 @@ abstract interface class TravelerRepository {
   });
 
   Future<void> updatePushNotificationsFlag(bool flag);
+
+  Future<void> deleteProfile();
 }
