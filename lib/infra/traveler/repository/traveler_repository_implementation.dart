@@ -1,9 +1,8 @@
+import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:equatable/equatable.dart';
-
-import '../data_source/traveler_data_source.dart';
 
 final class TravelerRepositoryImpl with EquatableMixin implements TravelerRepository {
   final TravelerDataSource _travelerDataSource;
@@ -42,8 +41,8 @@ final class TravelerRepositoryImpl with EquatableMixin implements TravelerReposi
   }
 
   @override
-  Future<void> updatePushNotificationsFlag(bool flag) =>
-      _travelerDataSource.updatePushNotificationsFlag(flag);
+  Future<void> updateProfileData(Map<String, dynamic> data) =>
+      _travelerDataSource.updateProfileData(data);
 
   @override
   Future<void> deleteProfile() => _travelerDataSource.deleteTraveler();

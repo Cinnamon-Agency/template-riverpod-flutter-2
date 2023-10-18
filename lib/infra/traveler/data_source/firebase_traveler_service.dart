@@ -2,9 +2,8 @@ import 'dart:developer';
 
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../repository/traveler_exceptions.dart';
 
 class FirebaseTravelerDataSource implements TravelerDataSource {
   FirebaseTravelerDataSource(this.userID);
@@ -26,6 +25,17 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
         throw TravelerNotFoundException();
       }
     });
+  }
+
+  @override
+  Future<void> updateProfileData(Map<String, dynamic> data) async {
+    try {
+      DocumentReference<Map<String, dynamic>> doc = collection.doc(userID);
+      await doc.update(data);
+    } catch (e) {
+      log('Failed to update user data for user_id: $userID.');
+      rethrow;
+    }
   }
 
   @override
@@ -56,19 +66,6 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
         throw UsernameTakenException();
       }
     });
-  }
-
-  @override
-  Future<void> updatePushNotificationsFlag(bool flag) async {
-    try {
-      DocumentReference<Map<String, dynamic>> doc = collection.doc(userID);
-      await doc.update(<String, dynamic>{
-        'sendPushNotifications': flag,
-      });
-    } catch (e) {
-      log('Failed to update "sendPushNotifications" value.');
-      rethrow;
-    }
   }
 
   @override

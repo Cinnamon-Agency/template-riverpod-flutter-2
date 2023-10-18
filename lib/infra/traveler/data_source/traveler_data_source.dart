@@ -17,9 +17,9 @@ abstract interface class TravelerDataSource {
     required bool sendPushNotifications,
   });
 
-  Future<void> checkUsernameAvailable(String username);
+  Future<void> updateProfileData(Map<String, dynamic> data);
 
-  Future<void> updatePushNotificationsFlag(bool flag);
+  Future<void> checkUsernameAvailable(String username);
 
   Future<void> deleteTraveler();
 }

@@ -19,7 +19,9 @@ class AccountController extends AutoDisposeNotifier<AccountState> {
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   Future<void> toggleNotifications(bool flag) async {
-    await _travelerRepo.updatePushNotificationsFlag(flag);
+    await _travelerRepo.updateProfileData(<String, dynamic>{
+      'sendPushNotifications': flag,
+    });
     state = AccountState(notificationsFlag: flag);
   }
 

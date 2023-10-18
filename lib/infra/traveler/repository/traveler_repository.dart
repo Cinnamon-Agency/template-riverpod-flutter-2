@@ -20,6 +20,8 @@ final AutoDisposeFutureProvider<Traveler> profileDataProvider =
 abstract interface class TravelerRepository {
   Future<Traveler> getProfileData();
 
+  Future<void> updateProfileData(Map<String, dynamic> data);
+
   Future<void> checkUsernameAvailable(String username);
 
   Future<Traveler> createProfile({
@@ -27,8 +29,6 @@ abstract interface class TravelerRepository {
     required String email,
     bool sendPushNotifications,
   });
-
-  Future<void> updatePushNotificationsFlag(bool flag);
 
   Future<void> deleteProfile();
 }
