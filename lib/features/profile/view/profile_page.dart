@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cinnamon_riverpod_2/features/profile/controller/profile_controller.dart';
 import 'package:cinnamon_riverpod_2/features/profile/controller/profile_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/secondary_button.dart';
@@ -59,7 +57,7 @@ class ProfilePage extends ConsumerWidget {
                 mainAxisAlignment: state.loading
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   state.loading
                       ? Center(
                           child: CircularProgressIndicator(
@@ -67,10 +65,11 @@ class ProfilePage extends ConsumerWidget {
                           ),
                         )
                       : Column(
-                          children: [
+                          children: <Widget>[
                             SecondaryButton(
                               text: 'Edit Profile',
-                              onPressed: () => log('Edit Profile'),
+                              onPressed: () => GoRouter.of(context)
+                                  .push(RoutePaths.editProfile),
                               fullWidthSpan: true,
                             ),
                             const SizedBox(height: 10),
@@ -123,9 +122,8 @@ class ProfilePage extends ConsumerWidget {
                                       GoRouter.of(context)
                                           .pushReplacement(RoutePaths.start);
                                     } catch (e) {
-                                      log('E: ${e as FirebaseException}');
-                                      SnackbarHelper.showTFSnackbar(
-                                          context, '${e.message}');
+                                      SnackbarHelper.showTFSnackbar(context,
+                                          '${(e as FirebaseException).message}');
                                     }
                                   },
                                 ),
