@@ -33,6 +33,7 @@ dependencies:
   timezone:
   equatable:
   collection:
+  uuid:
 
   # UI
   cupertino_icons: ^1.0.2

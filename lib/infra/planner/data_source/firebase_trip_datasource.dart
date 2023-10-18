@@ -9,7 +9,7 @@ final class FirebaseTripDataSource implements TripDataSource {
   @override
   Stream<List<TripItineraryEntity>> getTripItineraries(String userId) {
     return collection.where('ownerIds', arrayContains: userId).snapshots().map(
-        (QuerySnapshot<Map<String, dynamic>> snapshot) => snapshot.docs
+            (QuerySnapshot<Map<String, dynamic>> snapshot) => snapshot.docs
             .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
                 TripItineraryEntity.fromDoc(doc))
             .toList());
@@ -22,14 +22,11 @@ final class FirebaseTripDataSource implements TripDataSource {
 
   @override
   Future<void> removeUserTrips(String userId) async {
-    await collection
-        .where('ownerIds', arrayContains: userId, isLessThan: 2)
-        .snapshots()
-        .last
-        .then((QuerySnapshot<Map<String, dynamic>> snap) {
-      for (DocumentSnapshot<Map<String, dynamic>> doc in snap.docs) {
-        doc.reference.delete();
-      }
-    });
+    QuerySnapshot<Map<String, dynamic>> snap =
+        await collection.where('ownerIds', arrayContains: userId).get();
+
+    for (DocumentSnapshot<Map<String, dynamic>> doc in snap.docs) {
+      doc.reference.delete();
+    }
   }
 }

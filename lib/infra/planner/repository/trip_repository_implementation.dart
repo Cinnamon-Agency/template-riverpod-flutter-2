@@ -8,6 +8,7 @@ import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dar
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 class TripRepositoryImplementation with EquatableMixin implements TripRepository {
   TripRepositoryImplementation(
@@ -18,6 +19,8 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   final TripDataSource _tripDataSource;
   final TravelerDataSource _travelerDataSource;
   final String _userId;
+
+  final Uuid uuid = const Uuid();
 
   @override
   Stream<List<TripItinerary>> getTripItineraries() {
@@ -42,7 +45,7 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   Future<void> createMocked() {
     return _tripDataSource.createTrip(
       TripItineraryEntity(
-          id: "id",
+          id: uuid.v4(),
           name: "name",
           description: "description",
           locations: <TripLocationEntity>[],

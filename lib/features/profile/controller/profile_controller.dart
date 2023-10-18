@@ -27,13 +27,14 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     state = const ProfileState(loading: true);
 
     try {
-      await /*_authService.deleteAccount().then((_) => _travelerRepo
+      await _authService.deleteAccount().then((_) => _travelerRepo
           .deleteProfile()
-          .then((_) => */_tripRepo.removeUserTrips()/*))*/;
+          .then((_) => _tripRepo.removeUserTrips()));
     } catch (e) {
       state = const ProfileState(loading: false);
       rethrow;
     }
+    state = const ProfileState(loading: false);
   }
 
   Future<bool> logOut() async {
