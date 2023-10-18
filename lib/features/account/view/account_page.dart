@@ -1,5 +1,5 @@
-import 'package:cinnamon_riverpod_2/features/profile/controller/profile_controller.dart';
-import 'package:cinnamon_riverpod_2/features/profile/controller/profile_state.dart';
+import 'package:cinnamon_riverpod_2/features/account/controller/account_controller.dart';
+import 'package:cinnamon_riverpod_2/features/account/controller/account_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/secondary_button.dart';
 import 'package:cinnamon_riverpod_2/features/shared/dialogs/confirmation_dialog.dart';
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
@@ -11,14 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfilePage extends ConsumerWidget {
-  const ProfilePage({super.key});
+class AccountPage extends ConsumerWidget {
+  const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ProfileController controller =
-        ref.read(profileControllerProvider.notifier);
-    final ProfileState state = ref.watch(profileControllerProvider);
+    final AccountController controller =
+        ref.read(accountControllerProvider.notifier);
+    final AccountState state = ref.watch(accountControllerProvider);
     final AsyncValue<Traveler> profileData = ref.watch(profileDataProvider);
 
     return Scaffold(
