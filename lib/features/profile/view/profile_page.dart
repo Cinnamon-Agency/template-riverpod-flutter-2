@@ -76,7 +76,8 @@ class ProfilePage extends ConsumerWidget {
                             const SizedBox(height: 10),
                             SecondaryButton(
                               text: 'Settings',
-                              onPressed: () => log('Settings'),
+                              onPressed: () => GoRouter.of(context)
+                                  .push(RoutePaths.settings),
                               fullWidthSpan: true,
                             ),
                             const SizedBox(height: 10),
