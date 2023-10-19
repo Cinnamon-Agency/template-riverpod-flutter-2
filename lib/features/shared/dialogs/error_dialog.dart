@@ -69,7 +69,7 @@ class ErrorDialog extends StatelessWidget {
                     maxWidth: MediaQuery.sizeOf(context).width * 0.7,
                   ),
                   child: InkWell(
-                    onTap: onOk,
+                    onTap: onOk ?? () => Navigator.pop(context),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.25,
                       height: 40,
