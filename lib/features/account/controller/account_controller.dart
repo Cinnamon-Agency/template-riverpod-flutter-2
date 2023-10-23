@@ -1,6 +1,8 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:cinnamon_riverpod_2/features/account/controller/account_state.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
+import 'package:cinnamon_riverpod_2/infra/firebase_notifications/firebase_notifications_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +20,18 @@ class AccountController extends AutoDisposeNotifier<AccountState> {
 
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
+  FirebaseNotificationsService get _fns =>
+      ref.read(firebaseNotificationsService);
+
   Future<void> toggleNotifications(bool flag) async {
+    if (flag) {
+      if (!await _fns.askForPermissions()) {
+        await AppSettings.openAppSettings(type: AppSettingsType.settings);
+        if (!await _fns.askForPermissions()) {
+          return;
+        }
+      }
+    }
     await _travelerRepo.updateProfileData(<String, dynamic>{
       'sendPushNotifications': flag,
     });

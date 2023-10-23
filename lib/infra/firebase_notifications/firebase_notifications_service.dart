@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,10 +10,12 @@ final AutoDisposeProvider<FirebaseNotificationsService>
             FirebaseNotificationsService());
 
 class FirebaseNotificationsService {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
   /// Notification permission prompt
   Future<bool> askForPermissions() async {
     NotificationSettings notificationSettings =
-        await FirebaseMessaging.instance.requestPermission(
+        await _firebaseMessaging.requestPermission(
       alert: true,
       announcement: true,
       badge: true,
@@ -21,7 +25,12 @@ class FirebaseNotificationsService {
       sound: true,
     );
 
+    // TODO(Anyone): Do something with FCM token
+    log('User FCM token: ${await getFCMToken()}');
+
     return notificationSettings.authorizationStatus ==
         AuthorizationStatus.authorized;
   }
+
+  Future<String?> getFCMToken() => _firebaseMessaging.getToken();
 }
