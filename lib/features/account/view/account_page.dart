@@ -18,7 +18,7 @@ class AccountPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AccountController controller =
         ref.read(accountControllerProvider.notifier);
-    final AccountState state = ref.watch(accountControllerProvider);
+    final AsyncValue<AccountState> state = ref.watch(accountControllerProvider);
     final AsyncValue<Traveler> profileData = ref.watch(profileDataProvider);
 
     return Scaffold(
@@ -54,11 +54,11 @@ class AccountPage extends ConsumerWidget {
             const SizedBox(height: 10),
             Expanded(
               child: Column(
-                mainAxisAlignment: state.loading
+                mainAxisAlignment: state.isLoading
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.start,
                 children: <Widget>[
-                  state.loading
+                  state.isLoading
                       ? Center(
                           child: CircularProgressIndicator(
                             color: Theme.of(context).primaryColor,
@@ -89,10 +89,11 @@ class AccountPage extends ConsumerWidget {
                                       Theme.of(context).textTheme.labelMedium,
                                 ),
                                 Switch.adaptive(
-                                  value: state.notificationsFlag,
+                                  value: state.requireValue.notificationsFlag,
                                   onChanged: (bool value) {
                                     try {
-                                      controller.toggleNotifications(value);
+                                      controller.updateProfileData(
+                                          sendPushNotifications: value);
                                     } catch (e) {
                                       SnackbarHelper.showTFSnackbar(context,
                                           'Failed to change the value. Please try again.');

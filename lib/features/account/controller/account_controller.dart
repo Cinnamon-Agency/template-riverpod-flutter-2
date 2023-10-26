@@ -5,46 +5,45 @@ import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dar
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final AutoDisposeNotifierProvider<AccountController, AccountState>
-    accountControllerProvider =
-    NotifierProvider.autoDispose<AccountController, AccountState>(
+final accountControllerProvider =
+    AutoDisposeAsyncNotifierProvider<AccountController, AccountState>(
   () => AccountController(),
 );
 
-class AccountController extends AutoDisposeNotifier<AccountState> {
+class AccountController extends AutoDisposeAsyncNotifier<AccountState> {
   FirebaseAuthService get _authService => ref.read(authServiceProvider);
 
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);
 
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
-  Future<void> toggleNotifications(bool flag) async {
+  Future<void> updateProfileData({required bool sendPushNotifications}) async {
     await _travelerRepo.updateProfileData(<String, dynamic>{
-      'sendPushNotifications': flag,
+      'sendPushNotifications': sendPushNotifications,
     });
-    state = AccountState(notificationsFlag: flag);
+    state = AsyncData(AccountState(notificationsFlag: sendPushNotifications));
   }
 
   Future<void> deleteUserAccount() async {
-    state = const AccountState(loading: true);
+    state = const AsyncLoading();
 
     try {
       await _authService.deleteAccount().then((_) => _travelerRepo
           .deleteProfile()
           .then((_) => _tripRepo.removeUserTrips()));
-    } catch (e) {
-      state = const AccountState(loading: false);
+    } catch (e, st) {
+      state = AsyncError(e, st);
       rethrow;
     }
-    state = const AccountState(loading: false);
+    state = const AsyncData(AccountState());
   }
 
   Future<bool> logOut() async {
-    state = const AccountState(loading: true);
+    state = const AsyncLoading();
 
     await _authService.logout();
 
-    state = const AccountState(loading: false);
+    state = const AsyncData(AccountState());
     return _authService.auth.currentUser == null;
   }
 
