@@ -33,6 +33,7 @@ dependencies:
   collection:
 
   # UI
+  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.2
   go_router:
   flutter_form_builder:

@@ -27,9 +27,9 @@ class SignupController extends AutoDisposeNotifier<SignupState> {
     try {
       await _travelerRepo.checkUsernameAvailable(username);
 
-      await _travelerRepo.createProfile(username: username, email: email);
-
       await _authService.createUser(email: email, password: password);
+
+      await _travelerRepo.createProfile(username: username, email: email);
     } catch (e) {
       rethrow;
     } finally {
