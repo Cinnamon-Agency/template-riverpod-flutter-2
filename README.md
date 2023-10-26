@@ -1,5 +1,13 @@
 # Riverpod Template (TripFinder app)
 
+
+### Git Policy
+https://docs.google.com/document/d/1e80YkBdLMYWkLbbg_Yjy6tlRpJs5ooP89FR6nvbZMco/edit#heading=h.7hj7y5ukatf6
+In addition to Cinnamon's Git Policy, follow the Git Flow principle.
+
+Make use of "fixes #issue_num" in commit messages to automatically close issues on merge.
+
+
 ### Documentation
 https://pub.dev/packages/dcdg
 
