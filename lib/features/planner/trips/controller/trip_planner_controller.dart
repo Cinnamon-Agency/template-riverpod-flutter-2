@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:math';
 
 import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
-import 'package:cinnamon_riverpod_2/helpers/mixin/keep_alive_mixin.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
