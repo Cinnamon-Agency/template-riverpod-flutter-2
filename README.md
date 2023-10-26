@@ -8,6 +8,7 @@ In addition to Cinnamon's Git Policy, follow the Git Flow principle.
 Make use of "fixes #issue_num" in commit messages to automatically close issues on merge.
 
 
+
 ### Documentation
 https://pub.dev/packages/dcdg
 
