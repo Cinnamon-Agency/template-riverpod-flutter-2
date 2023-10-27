@@ -7,6 +7,8 @@ import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/planner/planner_creator/planner_creator_page.dart';
+
 class RoutePaths {
   static const splash = '/';
   static const home = '/home';
@@ -14,6 +16,7 @@ class RoutePaths {
   static const start = '/start';
   static const signup = '/signup';
   static const login = '/login';
+  static const plannerCreator = '/plannerCreator';
 }
 
 final GoRouter router = GoRouter(
@@ -59,6 +62,14 @@ final GoRouter router = GoRouter(
       path: RoutePaths.login,
       builder: (BuildContext context, GoRouterState state) {
         return const LoginPage();
+      },
+      routes: const [],
+    ),
+
+    GoRoute(
+      path: RoutePaths.plannerCreator,
+      builder: (BuildContext context, GoRouterState state) {
+        return const PlannerCreatorPage();
       },
       routes: const [],
     ),
