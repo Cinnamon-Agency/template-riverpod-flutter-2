@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class CoTraveler extends Equatable {
   final String name;
 
-  CoTraveler(this.name);
+  const CoTraveler(this.name);
 
   factory CoTraveler.fromEntity(TravelerEntity entity) {
     return CoTraveler(entity.username);
