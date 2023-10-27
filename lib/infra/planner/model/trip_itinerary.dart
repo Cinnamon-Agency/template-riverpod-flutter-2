@@ -12,7 +12,7 @@ class TripItinerary extends Equatable {
   final List<TripLocation> locations;
   final List<CoTraveler> travelers;
 
-  TripItinerary({
+  const TripItinerary({
     required this.id,
     required this.name,
     required this.description,
@@ -21,17 +21,20 @@ class TripItinerary extends Equatable {
     required this.travelers,
   });
 
-  factory TripItinerary.fromEntity(TripItineraryEntity entity, List<TravelerEntity> travelers) {
+  factory TripItinerary.fromEntity(
+      TripItineraryEntity entity, List<TravelerEntity> travelers) {
     return TripItinerary(
       id: entity.id,
       name: entity.name,
       description: entity.description,
       imageUrl: entity.imageUrl,
-      locations: entity.locations.map((e) => TripLocation.fromEntity(e)).toList(),
+      locations:
+          entity.locations.map((e) => TripLocation.fromEntity(e)).toList(),
       travelers: travelers.map((e) => CoTraveler.fromEntity(e)).toList(),
     );
   }
 
   @override
-  List<Object?> get props => [id, name, description, imageUrl, locations, travelers];
+  List<Object?> get props =>
+      [id, name, description, imageUrl, locations, travelers];
 }
