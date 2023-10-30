@@ -27,6 +27,13 @@ final class DarkAppTextStyles extends AppTextStyles {
       );
 
   @override
+  TextStyle get headlineMediumTextStyle => TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w800,
+        color: lightAppColors.backgroundColor,
+      );
+
+  @override
   TextStyle get headlineSmallTextStyle => TextStyle(
         fontSize: 18,
         color: lightAppColors.backgroundColor,
