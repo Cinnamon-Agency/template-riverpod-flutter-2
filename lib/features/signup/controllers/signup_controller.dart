@@ -1,21 +1,18 @@
-import 'package:cinnamon_riverpod_2/infra/firebase_notifications/firebase_notifications_service.dart';
+import 'package:cinnamon_riverpod_2/features/signup/controllers/signup_state.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import '../../../infra/auth/service/auth_service.dart';
-import 'signup_state.dart';
-
-final signupControllerProvider = NotifierProvider.autoDispose<SignupController, SignupState>(
-      () => SignupController(),
+final signupControllerProvider =
+    NotifierProvider.autoDispose<SignupController, SignupState>(
+  () => SignupController(),
 );
 
 class SignupController extends AutoDisposeNotifier<SignupState> {
   AuthService get _authService => ref.read(authServiceProvider);
 
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);
-
-  FirebaseNotificationsService get _fns =>
-      ref.read(firebaseNotificationsService);
 
   @override
   SignupState build() {
@@ -36,7 +33,10 @@ class SignupController extends AutoDisposeNotifier<SignupState> {
 
       await _authService.createUser(email: email, password: password);
 
-      bool notificationsPermissionGranted = await _fns.askForPermissions();
+      PermissionStatus status = await Permission.notification.request();
+
+      bool notificationsPermissionGranted =
+          status.isGranted || status.isProvisional;
 
       await _travelerRepo.createProfile(
           username: username,

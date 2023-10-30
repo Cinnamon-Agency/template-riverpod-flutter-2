@@ -29,6 +29,7 @@ dependencies:
 
   # Utils
   auto_size_text:
+  permission_handler:
   simple_logger:
   timezone:
   equatable:
