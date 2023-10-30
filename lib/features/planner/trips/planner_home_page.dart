@@ -17,7 +17,7 @@ class PlannerHomePage extends ConsumerWidget {
     final state = ref.watch(tripPlannerControllerProvider);
 
     return Scaffold(
-      primary: false,
+      primary: true,
       appBar: PlannerAppBar(
         title: 'Trips',
         actions: [

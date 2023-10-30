@@ -7,7 +7,7 @@ class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget> actions;
 
-  const PlannerAppBar({
+  PlannerAppBar({
     super.key,
     required this.title,
     required this.actions,
@@ -40,7 +40,9 @@ class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  double get preferredHeight => 120;
+  final _appbar = AppBar();
+
+  double get preferredHeight => _appbar.preferredSize.height;
 
   @override
   Size get preferredSize => Size.fromHeight(preferredHeight);
