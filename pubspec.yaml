@@ -31,6 +31,8 @@ dependencies:
   timezone:
   equatable:
   collection:
+  intl:
+  cached_network_image:
 
   # UI
   auto_size_text: ^3.0.0
