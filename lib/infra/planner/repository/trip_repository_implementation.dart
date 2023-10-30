@@ -33,6 +33,17 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   @override
   Future<void> createMocked() {
     return _tripDataSource.createTrip(
-        TripItineraryEntity(id: "id", name: "name", description: "description", locations: [], ownerIds: [_userId]),);
+      TripItineraryEntity(
+        id: "01",
+        name: "Trip to Zagreb",
+        description: "Going to ZG, HR",
+        locations: [],
+        ownerIds: [_userId],
+        imageUrl:
+            'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        startDate: DateTime(2024, 2, 1),
+        endDate: DateTime(2024, 2, 15),
+      ),
+    );
   }
 }
