@@ -1,5 +1,9 @@
 # Riverpod Template (TripFinder app)
 
+### Documentation
+https://pub.dev/packages/dcdg
+
+
 ### Infra
 Holds the infrastructure that is usually shared across the features, such as http, local storage, in app purchases, notifications.
 This should __not__ contain any UI related code. 
@@ -30,6 +34,7 @@ You may group them by directories if you have a lot of them.
 #### Logic
 - you can use a repository in another repository, however be careful of circular dependencies
 - you can inject multiple data sources into a repository 
+- data sources should be stateless, repoistories can be stateful but be careful of when constructing them if there is a .watch in scope, it may cause memory leaks
   - you don't need to define a provider for each, but if you are using a datasouce in multiple repositories, you should
 - don't inject repositories/datasources into services, rather follow the repo + ds pattern
 - you can use services and repositories in [Async]Notifiers/FutureProviders/StreamProviders
@@ -38,13 +43,11 @@ You may group them by directories if you have a lot of them.
   - you may use ```typedef Model = Entity``` , or better ```class Model extends Entity```
 - sometimes it is easier to call a FutureProvider instead of calling a repository in a [Async]Notifier - ALWAYS document this 
 - lean to using AutoDisposeable in [Async]Notifiers/FutureProviders/StreamProviders 
-- models **MUST** be immutable, use copyWith to change a field
-- models **MUST** have equatable implemented or use @freezed
-- states **MUST** be immutable, use copyWith to change a field, and MUSH have equatable implemented or use @freezed
+- models and states **MUST** be immutable, use copyWith to change a field, and MUST have equatable implemented or use @freezed
 - models, if constructed from entity, **MUST** have factory constructor fromEntity or static method fromEntity
 - entities can optionally have equatable implemented
 - **NEVER** call repository/datasource/service from a widget/view, always call a controller
-- do not use StateProvider unless its a "stateless" global provider
+- do not use StateProvider rather make a Notifier 
 - do not declare Repositories/Services as final in controller, rather make a getter and invoke when needed
   - although services and repositories are mostly stateless and have pure functions, using getters allows us to ensure we are using the latest instance 
 ```
@@ -63,4 +66,23 @@ AuthService get _authService => ref.read(authServiceProvider);
 
 
 ### Testing
-- generally if you can make tests for repositories and services
+- if you can make tests for repositories and services
+
+
+
+
+### Explaining Architectual Decisions
+
+
+- Why not use code generation for Riverpod?
+  - Not using it because onboarding will be hard, and builds will take long
+
+- Why use code generation for assets?
+  - Makes using assets compile time safe
+
+- Why isn't freezed used?
+  - In my opinion freezed is most useful when you need advanced copy with, but other features are
+unecceary because Dart added sealed classes. Please use dart data class plugin to generate copy with method
+  
+
+

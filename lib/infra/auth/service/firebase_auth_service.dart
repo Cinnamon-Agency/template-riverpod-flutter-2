@@ -29,7 +29,9 @@ class FirebaseAuthService implements AuthService {
     required String password,
   }) async {
     try {
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      final emailProviderCredential =
+          EmailAuthProvider.credential(email: email, password: password);
+      await _signInWithCredentialOrLinkUser(emailProviderCredential);
     } catch (e) {
       throw AuthResultHandler.handleException(e);
     }
@@ -59,6 +61,22 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<void> logout() {
     return auth.signOut();
+  }
+
+  /// Signs in the user with a given [credential].
+  ///
+  /// In case the user is already logged in (namely, after signing in anonymously),
+  /// links the anonymous account with the `credential`
+  /// and converts the anonymous account into a permanent one.
+  /// Otherwise, creates a new account.
+  Future<UserCredential> _signInWithCredentialOrLinkUser(
+      AuthCredential credential) {
+    if (auth.currentUser != null) {
+      // User signed in anonymously, link the acount
+      return auth.currentUser!.linkWithCredential(credential);
+    } else {
+      return auth.signInWithCredential(credential);
+    }
   }
 
   @override
