@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import 'new_cotraveler_text_field.dart';
+
 class PlannerCreatorForm extends StatefulWidget {
   const PlannerCreatorForm({Key? key}) : super(key: key);
 
@@ -104,7 +106,7 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
 
               const SizedBox(height: 20),
 
-              /// ----------- Co traveler(s)
+              /// ----------- CO TRAVELER(S)
               /// --------- Title
               Text(
                 'Co-traveler(s)',
@@ -133,22 +135,37 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                               .contains(textEditingValue.text.toLowerCase());
                         });
                       },
+                      fieldViewBuilder: (BuildContext context,
+                              TextEditingController textEditingController,
+                              FocusNode focusNode,
+                              VoidCallback onFieldSubmitted) =>
+                          FormBuilderTextField(
+                        name: 'coTraveler',
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: const InputDecoration(
+                          labelText: 'Co-traveler',
+                        ),
+                        validator: (valueCandidate) {
+                          if (valueCandidate?.isEmpty ?? true) {
+                            return 'This field is required.';
+                          }
+                          return null;
+                        },
+                      ),
                       onSelected: (String selection) {
                         field.didChange(selection);
                       },
                     );
                   },
                   autovalidateMode: AutovalidateMode.always,
-                  validator: (valueCandidate) {
-                    if (valueCandidate?.isEmpty ?? true) {
-                      return 'This field is required.';
-                    }
-                    return null;
-                  },
+                  validator: FormBuilderValidators.required(),
                 ),
               ),
               ...fields,
 
+              /// Button:
+              /// ------ Add new co-traveler
               const SizedBox(height: 20),
               Center(
                 child: MaterialButton(
@@ -160,7 +177,7 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                   onPressed: () {
                     setState(() {
                       fields.add(
-                        NewTextField(
+                        NewCoTravlerTextField(
                           name: 'coTraveler_${fields.length}',
                           coTravelers: coTravelers,
                           onDelete: () {
@@ -176,8 +193,12 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
               ),
 
               const SizedBox(height: 30),
+
+              /// Buttons:
+
               Row(
                 children: <Widget>[
+                  /// ------ Create
                   Expanded(
                     child: MaterialButton(
                       color: Theme.of(context).primaryColor,
@@ -196,6 +217,8 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                     ),
                   ),
                   const SizedBox(width: 20),
+
+                  /// ------ Reset
                   Expanded(
                     child: MaterialButton(
                       color: Theme.of(context).primaryColor,
@@ -218,57 +241,4 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
   }
 }
 
-class NewTextField extends StatelessWidget {
-  const NewTextField({
-    super.key,
-    required this.name,
-    required this.coTravelers,
-    this.onDelete,
-  });
 
-  final String name;
-  final VoidCallback? onDelete;
-  final List<String> coTravelers;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                width: 290,
-                child: FormBuilderField(
-                  name: name,
-                  builder: (FormFieldState field) => Autocomplete<String>(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text == '') {
-                        return const Iterable<String>.empty();
-                      }
-                      return coTravelers.where((String option) =>
-                          option.contains(textEditingValue.text.toLowerCase()));
-                    },
-                    onSelected: (String selection) {
-                      field.didChange(selection);
-                    },
-                  ),
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: FormBuilderValidators.minLength(4),
-                  // decoration: InputDecoration(
-                  //   labelText: 'New co-traveler',
-                  //   suffixIcon: IconButton(
-                  //     icon: const Icon(Icons.delete_forever),
-                  //     onPressed: onDelete,
-                  //   ),
-                  // ),
-                ),
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete_forever),
-              onPressed: onDelete,
-            ),
-          ],
-        ),
-      );
-}
