@@ -2,13 +2,12 @@ import 'package:cinnamon_riverpod_2/features/edit_profile/controller/edit_profil
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final AutoDisposeNotifierProvider<EditProfileController, EditProfileState>
-    editProfileControllerProvider =
-    NotifierProvider.autoDispose<EditProfileController, EditProfileState>(
+final editProfileControllerProvider =
+    AutoDisposeAsyncNotifierProvider<EditProfileController, EditProfileState>(
   () => EditProfileController(),
 );
 
-class EditProfileController extends AutoDisposeNotifier<EditProfileState> {
+class EditProfileController extends AutoDisposeAsyncNotifier<EditProfileState> {
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);
 
   @override
@@ -18,21 +17,21 @@ class EditProfileController extends AutoDisposeNotifier<EditProfileState> {
   }
 
   void onUsernameTextChange(String value) {
-    state = EditProfileState(
+    state = AsyncData(EditProfileState(
       username: value,
       isUsernameValid:
           (ref.read(profileDataProvider).value?.name ?? '') != value,
-    );
+    ));
   }
 
   void onSubmit() async {
-    state = state.copyWith(loading: true);
+    state = const AsyncLoading();
     await _travelerRepo.updateProfileData(<String, dynamic>{
-      'username': state.username,
+      'username': state.requireValue.username,
     });
-    state = state.copyWith(
-        loading: false,
-        username: ref.refresh(profileDataProvider).requireValue.name,
-        isUsernameValid: false);
+    state = AsyncData(EditProfileState(
+      username: ref.refresh(profileDataProvider).requireValue.name,
+      isUsernameValid: false,
+    ));
   }
 }

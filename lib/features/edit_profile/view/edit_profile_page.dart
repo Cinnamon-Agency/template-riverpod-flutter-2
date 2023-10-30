@@ -13,10 +13,11 @@ class EditProfilePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final EditProfileController controller =
         ref.read(editProfileControllerProvider.notifier);
-    final EditProfileState state = ref.watch(editProfileControllerProvider);
+    final AsyncValue<EditProfileState> state =
+        ref.watch(editProfileControllerProvider);
 
     final TextEditingController usernameTextController =
-        useTextEditingController(text: state.username);
+        useTextEditingController(text: state.requireValue.username);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -58,8 +59,8 @@ class EditProfilePage extends HookConsumerWidget {
                 child: PrimaryButton(
                   text: 'Submit changes',
                   onPressed: controller.onSubmit,
-                  isLoading: state.loading,
-                  isDisabled: !state.isUsernameValid,
+                  isLoading: state.isLoading,
+                  isDisabled: !state.requireValue.isUsernameValid,
                 ),
               ),
               SizedBox(height: MediaQuery.sizeOf(context).height * 0.1),
