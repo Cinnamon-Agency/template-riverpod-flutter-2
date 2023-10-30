@@ -1,7 +1,5 @@
 import 'package:cinnamon_riverpod_2/features/home/controller/home_controller.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_state.dart';
-import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
-import 'package:cinnamon_riverpod_2/infra/http/dio_http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -39,7 +37,7 @@ class HomePage extends ConsumerWidget {
         ],
       ),
       body: <Widget>[
-        PlannerHomePage(),
+        const PlannerHomePage(),
         Container(
           color: Colors.green,
           alignment: Alignment.center,
