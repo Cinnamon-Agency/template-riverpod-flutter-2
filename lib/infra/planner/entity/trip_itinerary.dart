@@ -8,6 +8,8 @@ class TripItineraryEntity {
   final String? imageUrl;
   final List<TripLocationEntity> locations;
   final List<String> ownerIds;
+  final DateTime startDate;
+  final DateTime endDate;
 
   const TripItineraryEntity({
     required this.id,
@@ -16,6 +18,8 @@ class TripItineraryEntity {
     this.imageUrl,
     required this.locations,
     required this.ownerIds,
+    required this.startDate,
+    required this.endDate,
   });
 
   factory TripItineraryEntity.fromDoc(DocumentSnapshot doc) {
@@ -26,6 +30,8 @@ class TripItineraryEntity {
       imageUrl: doc['imageUrl'],
       locations: (doc['locations'] as List).map((e) => TripLocationEntity.fromMap(e)).toList(),
       ownerIds: (doc['ownerIds'] as List).map((e) => e.toString()).toList(),
+      startDate: DateTime.parse(doc['startDate'] as String),
+      endDate: DateTime.parse(doc['endDate'] as String),
     );
   }
 
@@ -37,6 +43,8 @@ class TripItineraryEntity {
       'imageUrl': imageUrl,
       'locations': locations.map((e) => e.toMap()).toList(),
       'ownerIds': ownerIds,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
     };
   }
 }

@@ -6,7 +6,7 @@ final homeControllerProvider = NotifierProvider<HomeController, HomeState>(() =>
 class HomeController extends Notifier<HomeState> {
   @override
   HomeState build() {
-    return HomeState(page: SelectedHomePage.trips);
+    return const HomeState(page: SelectedHomePage.trips);
   }
 
   void selectPage(SelectedHomePage page) {

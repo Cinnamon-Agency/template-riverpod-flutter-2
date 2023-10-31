@@ -11,8 +11,7 @@ import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
 class TripRepositoryImplementation with EquatableMixin implements TripRepository {
-  TripRepositoryImplementation(
-      this._tripDataSource, this._travelerDataSource, this._userId) {
+  TripRepositoryImplementation(this._tripDataSource, this._travelerDataSource, this._userId) {
     log("build repository for $_userId");
   }
 
@@ -24,12 +23,9 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
 
   @override
   Stream<List<TripItinerary>> getTripItineraries() {
-    return _tripDataSource
-        .getTripItineraries(_userId)
-        .asyncMap((List<TripItineraryEntity> entities) async {
+    return _tripDataSource.getTripItineraries(_userId).asyncMap((List<TripItineraryEntity> entities) async {
       return Future.wait(entities.map((TripItineraryEntity entity) async {
-        final List<Future<TravelerEntity>> travelers =
-            entity.ownerIds.map((String id) async {
+        final List<Future<TravelerEntity>> travelers = entity.ownerIds.map((String id) async {
           return _travelerDataSource.getTraveler(id);
         }).toList();
         final List<TravelerEntity> awaited = await Future.wait(travelers);
@@ -45,11 +41,16 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   Future<void> createMocked() {
     return _tripDataSource.createTrip(
       TripItineraryEntity(
-          id: uuid.v4(),
-          name: "name",
-          description: "description",
-          locations: <TripLocationEntity>[],
-          ownerIds: <String>[_userId]),
+        id: uuid.v4(),
+        name: "Trip to Zagreb",
+        description: "Going to ZG, HR",
+        locations: <TripLocationEntity>[],
+        ownerIds: <String>[_userId],
+        imageUrl:
+            'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        startDate: DateTime(2024, 2, 1),
+        endDate: DateTime(2024, 2, 15),
+      ),
     );
   }
 

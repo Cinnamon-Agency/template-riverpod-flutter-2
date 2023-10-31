@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../entity/traveler_entity.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 
 class Traveler extends Equatable {
   final String name;
