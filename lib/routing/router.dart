@@ -20,7 +20,7 @@ class RoutePaths {
   static const String login = '/login';
   static const String editProfile = '/edit_profile';
   static const String settings = '/settings';
-  static const plannerCreator = '/plannerCreator';
+  static const String plannerCreator = '/plannerCreator';
 }
 
 final GoRouter router = GoRouter(
@@ -89,7 +89,7 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const PlannerCreatorPage();
       },
-      routes: const [],
+      routes: const <RouteBase>[],
     ),
   ],
 );

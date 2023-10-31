@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
+import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,6 +42,7 @@ class TripPlannerController extends AutoDisposeAsyncNotifier<TripPlannerState> {
   }
 
   Future<void> createMocked() async {
-    await _tripRepo.createMocked();
+    router.push(RoutePaths.plannerCreator);
+    //await _tripRepo.createMocked();
   }
 }
