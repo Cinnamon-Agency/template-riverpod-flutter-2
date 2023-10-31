@@ -30,8 +30,8 @@ class HomePage extends ConsumerWidget {
             label: 'Friends',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.manage_accounts_outlined),
-            icon: Icon(Icons.school_outlined),
+            selectedIcon: Icon(Icons.manage_accounts),
+            icon: Icon(Icons.manage_accounts_outlined),
             label: 'Account',
           ),
         ],
