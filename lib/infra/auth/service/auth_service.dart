@@ -51,4 +51,8 @@ abstract interface class AuthService {
 
   /// Logs out the currently active user.
   Future<void> logout();
+
+  /// Deletes current user's account.
+  Future<void> deleteAccount();
+
 }

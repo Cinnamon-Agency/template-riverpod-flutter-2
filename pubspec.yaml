@@ -21,19 +21,22 @@ dependencies:
   dio:
   firebase_core:
   firebase_auth:
+  firebase_messaging:
   cloud_firestore:
   flutter_local_notifications:
   purchases_flutter:
   hive_flutter:
 
   # Utils
+  auto_size_text:
+  permission_handler:
   simple_logger:
   timezone:
   equatable:
   collection:
+  uuid:
 
   # UI
-  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.2
   go_router:
   flutter_form_builder:
