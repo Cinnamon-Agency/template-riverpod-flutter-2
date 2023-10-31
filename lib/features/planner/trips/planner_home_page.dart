@@ -1,6 +1,7 @@
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/no_trips_placeholder.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/planner_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/trip_section.dart';
+import 'package:cinnamon_riverpod_2/features/shared/adaptive_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -68,7 +69,9 @@ class PlannerHomePage extends ConsumerWidget {
             );
           },
           error: (error, _) => Text(error.toString()),
-          loading: CircularProgressIndicator.adaptive,
+          loading: () => const Center(
+            child: AdaptiveProgressIndicator(),
+          ),
         ),
       ),
     );
