@@ -5,6 +5,7 @@ import 'package:cinnamon_riverpod_2/infra/http/dio_http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../planner/planner_creator/planner_creator_page.dart';
 import '../../planner/trips/planner_home_page.dart';
 
 class HomePage extends ConsumerWidget {
@@ -39,7 +40,8 @@ class HomePage extends ConsumerWidget {
         ],
       ),
       body: <Widget>[
-        PlannerHomePage(),
+        //const PlannerHomePage(),
+        const PlannerCreatorPage(),
         Container(
           color: Colors.green,
           alignment: Alignment.center,
