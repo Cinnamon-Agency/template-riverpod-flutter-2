@@ -9,3 +9,5 @@ analyzer:
 linter:
   rules:
     use_build_context_synchronously: false
+    always_declare_return_types: true
+    always_use_package_imports: true

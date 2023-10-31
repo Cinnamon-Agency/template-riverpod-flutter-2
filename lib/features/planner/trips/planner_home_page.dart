@@ -4,9 +4,9 @@ import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/trip_section.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../shared/buttons/rounded_icon_button.dart';
-import 'controller/trip_planner_controller.dart';
+import 'package:cinnamon_riverpod_2/features/shared/buttons/rounded_icon_button.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
 
 class PlannerHomePage extends ConsumerWidget {
   const PlannerHomePage({super.key});
@@ -14,7 +14,7 @@ class PlannerHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(tripPlannerControllerProvider.notifier);
-    final state = ref.watch(tripPlannerControllerProvider);
+    final AsyncValue<TripPlannerState> state = ref.watch(tripPlannerControllerProvider);
 
     return Scaffold(
       primary: true,
