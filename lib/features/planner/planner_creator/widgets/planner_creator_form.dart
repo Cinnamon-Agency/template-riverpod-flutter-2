@@ -15,7 +15,14 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   /// TODO: Get all travelers from BE
-  static const List<String> coTravelers = <String>[
+  static const List<String> kCoTravelersOptions = <String>[
+    'pikachu',
+    'bulbasaur',
+    'charmander',
+    'squirtle',
+    'caterpie',
+  ];
+  List<String> coTravelersOptions = <String>[
     'pikachu',
     'bulbasaur',
     'charmander',
@@ -130,7 +137,7 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                         if (textEditingValue.text == '') {
                           return const Iterable<String>.empty();
                         }
-                        return coTravelers.where((String option) {
+                        return coTravelersOptions.where((String option) {
                           return option
                               .contains(textEditingValue.text.toLowerCase());
                         });
@@ -143,6 +150,16 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                         name: 'coTraveler',
                         controller: textEditingController,
                         focusNode: focusNode,
+                        onChanged: (value) {
+                          /// if current value is completely deleted, get its value back to the options list
+                          if (value!.isEmpty) {
+                            if (kCoTravelersOptions.contains(savedValue) &&
+                                !coTravelersOptions.contains(savedValue)) {
+                              coTravelersOptions.add(savedValue);
+                              savedValue = '';
+                            }
+                          }
+                        },
                         decoration: const InputDecoration(
                           labelText: 'Co-traveler',
                         ),
@@ -155,6 +172,7 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                       ),
                       onSelected: (String selection) {
                         field.didChange(selection);
+                        savedValue = selection;
                       },
                     );
                   },
@@ -169,27 +187,65 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
               const SizedBox(height: 20),
               Center(
                 child: MaterialButton(
-                  color: Theme.of(context).primaryColor,
-                  child: const Text(
-                    "Add new co-traveler",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      fields.add(
-                        NewCoTravlerTextField(
-                          name: 'coTraveler_${fields.length}',
-                          coTravelers: coTravelers,
-                          onDelete: () {
-                            setState(() {
-                              fields.removeAt(fields.length - 1);
-                            });
-                          },
-                        ),
-                      );
-                    });
-                  },
-                ),
+                    color: Theme.of(context).primaryColor,
+                    child: const Text(
+                      "Add new co-traveler",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      /// save current state
+                      _formKey.currentState?.save();
+
+                      /// if additional co-travelers fields are added - get the value of the lastly added field
+                      if (fields.isNotEmpty) {
+                        savedValue = _formKey.currentState
+                            ?.value['coTraveler_${fields.length - 1}'];
+                      }
+
+                      /// if added value is from the options list - remove it from the options list
+                      if (coTravelersOptions.contains(savedValue)) {
+                        coTravelersOptions.remove(savedValue);
+                        savedValue = '';
+                      }
+
+                      /// check if the first co-traveler text field is filled
+                      if (_formKey.currentState?.value['coTraveler'] != null) {
+                        if ((_formKey.currentState?.value['coTraveler']
+                                    .isNotEmpty &&
+                                fields.isEmpty) ||
+                            checkIfNewFieldAllowed()) {
+                          setState(() {
+                            fields.add(
+                              NewCoTravelerTextField(
+                                name: 'coTraveler_${fields.length}',
+                                coTravelers: coTravelersOptions,
+                                onDelete: () {
+                                  setState(() {
+                                    if (kCoTravelersOptions.contains(_formKey
+                                                .currentState?.value[
+                                            'coTraveler_${fields.length - 1}']) &&
+                                        !coTravelersOptions.contains(_formKey
+                                                .currentState?.value[
+                                            'coTraveler_${fields.length - 1}'])) {
+                                      coTravelersOptions.add(_formKey
+                                              .currentState?.value[
+                                          'coTraveler_${fields.length - 1}']);
+                                    } else {
+                                      setState(() {
+                                        savedValue = _formKey
+                                            .currentState?.value['coTraveler'];
+                                      });
+                                    }
+
+                                    fields.removeAt(fields.length - 1);
+                                  });
+                                },
+                              ),
+                            );
+                          });
+                        }
+                      }
+                    }),
               ),
 
               const SizedBox(height: 30),
@@ -207,7 +263,9 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
+                        /// save current state
                         _formKey.currentState!.save();
+
                         if (_formKey.currentState!.validate()) {
                           debugPrint(_formKey.currentState!.value.toString());
                         } else {
@@ -227,6 +285,7 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
+                        /// reset current state
                         _formKey.currentState!.reset();
                       },
                     ),
@@ -239,6 +298,10 @@ class _PlannerCreatorFormState extends State<PlannerCreatorForm> {
       ),
     );
   }
+
+  /// FUNCTION:
+  /// Check if the new co traveler field can be added
+  bool checkIfNewFieldAllowed() =>
+      fields.isNotEmpty &&
+      _formKey.currentState?.value['coTraveler_${fields.length - 1}'] != null;
 }
-
-
