@@ -11,7 +11,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../shared/buttons/primary_button.dart';
+import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
 
 class SignupPage extends HookConsumerWidget {
   const SignupPage({super.key});

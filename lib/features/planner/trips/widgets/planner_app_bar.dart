@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../../gen/assets.gen.dart';
-import '../../../../theme/icons/app_icons.dart';
+import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 
 class PlannerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

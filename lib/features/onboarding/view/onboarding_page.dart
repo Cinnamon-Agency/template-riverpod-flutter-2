@@ -6,8 +6,8 @@ import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../shared/buttons/primary_button.dart';
-import '../controllers/onboarding_controller.dart';
+import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
+import 'package:cinnamon_riverpod_2/features/onboarding/controllers/onboarding_controller.dart';
 
 class OnboardingPage extends ConsumerWidget {
   const OnboardingPage({super.key});
