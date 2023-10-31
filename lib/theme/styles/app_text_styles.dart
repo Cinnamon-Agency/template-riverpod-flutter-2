@@ -8,6 +8,8 @@ abstract class AppTextStyles {
 
   TextStyle get headlineLargeTextStyle;
 
+  TextStyle get headlineMediumTextStyle;
+
   TextStyle get headlineSmallTextStyle;
 
   TextStyle get bodyLargeTextStyle;

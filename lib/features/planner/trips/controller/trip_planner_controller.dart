@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
-//import 'package:cinnamon_riverpod_2/helpers/mixin/keep_alive_mixin.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final tripPlannerControllerProvider = AutoDisposeAsyncNotifierProvider<TripPlannerController, TripPlannerState>(() {
@@ -23,17 +22,22 @@ class TripPlannerController extends AutoDisposeAsyncNotifier<TripPlannerState> {
       _trips?.cancel();
     });
 
-
-    Future(() async {
-      state = const AsyncLoading();
+    Future<void>(() async {
+      state = const AsyncLoading<TripPlannerState>();
       await _trips?.cancel();
 
-      _trips = ref.watch(tripRepositoryProvider).getTripItineraries().listen((event) {
-        state = AsyncData(TripPlannerState(itineraries: event.toList()));
+      _trips = ref.watch(tripRepositoryProvider).getTripItineraries().listen((List<TripItinerary> event) {
+        // Split itineraries into current and upcoming
+        final currentItineraries = event.where((element) => element.isCurrent).toList();
+        final upcomingItineraries =
+            event.where((element) => element.isUpcoming).sortedBy((element) => element.startDate).toList();
+
+        state = AsyncData<TripPlannerState>(
+            TripPlannerState(itineraries: currentItineraries, upcomingItineraries: upcomingItineraries));
       });
     });
 
-    return const TripPlannerState(itineraries: []);
+    return const TripPlannerState(itineraries: <TripItinerary>[], upcomingItineraries: <TripItinerary>[]);
   }
 
   Future<void> createMocked() async {

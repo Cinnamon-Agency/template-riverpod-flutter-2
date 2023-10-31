@@ -22,12 +22,14 @@ class PrimaryButton extends StatelessWidget {
       child: TextButton(
         onPressed: isDisabled ? null : onPressed,
         child: isLoading
-            ? const Center(
+            ? Center(
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
               )

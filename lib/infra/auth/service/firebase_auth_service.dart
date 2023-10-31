@@ -1,6 +1,6 @@
-import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/entity/user_entity.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +29,8 @@ class FirebaseAuthService implements AuthService {
     required String password,
   }) async {
     try {
-      final emailProviderCredential = EmailAuthProvider.credential(email: email, password: password);
+      final emailProviderCredential =
+          EmailAuthProvider.credential(email: email, password: password);
       await _signInWithCredentialOrLinkUser(emailProviderCredential);
     } catch (e) {
       throw AuthResultHandler.handleException(e);
@@ -68,7 +69,8 @@ class FirebaseAuthService implements AuthService {
   /// links the anonymous account with the `credential`
   /// and converts the anonymous account into a permanent one.
   /// Otherwise, creates a new account.
-  Future<UserCredential> _signInWithCredentialOrLinkUser(AuthCredential credential) {
+  Future<UserCredential> _signInWithCredentialOrLinkUser(
+      AuthCredential credential) {
     if (auth.currentUser != null) {
       // User signed in anonymously, link the acount
       return auth.currentUser!.linkWithCredential(credential);
@@ -76,6 +78,11 @@ class FirebaseAuthService implements AuthService {
       return auth.signInWithCredential(credential);
     }
   }
+
+  @override
+  Future<void> deleteAccount() async => auth.currentUser != null
+      ? await auth.currentUser?.delete()
+      : throw Exception('User does not exist.');
 }
 
 final firebaseUserProvider = StreamProvider<UserEntity>((ref) async* {

@@ -11,6 +11,8 @@ class TripItinerary extends Equatable {
   final String? imageUrl;
   final List<TripLocation> locations;
   final List<CoTraveler> travelers;
+  final DateTime startDate;
+  final DateTime endDate;
 
   const TripItinerary({
     required this.id,
@@ -19,22 +21,35 @@ class TripItinerary extends Equatable {
     this.imageUrl,
     required this.locations,
     required this.travelers,
+    required this.startDate,
+    required this.endDate,
   });
 
-  factory TripItinerary.fromEntity(
-      TripItineraryEntity entity, List<TravelerEntity> travelers) {
+  factory TripItinerary.fromEntity(TripItineraryEntity entity, List<TravelerEntity> travelers) {
     return TripItinerary(
       id: entity.id,
       name: entity.name,
       description: entity.description,
       imageUrl: entity.imageUrl,
-      locations:
-          entity.locations.map((e) => TripLocation.fromEntity(e)).toList(),
+      locations: entity.locations.map((e) => TripLocation.fromEntity(e)).toList(),
       travelers: travelers.map((e) => CoTraveler.fromEntity(e)).toList(),
+      startDate: entity.startDate,
+      endDate: entity.endDate,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [id, name, description, imageUrl, locations, travelers];
+  List<Object?> get props => [id, name, description, imageUrl, locations, travelers, startDate, endDate];
+
+  bool get isCurrent {
+    final now = DateTime.now();
+
+    return now.isAfter(startDate) && now.isBefore(endDate);
+  }
+
+  bool get isUpcoming {
+    final now = DateTime.now();
+
+    return now.isBefore(startDate);
+  }
 }

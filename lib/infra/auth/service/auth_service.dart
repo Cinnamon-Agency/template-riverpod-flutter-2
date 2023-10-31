@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'firebase_auth_service.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 
 final authServiceProvider = Provider((ref) => FirebaseAuthService());
 
@@ -51,4 +51,7 @@ abstract interface class AuthService {
 
   /// Logs out the currently active user.
   Future<void> logout();
+
+  /// Deletes current user's account.
+  Future<void> deleteAccount();
 }
