@@ -15,7 +15,7 @@ class SignupState extends Equatable {
   }) {
     return SignupState(
       allFieldsValid: allFieldsValid ?? this.allFieldsValid,
-      isLoading: loading ?? this.isLoading,
+      isLoading: loading ?? isLoading,
     );
   }
 

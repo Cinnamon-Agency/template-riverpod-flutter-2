@@ -1,7 +1,7 @@
+import 'package:cinnamon_riverpod_2/features/planner/trips/planner_home_page.dart';
 import 'package:cinnamon_riverpod_2/features/account/view/account_page.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_controller.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_state.dart';
-import 'package:cinnamon_riverpod_2/features/planner/trips/planner_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -30,8 +30,8 @@ class HomePage extends ConsumerWidget {
             label: 'Friends',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.manage_accounts_outlined),
-            icon: Icon(Icons.school_outlined),
+            selectedIcon: Icon(Icons.manage_accounts),
+            icon: Icon(Icons.manage_accounts_outlined),
             label: 'Account',
           ),
         ],

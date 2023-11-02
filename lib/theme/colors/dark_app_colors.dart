@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
+import 'package:cinnamon_riverpod_2/theme/colors/app_colors.dart';
 
 final darkAppColors = DarkAppColors();
 
