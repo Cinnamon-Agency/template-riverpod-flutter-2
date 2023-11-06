@@ -40,10 +40,13 @@ class MapView extends StatelessWidget {
       ),
       children: [
         TileLayer(
+          // For this to work, both light and dark style URLs should be provided in the .env file.
+          // Styles can be obtained from different providers, such as Mapbox.
+          // In case URLs are not set in the .env file, this will use the fallback URL.
           urlTemplate: MediaQuery.of(context).platformBrightness == Brightness.dark
               ? dotenv.env['MAPS_TILE_DARK_URL']
               : dotenv.env['MAPS_TILE_LIGHT_URL'],
-          fallbackUrl: dotenv.env['MAPS_TILE_FALLBACK_URL'],
+          fallbackUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
           userAgentPackageName: dotenv.env['MAPS_USER_AGENT_NAME']!,
         ),
         MarkerLayer(
