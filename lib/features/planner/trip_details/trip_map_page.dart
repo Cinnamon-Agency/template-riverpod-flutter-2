@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_state.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/widgets/map_view.dart';
 import 'package:cinnamon_riverpod_2/features/shared/app_bars/customizable_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/rounded_icon_button.dart';
@@ -34,8 +35,11 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.read(tripDetailsControllerProvider(widget.tripItinerary).notifier);
-    final state = ref.watch(tripDetailsControllerProvider(widget.tripItinerary));
+    final controller = ref.read(tripDetailsControllerProvider(widget.tripItinerary.id).notifier);
+    final AsyncValue<TripDetailsState> state = ref.watch(tripDetailsControllerProvider(widget.tripItinerary.id));
+
+
+
 
     return Scaffold(
       appBar: CustomizableAppBar(
@@ -48,7 +52,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Stack(
+        child:Stack(
           children: [
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.65,

@@ -6,34 +6,40 @@ import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dar
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final tripDetailsControllerProvider =
-    AsyncNotifierProvider.autoDispose.family<TripDetailsController, TripDetailsState, TripItinerary>(
+    AsyncNotifierProvider.autoDispose.family<TripDetailsController, TripDetailsState, String>(
   () => TripDetailsController(),
 );
 
-class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsState, TripItinerary> {
+class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsState, String> {
   StreamSubscription<TripItinerary>? _tripItineraryStream;
 
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   @override
-  TripDetailsState build(TripItinerary arg) {
+  FutureOr<TripDetailsState> build(String tripId) async {
     ref.onDispose(() {
       _tripItineraryStream?.cancel();
     });
 
-    Future<void>(() async {
-      await _tripItineraryStream?.cancel();
+    await _tripItineraryStream?.cancel();
+    final stream = _tripRepo.getSingleTripItinerary(tripId);
 
-      _tripItineraryStream = _tripRepo.getSingleTripItinerary(arg.id).listen(
-        (TripItinerary event) {
+    final completer = Completer<TripItinerary>();
+    _tripItineraryStream = stream.listen(
+      (TripItinerary event) {
+        if (!completer.isCompleted) {
+          completer.complete(event);
+        } else {
           state = AsyncData<TripDetailsState>(
             state.requireValue.copyWith(tripItinerary: event),
           );
-        },
-      );
-    });
+        }
+      },
+    );
 
-    return TripDetailsState(tripItinerary: arg);
+    final tripItinerary = await completer.future;
+
+    return TripDetailsState(tripItinerary: tripItinerary);
   }
 
   void startOrEndTrip() {}
