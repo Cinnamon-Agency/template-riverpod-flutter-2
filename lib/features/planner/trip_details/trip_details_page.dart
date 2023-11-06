@@ -38,20 +38,24 @@ class TripDetailsPage extends ConsumerWidget {
               ),
             ),
             SliverToBoxAdapter(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Trip locations".toUpperCase(),
-                        style: context.theme.textTheme.labelSmall
-                            ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Trip locations".toUpperCase(),
+                      style: context.theme.textTheme.labelSmall
+                          ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (tripItinerary.locations.isEmpty)
+                      const Center(
+                        child: Text("You haven't added any locations to this trip."),
+                      )
+                    else
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: SizedBox(
@@ -87,8 +91,7 @@ class TripDetailsPage extends ConsumerWidget {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             )

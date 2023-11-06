@@ -35,7 +35,7 @@ class MapView extends StatelessWidget {
         boundsOptions: const FitBoundsOptions(
           padding: EdgeInsets.all(32),
         ),
-        bounds: LatLngBounds.fromPoints(locations.map((e) => e.location).toList()),
+        bounds: locations.isNotEmpty ? LatLngBounds.fromPoints(locations.map((e) => e.location).toList()) : null,
         interactiveFlags: isMapEnabled ? InteractiveFlag.all : InteractiveFlag.none,
       ),
       children: [
