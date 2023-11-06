@@ -3,6 +3,7 @@ import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:cinnamon_riverpod_2/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
@@ -17,6 +18,9 @@ Future<void> main() async {
 
 Future<void> _prepareApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load enviroment variables from .env file
+  await dotenv.load();
 
   // Initialize Firebase
   await Firebase.initializeApp(
