@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/constants/constants.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/widgets/map_marker.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class MapView extends StatelessWidget {
               ? dotenv.env['MAPS_TILE_DARK_URL']
               : dotenv.env['MAPS_TILE_LIGHT_URL'],
           fallbackUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-          userAgentPackageName: dotenv.env['MAPS_USER_AGENT_NAME']!,
+          userAgentPackageName: AppConstants.mapUserAgent,
         ),
         MarkerLayer(
           markers: locations
