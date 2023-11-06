@@ -34,8 +34,8 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.read(tripDetailsControllerProvider.notifier);
-    final state = ref.watch(tripDetailsControllerProvider);
+    final controller = ref.read(tripDetailsControllerProvider(widget.tripItinerary).notifier);
+    final state = ref.watch(tripDetailsControllerProvider(widget.tripItinerary));
 
     return Scaffold(
       appBar: CustomizableAppBar(
@@ -55,7 +55,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
               child: MapView(
                 mapController: animatedMapController.mapController,
                 locations: widget.tripItinerary.locations,
-                selectedMarkerId: state.selectedLocationId,
+                selectedMarkerId: state.value?.selectedLocationId,
                 onSelectMarker: (String locationId) {
                   controller.selectLocation(locationId);
                 },
@@ -80,7 +80,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                           child: Material(
                             color: context.theme.scaffoldBackgroundColor,
                             child: ListTile(
-                              selected: state.selectedLocationId == location.id,
+                              selected: state.value?.selectedLocationId == location.id,
                               leading: Text((index + 1).toString()),
                               title: Row(
                                 children: [

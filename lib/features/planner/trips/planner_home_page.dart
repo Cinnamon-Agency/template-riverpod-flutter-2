@@ -37,10 +37,10 @@ class PlannerHomePage extends ConsumerWidget {
       body: SafeArea(
         child: state.when(
           data: (plannerState) {
-            final currentItineraries = plannerState.itineraries;
+            final currentItinerary = plannerState.currentItinerary;
             final upcomingItineraries = plannerState.upcomingItineraries;
 
-            if (currentItineraries.isEmpty && upcomingItineraries.isEmpty) {
+            if (currentItinerary == null && upcomingItineraries.isEmpty) {
               return const Center(child: NoTripsPlaceholder());
             }
 
@@ -49,11 +49,11 @@ class PlannerHomePage extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    TripSection(
-                      sectionTitle: 'Current trip',
-                      emptyMessage: 'No trip in progress',
-                      itineraries: currentItineraries,
-                    ),
+                    // TripSection(
+                    //   sectionTitle: 'Current trip',
+                    //   emptyMessage: 'No trip in progress',
+                    //   itineraries: currentItineraries,
+                    // ),
                     const SizedBox(
                       height: 24,
                     ),

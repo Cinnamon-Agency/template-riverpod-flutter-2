@@ -10,6 +10,7 @@ class TripItineraryEntity {
   final List<String> ownerIds;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isOngoing;
 
   const TripItineraryEntity({
     required this.id,
@@ -20,6 +21,7 @@ class TripItineraryEntity {
     required this.ownerIds,
     required this.startDate,
     required this.endDate,
+    this.isOngoing = false,
   });
 
   factory TripItineraryEntity.fromDoc(DocumentSnapshot doc) {
@@ -32,6 +34,7 @@ class TripItineraryEntity {
       ownerIds: (doc['ownerIds'] as List).map((e) => e.toString()).toList(),
       startDate: DateTime.parse(doc['startDate'] as String),
       endDate: DateTime.parse(doc['endDate'] as String),
+      isOngoing: doc['isOngoing'] as bool,
     );
   }
 
@@ -45,6 +48,7 @@ class TripItineraryEntity {
       'ownerIds': ownerIds,
       'startDate': startDate.toIso8601String(),
       'endDate': endDate.toIso8601String(),
+      'isOngoing': isOngoing,
     };
   }
 }

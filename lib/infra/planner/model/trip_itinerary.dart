@@ -13,6 +13,7 @@ class TripItinerary extends Equatable {
   final List<CoTraveler> travelers;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isOngoing;
 
   const TripItinerary({
     required this.id,
@@ -23,6 +24,7 @@ class TripItinerary extends Equatable {
     required this.travelers,
     required this.startDate,
     required this.endDate,
+    this.isOngoing = false,
   });
 
   factory TripItinerary.fromEntity(TripItineraryEntity entity, List<TravelerEntity> travelers) {
@@ -35,11 +37,12 @@ class TripItinerary extends Equatable {
       travelers: travelers.map((e) => CoTraveler.fromEntity(e)).toList(),
       startDate: entity.startDate,
       endDate: entity.endDate,
+      isOngoing: entity.isOngoing,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, description, imageUrl, locations, travelers, startDate, endDate];
+  List<Object?> get props => [id, name, description, imageUrl, locations, travelers, startDate, endDate, isOngoing];
 
   bool get isCurrent {
     final now = DateTime.now();

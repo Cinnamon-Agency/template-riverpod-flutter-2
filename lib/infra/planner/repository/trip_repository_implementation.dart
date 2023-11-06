@@ -36,6 +36,17 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   }
 
   @override
+  Stream<TripItinerary> getSingleTripItinerary(String itineraryId) {
+    return _tripDataSource.getSingleTripItinerary(itineraryId).asyncMap((TripItineraryEntity entity) async {
+      final List<Future<TravelerEntity>> travelers = entity.ownerIds.map((String id) async {
+        return _travelerDataSource.getTraveler(id);
+      }).toList();
+      final List<TravelerEntity> awaited = await Future.wait(travelers);
+      return TripItinerary.fromEntity(entity, awaited);
+    });
+  }
+
+  @override
   List<Object?> get props => <Object?>[_userId];
 
   @override

@@ -16,6 +16,8 @@ final Provider<TripRepository> tripRepositoryProvider = Provider<TripRepository>
 abstract interface class TripRepository {
   Stream<List<TripItinerary>> getTripItineraries();
 
+  Stream<TripItinerary> getSingleTripItinerary(String itineraryId);
+
   Future<void> createMocked();
 
   Future<void> removeUserTrips();
