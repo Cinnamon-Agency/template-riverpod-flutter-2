@@ -33,12 +33,6 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
   }
 
   @override
-  void dispose() {
-    animatedMapController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final controller = ref.read(tripDetailsControllerProvider.notifier);
     final state = ref.watch(tripDetailsControllerProvider);
@@ -118,5 +112,11 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    animatedMapController.dispose();
+    super.dispose();
   }
 }
