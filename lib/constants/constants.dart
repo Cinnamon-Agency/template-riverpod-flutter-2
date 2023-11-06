@@ -1,5 +1,8 @@
 /// All constants used in the app.
 class AppConstants {
+  /// User agent package name for use in map tile layers.
+  static String mapUserAgent = "cinnamon_riverpod_2";
+
   /// Regex used for password matching.
   ///
   /// Matches strings that:
