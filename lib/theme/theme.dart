@@ -17,6 +17,7 @@ class AppTheme {
         scaffoldBackgroundColor: lightAppColors.backgroundColor,
         dialogBackgroundColor: Colors.white,
         shadowColor: lightAppColors.neutrals800.withOpacity(0.2),
+        highlightColor: darkAppColors.primary300,
 
         /// TRANSITION
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -25,6 +26,7 @@ class AppTheme {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
+        iconTheme: IconThemeData(color: darkAppColors.backgroundColor),
 
         /// BUTTONS
         textButtonTheme: TextButtonThemeData(
@@ -77,6 +79,7 @@ class AppTheme {
           bodyMedium: lightAppTextStyles.bodyMediumTextStyle,
           bodySmall: lightAppTextStyles.bodySmallTextStyle,
           labelMedium: lightAppTextStyles.labelMediumTextStyle,
+          labelSmall: lightAppTextStyles.labelSmallTextStyle,
         ),
 
         /// INPUTS
@@ -141,6 +144,18 @@ class AppTheme {
             (states) => IconThemeData(color: darkAppColors.backgroundColor),
           ),
         ),
+
+        /// LIST TILE THEME
+        listTileTheme: ListTileThemeData(
+          tileColor: darkAppColors.neutrals100,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          titleAlignment: ListTileTitleAlignment.center,
+          iconColor: darkAppColors.backgroundColor,
+          selectedTileColor: lightAppColors.primary100,
+          selectedColor: darkAppColors.backgroundColor,
+        ),
       );
 
   ThemeData get darkTheme => ThemeData(
@@ -151,6 +166,7 @@ class AppTheme {
         scaffoldBackgroundColor: darkAppColors.backgroundColor,
         dialogBackgroundColor: Colors.black,
         shadowColor: darkAppColors.neutrals800.withOpacity(0.1),
+        highlightColor: lightAppColors.primary100,
 
         /// TRANSITION
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -159,6 +175,8 @@ class AppTheme {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
+
+        iconTheme: IconThemeData(color: lightAppColors.backgroundColor),
 
         /// BUTTONS
         textButtonTheme: TextButtonThemeData(
@@ -211,6 +229,7 @@ class AppTheme {
           bodyMedium: darkAppTextStyles.bodyMediumTextStyle,
           bodySmall: darkAppTextStyles.bodySmallTextStyle,
           labelMedium: darkAppTextStyles.labelMediumTextStyle,
+          labelSmall: darkAppTextStyles.labelSmallTextStyle,
         ),
 
         /// INPUTS
@@ -274,6 +293,18 @@ class AppTheme {
           iconTheme: MaterialStateProperty.resolveWith(
             (states) => IconThemeData(color: lightAppColors.backgroundColor),
           ),
+        ),
+
+        /// LIST TILE THEME
+        listTileTheme: ListTileThemeData(
+          tileColor: darkAppColors.neutrals900,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          titleAlignment: ListTileTitleAlignment.center,
+          iconColor: lightAppColors.backgroundColor,
+          selectedTileColor: darkAppColors.primary100,
+          selectedColor: lightAppColors.backgroundColor,
         ),
       );
 }
