@@ -16,13 +16,13 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   @override
-  FutureOr<TripDetailsState> build(String tripId) async {
+  FutureOr<TripDetailsState> build(String arg) async {
     ref.onDispose(() {
       _tripItineraryStream?.cancel();
     });
 
     await _tripItineraryStream?.cancel();
-    final stream = _tripRepo.getSingleTripItinerary(tripId);
+    final stream = _tripRepo.getSingleTripItinerary(arg);
 
     final completer = Completer<TripItinerary>();
     _tripItineraryStream = stream.listen(

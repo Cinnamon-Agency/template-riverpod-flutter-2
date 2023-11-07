@@ -99,7 +99,7 @@ class TripItineraryCard extends StatelessWidget {
                       child: TertiaryButton(
                         text: 'More >',
                         onPressed: () {
-                          GoRouter.of(context).push(RoutePaths.tripDetails, extra: itinerary);
+                          GoRouter.of(context).push(RoutePaths.tripDetails, extra: itinerary.id);
                         },
                       ),
                     ),
