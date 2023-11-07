@@ -3,9 +3,12 @@ import 'package:cinnamon_riverpod_2/features/home/view/home_page.dart';
 import 'package:cinnamon_riverpod_2/features/login/view/login_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/start_page.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_details_page.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_map_page.dart';
 import 'package:cinnamon_riverpod_2/features/settings/view/settings_page.dart';
 import 'package:cinnamon_riverpod_2/features/signup/view/signup_page.dart';
 import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +21,8 @@ class RoutePaths {
   static const String login = '/login';
   static const String editProfile = '/edit_profile';
   static const String settings = '/settings';
+  static const String tripDetails = '/trip_details';
+  static const String tripMap = '/trip_map';
 }
 
 final GoRouter router = GoRouter(
@@ -77,6 +82,20 @@ final GoRouter router = GoRouter(
       path: RoutePaths.settings,
       builder: (BuildContext context, GoRouterState state) {
         return const SettingsPage();
+      },
+      routes: const <RouteBase>[],
+    ),
+    GoRoute(
+      path: RoutePaths.tripDetails,
+      builder: (BuildContext context, GoRouterState state) {
+        return TripDetailsPage(tripItinerary: state.extra as TripItinerary);
+      },
+      routes: const <RouteBase>[],
+    ),
+    GoRoute(
+      path: RoutePaths.tripMap,
+      builder: (BuildContext context, GoRouterState state) {
+        return TripMapPage(tripItinerary: state.extra as TripItinerary);
       },
       routes: const <RouteBase>[],
     ),

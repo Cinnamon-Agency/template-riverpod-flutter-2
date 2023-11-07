@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/tertiary_button.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
+import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TripItineraryCard extends StatelessWidget {
   final TripItinerary itinerary;
@@ -96,7 +98,9 @@ class TripItineraryCard extends StatelessWidget {
                       width: 110,
                       child: TertiaryButton(
                         text: 'More >',
-                        onPressed: () {},
+                        onPressed: () {
+                          GoRouter.of(context).push(RoutePaths.tripDetails, extra: itinerary);
+                        },
                       ),
                     ),
                   ],

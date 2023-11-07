@@ -26,6 +26,7 @@ dependencies:
   flutter_local_notifications:
   purchases_flutter:
   hive_flutter:
+  flutter_dotenv:
 
   # Utils
   auto_size_text:
@@ -45,6 +46,8 @@ dependencies:
   form_builder_validators:
   flutter_svg:
   flutter_map:
+  flutter_map_animations:
+  latlong2:
 
 
 
@@ -62,6 +65,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - .env
 
   fonts:
   - family: Manrope

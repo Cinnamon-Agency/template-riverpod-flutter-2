@@ -68,4 +68,11 @@ class LightAppTextStyles extends AppTextStyles {
         fontWeight: FontWeight.w700,
         color: darkAppColors.backgroundColor,
       );
+
+  @override
+  TextStyle get labelSmallTextStyle => TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        color: darkAppColors.backgroundColor,
+      );
 }
