@@ -29,6 +29,7 @@ dependencies:
   flutter_dotenv:
 
   # Utils
+  app_settings:
   auto_size_text:
   permission_handler:
   simple_logger:
