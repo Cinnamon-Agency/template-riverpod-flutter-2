@@ -18,7 +18,6 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxWidth: 450),
-      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: TextButton(
         onPressed: isDisabled ? null : onPressed,
         child: isLoading

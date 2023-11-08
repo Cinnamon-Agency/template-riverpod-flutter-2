@@ -74,5 +74,6 @@ final class DarkAppTextStyles extends AppTextStyles {
         fontSize: 12,
         fontWeight: FontWeight.w700,
         color: lightAppColors.backgroundColor,
+        letterSpacing: -0.02,
       );
 }
