@@ -47,7 +47,9 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   }
 
   @override
-  List<Object?> get props => <Object?>[_userId];
+  Future<void> updateTripItineraryData(TripItinerary tripItinerary) {
+    return _tripDataSource.updateTripItineraryData(TripItineraryEntity.fromTripItinerary(tripItinerary));
+  }
 
   @override
   Future<void> createMocked() {
@@ -106,4 +108,7 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
 
   @override
   Future<void> removeUserTrips() => _tripDataSource.removeUserTrips(_userId);
+
+  @override
+  List<Object?> get props => <Object?>[_userId];
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_state.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,8 +31,29 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
         if (!completer.isCompleted) {
           completer.complete(event);
         } else {
+          TripLocation? currentLocation;
+          TripLocation? nextLocation;
+
+          if (event.hasEnded) {
+            // Trip has ended
+            currentLocation = null;
+            nextLocation = null;
+          } else {
+            // Trip is still ongoing
+            // Current location is the first one that hasn't been visited, or null if all were visited
+            final currentLocationIndex =
+                event.isOngoing ? event.locations.indexWhere((location) => !location.isVisited) : -1;
+            currentLocation = currentLocationIndex == -1 ? null : event.locations[currentLocationIndex];
+            nextLocation =
+                currentLocationIndex + 1 == event.locations.length ? null : event.locations[currentLocationIndex + 1];
+          }
+
           state = AsyncData<TripDetailsState>(
-            state.requireValue.copyWith(tripItinerary: event),
+            state.requireValue.copyWithNullableLocations(
+              tripItinerary: event,
+              currentLocation: currentLocation,
+              nextLocation: nextLocation,
+            ),
           );
         }
       },
@@ -39,14 +61,92 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
 
     final tripItinerary = await completer.future;
 
-    return TripDetailsState(tripItinerary: tripItinerary);
+    TripLocation? currentLocation;
+    TripLocation? nextLocation;
+
+    if (tripItinerary.hasEnded) {
+      currentLocation = null;
+      nextLocation = null;
+    } else {
+      // Current location is the first one that hasn't been visited, or null if all were visited
+      int currentLocationIndex =
+          tripItinerary.isOngoing ? tripItinerary.locations.indexWhere((location) => !location.isVisited) : -1;
+      currentLocation = currentLocationIndex == -1 ? null : tripItinerary.locations[currentLocationIndex];
+      nextLocation = currentLocationIndex + 1 == tripItinerary.locations.length
+          ? null
+          : tripItinerary.locations[currentLocationIndex + 1];
+    }
+
+    return TripDetailsState(
+      tripItinerary: tripItinerary,
+      currentLocation: currentLocation,
+      nextLocation: nextLocation,
+    );
   }
 
-  void startOrEndTrip() {}
+  /// Starts or ends the current trip, depending on its current status.
+  ///
+  /// If ending a trip, this also marks all trip locations as visited.
+  Future<void> startOrEndTrip() async {
+    final isOngoing = state.requireValue.tripItinerary.isOngoing;
 
+    TripItinerary updatedTripItinerary;
+
+    if (isOngoing) {
+      // Set all locations as visited
+      final updatedLocations = state.requireValue.tripItinerary.locations
+          .map((location) => location.copyWith(
+                isVisited: true,
+              ))
+          .toList();
+      updatedTripItinerary = state.requireValue.tripItinerary.copyWith(
+        isOngoing: false,
+        hasEnded: true,
+        locations: updatedLocations,
+      );
+    } else {
+      // Start the trip
+      updatedTripItinerary = state.requireValue.tripItinerary.copyWith(isOngoing: true);
+    }
+
+    await _tripRepo.updateTripItineraryData(updatedTripItinerary);
+  }
+
+  /// Moves to the next trip location, if it exists.
+  ///
+  /// In case the next location doesn't exists,
+  /// the trip has reached its end and is marked as ended.
+  Future<void> moveToNextLocation() async {
+    List<TripLocation> updatedLocations = state.requireValue.tripItinerary.locations;
+
+    int updatedLocationIndex = 0;
+
+    if (state.requireValue.currentLocation != null) {
+      updatedLocationIndex = updatedLocations.indexOf(state.requireValue.currentLocation!);
+    }
+
+    final currentLocation = updatedLocations[updatedLocationIndex];
+
+    updatedLocations[updatedLocationIndex] = currentLocation.copyWith(isVisited: true);
+
+    final hasReachedEnd = state.requireValue.nextLocation == null;
+
+    TripItinerary updatedTripItinerary = state.requireValue.tripItinerary.copyWith(
+      locations: updatedLocations,
+      hasEnded: hasReachedEnd,
+      isOngoing: !hasReachedEnd,
+    );
+
+    await _tripRepo.updateTripItineraryData(updatedTripItinerary);
+  }
+
+  /// Selects a trip location with ID [locationId].
   void selectLocation(String locationId) {
+    TripLocation selectedLocation =
+        state.requireValue.tripItinerary.locations.firstWhere((location) => location.id == locationId);
+
     state = AsyncData<TripDetailsState>(
-      state.requireValue.copyWith(selectedLocationId: locationId),
+      state.requireValue.copyWith(currentLocation: selectedLocation),
     );
   }
 }

@@ -114,25 +114,29 @@ class TripDetailsPage extends ConsumerWidget {
                   ),
                 ],
               ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  height: 48,
-                  width: MediaQuery.sizeOf(context).width,
-                  margin: const EdgeInsets.only(top: 24),
-                  child: PrimaryButton(
-                    text: state.tripItinerary.locations.isEmpty
-                        ? 'Add locations before starting your trip'
-                        : state.tripItinerary.isOngoing
-                            ? 'End trip'
-                            : 'Start trip',
-                    isDisabled: state.tripItinerary.locations.isEmpty,
-                    onPressed: () {
-                      print("start");
-                    },
+              if (!state.tripItinerary.hasEnded)
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 48,
+                    width: MediaQuery.sizeOf(context).width,
+                    margin: const EdgeInsets.only(top: 24, left: 16, right: 16),
+                    child: PrimaryButton(
+                      text: state.tripItinerary.locations.isEmpty
+                          ? 'Add locations before starting your trip'
+                          : state.tripItinerary.isOngoing
+                              ? 'End trip'
+                              : 'Start trip',
+                      isDisabled: state.tripItinerary.locations.isEmpty,
+                      onPressed: () async {
+                        await controller.startOrEndTrip();
+                        GoRouter.of(context).push(RoutePaths.tripMap, extra: state.tripItinerary.id);
+                      },
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

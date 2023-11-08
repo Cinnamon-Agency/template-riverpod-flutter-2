@@ -27,6 +27,16 @@ final class FirebaseTripDataSource implements TripDataSource {
   }
 
   @override
+  Future<void> updateTripItineraryData(TripItineraryEntity tripItineraryEntity) async {
+    try {
+      DocumentReference<Map<String, dynamic>> doc = collection.doc(tripItineraryEntity.id);
+      await doc.update(tripItineraryEntity.toMap());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> removeUserTrips(String userId) async {
     QuerySnapshot<Map<String, dynamic>> snap = await collection.where('ownerIds', arrayContains: userId).get();
 

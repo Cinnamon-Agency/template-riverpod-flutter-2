@@ -28,15 +28,28 @@ class TripPlannerController extends AutoDisposeAsyncNotifier<TripPlannerState> {
 
       _trips = ref.watch(tripRepositoryProvider).getTripItineraries().listen((List<TripItinerary> event) {
         final currentItinerary = event.firstWhereOrNull((element) => element.isOngoing);
-        final upcomingItineraries =
-            event.where((element) => element.isUpcoming).sortedBy((element) => element.startDate).toList();
+        final upcomingItineraries = event
+            .where((element) => element.isUpcoming && !element.isOngoing && !element.hasEnded)
+            .sortedBy((element) => element.startDate)
+            .toList();
+        final pastItineraries =
+            event.where((element) => element.hasEnded).sortedBy((element) => element.startDate).toList();
 
         state = AsyncData<TripPlannerState>(
-            TripPlannerState(currentItinerary: currentItinerary, upcomingItineraries: upcomingItineraries));
+          TripPlannerState(
+            currentItinerary: currentItinerary,
+            upcomingItineraries: upcomingItineraries,
+            pastItineraries: pastItineraries,
+          ),
+        );
       });
     });
 
-    return const TripPlannerState(currentItinerary: null, upcomingItineraries: <TripItinerary>[]);
+    return const TripPlannerState(
+      currentItinerary: null,
+      upcomingItineraries: <TripItinerary>[],
+      pastItineraries: <TripItinerary>[],
+    );
   }
 
   Future<void> createMocked() async {

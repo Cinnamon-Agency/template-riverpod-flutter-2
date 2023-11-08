@@ -18,6 +18,8 @@ abstract interface class TripRepository {
 
   Stream<TripItinerary> getSingleTripItinerary(String itineraryId);
 
+  Future<void> updateTripItineraryData(TripItinerary tripItinerary);
+
   Future<void> createMocked();
 
   Future<void> removeUserTrips();

@@ -12,5 +12,7 @@ abstract interface class TripDataSource {
 
   Future<void> createTrip(TripItineraryEntity tripItineraryEntity);
 
+  Future<void> updateTripItineraryData(TripItineraryEntity tripItineraryEntity);
+
   Future<void> removeUserTrips(String userId);
 }

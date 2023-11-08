@@ -1,7 +1,9 @@
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/no_trips_placeholder.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/ongoing_trip_card.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/planner_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/trip_section.dart';
 import 'package:cinnamon_riverpod_2/features/shared/adaptive_progress_indicator.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,6 +41,7 @@ class PlannerHomePage extends ConsumerWidget {
           data: (plannerState) {
             final currentItinerary = plannerState.currentItinerary;
             final upcomingItineraries = plannerState.upcomingItineraries;
+            final pastItineraries = plannerState.pastItineraries;
 
             if (currentItinerary == null && upcomingItineraries.isEmpty) {
               return const Center(child: NoTripsPlaceholder());
@@ -49,11 +52,15 @@ class PlannerHomePage extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    // TripSection(
-                    //   sectionTitle: 'Current trip',
-                    //   emptyMessage: 'No trip in progress',
-                    //   itineraries: currentItineraries,
-                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 32),
+                      child: currentItinerary != null
+                          ? OngoingTripCard(itinerary: currentItinerary)
+                          : Text(
+                              "You're not travelling currently.",
+                              style: context.theme.textTheme.bodyMedium,
+                            ),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
@@ -62,6 +69,17 @@ class PlannerHomePage extends ConsumerWidget {
                           'Upcoming trips ${upcomingItineraries.isNotEmpty ? "(${upcomingItineraries.length})" : ""}',
                       emptyMessage: "You don't have any upcoming trips",
                       itineraries: upcomingItineraries,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    TripSection(
+                      sectionTitle: 'Past trips ${pastItineraries.isNotEmpty ? "(${pastItineraries.length})" : ""}',
+                      emptyMessage: "You don't have any past trips",
+                      itineraries: pastItineraries,
+                    ),
+                    const SizedBox(
+                      height: 24,
                     ),
                   ],
                 ),
