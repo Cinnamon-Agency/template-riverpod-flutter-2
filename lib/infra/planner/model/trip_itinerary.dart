@@ -14,6 +14,7 @@ class TripItinerary extends Equatable {
   final DateTime startDate;
   final DateTime endDate;
   final bool isOngoing;
+  final bool hasEnded;
 
   const TripItinerary({
     required this.id,
@@ -25,6 +26,7 @@ class TripItinerary extends Equatable {
     required this.startDate,
     required this.endDate,
     this.isOngoing = false,
+    this.hasEnded = false,
   });
 
   factory TripItinerary.fromEntity(TripItineraryEntity entity, List<TravelerEntity> travelers) {
@@ -38,17 +40,39 @@ class TripItinerary extends Equatable {
       startDate: entity.startDate,
       endDate: entity.endDate,
       isOngoing: entity.isOngoing,
+      hasEnded: entity.hasEnded,
+    );
+  }
+
+  TripItinerary copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? imageUrl,
+    List<TripLocation>? locations,
+    List<CoTraveler>? travelers,
+    DateTime? startDate,
+    DateTime? endDate,
+    bool? isOngoing,
+    bool? hasEnded,
+  }) {
+    return TripItinerary(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
+      locations: locations ?? this.locations,
+      travelers: travelers ?? this.travelers,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      isOngoing: isOngoing ?? this.isOngoing,
+      hasEnded: hasEnded ?? this.hasEnded,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, description, imageUrl, locations, travelers, startDate, endDate, isOngoing];
-
-  bool get isCurrent {
-    final now = DateTime.now();
-
-    return now.isAfter(startDate) && now.isBefore(endDate);
-  }
+  List<Object?> get props =>
+      [id, name, description, imageUrl, locations, travelers, startDate, endDate, isOngoing, hasEnded];
 
   bool get isUpcoming {
     final now = DateTime.now();
