@@ -13,7 +13,7 @@ dependencies:
 
 
   # State Management
-  flutter_riverpod:
+  flutter_riverpod: ^3.0.0-dev.0
   hooks_riverpod:
   flutter_hooks:
 
