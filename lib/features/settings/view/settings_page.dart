@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,7 +25,7 @@ class SettingsPage extends ConsumerWidget {
           ),
         ),
         title: Text(
-          'Settings',
+          context.localization.settings,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Theme.of(context).dialogBackgroundColor,

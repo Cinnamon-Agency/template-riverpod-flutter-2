@@ -2,6 +2,7 @@ import 'package:cinnamon_riverpod_2/features/planner/trips/planner_home_page.dar
 import 'package:cinnamon_riverpod_2/features/account/view/account_page.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_controller.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_state.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,21 +19,21 @@ class HomePage extends ConsumerWidget {
           controller.selectPage(SelectedHomePage.values[index]);
         },
         selectedIndex: state.page.index,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.travel_explore_outlined),
-            icon: Icon(Icons.travel_explore),
-            label: 'Trips',
+            selectedIcon: const Icon(Icons.travel_explore_outlined),
+            icon: const Icon(Icons.travel_explore),
+            label: context.localization.trips,
           ),
           // NavigationDestination(
-          //   selectedIcon: Icon(Icons.people),
-          //   icon: Icon(Icons.people_outline),
-          //   label: 'Friends',
+          //   selectedIcon: const Icon(Icons.people),
+          //   icon: const Icon(Icons.people_outline),
+          //   label: context.localization.friends,
           // ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.manage_accounts),
-            icon: Icon(Icons.manage_accounts_outlined),
-            label: 'Account',
+            selectedIcon: const Icon(Icons.manage_accounts),
+            icon: const Icon(Icons.manage_accounts_outlined),
+            label: context.localization.account,
           ),
         ],
       ),

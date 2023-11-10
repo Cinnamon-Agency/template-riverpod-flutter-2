@@ -22,7 +22,7 @@ class PlannerHomePage extends ConsumerWidget {
     return Scaffold(
       primary: true,
       appBar: PlannerAppBar(
-        title: 'Trips',
+        title: context.localization.trips,
         actions: [
           SizedBox(
             width: 32,
@@ -31,7 +31,7 @@ class PlannerHomePage extends ConsumerWidget {
               icon: CupertinoIcons.add,
               size: 32.0,
               onPressed: controller.createMocked,
-              tooltipMessage: 'Plan new trip',
+              tooltipMessage: context.localization.planNewTrip,
             ),
           ),
         ],
@@ -57,7 +57,7 @@ class PlannerHomePage extends ConsumerWidget {
                       child: currentItinerary != null
                           ? OngoingTripCard(itinerary: currentItinerary)
                           : Text(
-                              "You're not travelling currently.",
+                              context.localization.currentlyNotTravelling,
                               style: context.theme.textTheme.bodyMedium,
                             ),
                     ),
@@ -66,16 +66,17 @@ class PlannerHomePage extends ConsumerWidget {
                     ),
                     TripSection(
                       sectionTitle:
-                          'Upcoming trips ${upcomingItineraries.isNotEmpty ? "(${upcomingItineraries.length})" : ""}',
-                      emptyMessage: "You don't have any upcoming trips",
+                          '${context.localization.upcomingTrips} ${upcomingItineraries.isNotEmpty ? "(${upcomingItineraries.length})" : ""}',
+                      emptyMessage: context.localization.noUpcomingTrips,
                       itineraries: upcomingItineraries,
                     ),
                     const SizedBox(
                       height: 24,
                     ),
                     TripSection(
-                      sectionTitle: 'Past trips ${pastItineraries.isNotEmpty ? "(${pastItineraries.length})" : ""}',
-                      emptyMessage: "You don't have any past trips",
+                      sectionTitle:
+                          '${context.localization.pastTrips} ${pastItineraries.isNotEmpty ? "(${pastItineraries.length})" : ""}',
+                      emptyMessage: context.localization.noPastTrips,
                       itineraries: pastItineraries,
                     ),
                     const SizedBox(

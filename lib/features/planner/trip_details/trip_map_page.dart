@@ -93,10 +93,10 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                           child: TripProgressCard(
                             remainingMinutes: state.currentLocation!.duration.inMinutes,
                             actionButtonText: state.tripItinerary.isOngoing && state.nextLocation != null
-                                ? "Move to next"
+                                ? context.localization.moveToNext
                                 : state.nextLocation == null
-                                    ? "End trip"
-                                    : "Start trip",
+                                    ? context.localization.endTrip
+                                    : context.localization.startTrip,
                             onTapActionButton: state.tripItinerary.isOngoing
                                 ? () => controller.moveToNextLocation()
                                 : () => controller.startOrEndTrip(),

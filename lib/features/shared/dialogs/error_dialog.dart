@@ -1,16 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 
 class ErrorDialog extends StatelessWidget {
   final String bodyText;
   final VoidCallback? onOk;
-  final String onOkText;
+  final String? onOkText;
 
   const ErrorDialog({
     super.key,
     required this.bodyText,
     this.onOk,
-    this.onOkText = 'Ok',
+    this.onOkText,
   });
 
   @override
@@ -24,7 +25,11 @@ class ErrorDialog extends StatelessWidget {
           width: MediaQuery.sizeOf(context).width * 0.9,
           constraints: BoxConstraints(
               maxHeight: MediaQuery.sizeOf(context).height * 0.3),
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 15, ),
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 15,
+          ),
           child: Wrap(
             children: <Widget>[
               Column(
@@ -42,7 +47,7 @@ class ErrorDialog extends StatelessWidget {
                         constraints: BoxConstraints(
                             maxWidth: MediaQuery.sizeOf(context).width * 0.7),
                         child: AutoSizeText(
-                          'Error',
+                          context.localization.error,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
@@ -80,7 +85,7 @@ class ErrorDialog extends StatelessWidget {
                       margin: const EdgeInsets.all(10),
                       child: Center(
                         child: Text(
-                          onOkText,
+                          onOkText ?? context.localization.ok,
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),

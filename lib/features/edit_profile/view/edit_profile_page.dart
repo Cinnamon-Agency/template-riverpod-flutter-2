@@ -1,6 +1,7 @@
 import 'package:cinnamon_riverpod_2/features/edit_profile/controller/edit_profile_controller.dart';
 import 'package:cinnamon_riverpod_2/features/edit_profile/controller/edit_profile_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +31,7 @@ class EditProfilePage extends HookConsumerWidget {
           ),
         ),
         title: Text(
-          'Edit Profile',
+          context.localization.editProfile,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Theme.of(context).dialogBackgroundColor,
@@ -46,8 +47,8 @@ class EditProfilePage extends HookConsumerWidget {
             children: <Widget>[
               SizedBox(height: MediaQuery.sizeOf(context).height * 0.3),
               TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Username',
+                decoration: InputDecoration(
+                  labelText: context.localization.username,
                 ),
                 controller: usernameTextController,
                 onChanged: controller.onUsernameTextChange,
@@ -57,7 +58,7 @@ class EditProfilePage extends HookConsumerWidget {
                 width: double.infinity,
                 height: 48,
                 child: PrimaryButton(
-                  text: 'Submit changes',
+                  text: context.localization.submitChanges,
                   onPressed: controller.onSubmit,
                   isLoading: state.isLoading,
                   isDisabled: !state.requireValue.isUsernameValid,

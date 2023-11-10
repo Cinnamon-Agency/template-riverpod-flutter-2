@@ -1,43 +1,93 @@
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
+import 'package:flutter/material.dart';
+
 sealed class AuthException implements Exception {
   final String message;
 
   AuthException(this.message);
+
+  String localizedMessage(BuildContext context);
 }
 
 class EmailAlreadyExistsException extends AuthException {
   EmailAlreadyExistsException() : super("Email is already in use.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.emailAlreadyInUse;
+  }
 }
 
 class WrongPasswordException extends AuthException {
   WrongPasswordException() : super("Wrong password.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.wrongPassword;
+  }
 }
 
 class WeakPasswordException extends AuthException {
   WeakPasswordException() : super("Password is too weak.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.passwordTooWeak;
+  }
 }
 
 class UserNotFoundException extends AuthException {
   UserNotFoundException() : super("User not found.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.userNotFound;
+  }
 }
 
 class InvalidEmailException extends AuthException {
   InvalidEmailException() : super("Invalid email.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.invalidEmail;
+  }
 }
 
 class InvalidLoginCredentialsException extends AuthException {
   InvalidLoginCredentialsException() : super("Invalid login credentials.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.invalidLoginCredentials;
+  }
 }
 
 class OperationNotAllowedException extends AuthException {
   OperationNotAllowedException() : super("Operation not allowed.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.operationNotAllowed;
+  }
 }
 
 class TooManyRequestsException extends AuthException {
   TooManyRequestsException() : super("Too many requests.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.tooManyRequests;
+  }
 }
 
 class UndefinedAuthException extends AuthException {
   UndefinedAuthException() : super("Undefined authentication error.");
+
+  @override
+  String localizedMessage(BuildContext context) {
+    return context.localization.undefinedAuthError;
+  }
 }
 
 class AuthResultHandler {
