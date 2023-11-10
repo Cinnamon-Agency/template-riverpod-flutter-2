@@ -30,4 +30,20 @@ class TripLocation extends Equatable {
 
   @override
   List<Object?> get props => [id, name, duration];
+
+  TripLocation copyWith({
+    String? id,
+    String? name,
+    Duration? duration,
+    bool? isVisited,
+    LatLng? location,
+  }) {
+    return TripLocation(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      duration: duration ?? this.duration,
+      isVisited: isVisited ?? this.isVisited,
+      location: location ?? this.location,
+    );
+  }
 }

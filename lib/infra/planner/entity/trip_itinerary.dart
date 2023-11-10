@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_location.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TripItineraryEntity {
@@ -10,6 +11,8 @@ class TripItineraryEntity {
   final List<String> ownerIds;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isOngoing;
+  final bool hasEnded;
 
   const TripItineraryEntity({
     required this.id,
@@ -20,6 +23,8 @@ class TripItineraryEntity {
     required this.ownerIds,
     required this.startDate,
     required this.endDate,
+    this.isOngoing = false,
+    this.hasEnded = false,
   });
 
   factory TripItineraryEntity.fromDoc(DocumentSnapshot doc) {
@@ -32,6 +37,25 @@ class TripItineraryEntity {
       ownerIds: (doc['ownerIds'] as List).map((e) => e.toString()).toList(),
       startDate: DateTime.parse(doc['startDate'] as String),
       endDate: DateTime.parse(doc['endDate'] as String),
+      isOngoing: doc['isOngoing'] as bool,
+      hasEnded: doc['hasEnded'] as bool,
+    );
+  }
+
+  /// Maps the given [tripItinerary] app data model to its [TripItineraryEntity],
+  /// for interfacing with a data source.
+  factory TripItineraryEntity.fromTripItinerary(TripItinerary tripItinerary) {
+    return TripItineraryEntity(
+      id: tripItinerary.id,
+      name: tripItinerary.name,
+      description: tripItinerary.description,
+      imageUrl: tripItinerary.imageUrl,
+      locations: tripItinerary.locations.map((location) => TripLocationEntity.fromTripLocation(location)).toList(),
+      ownerIds: tripItinerary.travelers.map((owner) => owner.id).toList(),
+      startDate: tripItinerary.startDate,
+      endDate: tripItinerary.endDate,
+      isOngoing: tripItinerary.isOngoing,
+      hasEnded: tripItinerary.hasEnded,
     );
   }
 
@@ -45,6 +69,8 @@ class TripItineraryEntity {
       'ownerIds': ownerIds,
       'startDate': startDate.toIso8601String(),
       'endDate': endDate.toIso8601String(),
+      'isOngoing': isOngoing,
+      'hasEnded': hasEnded,
     };
   }
 }

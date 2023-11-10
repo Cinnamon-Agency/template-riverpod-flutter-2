@@ -3,6 +3,7 @@ import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:cinnamon_riverpod_2/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,6 +34,11 @@ class TripFinder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Set the color of the system status bar, according to the current theme
+    SystemChrome.setSystemUIOverlayStyle(MediaQuery.of(context).platformBrightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark);
+
     return MaterialApp.router(
       title: 'Trip Finder',
       routerDelegate: router.routerDelegate,

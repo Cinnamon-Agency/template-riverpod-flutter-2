@@ -5,6 +5,7 @@ import 'package:cinnamon_riverpod_2/theme/styles/dark_app_text_styles.dart';
 import 'package:cinnamon_riverpod_2/theme/styles/light_app_text_styles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 final appTheme = AppTheme();
 
@@ -132,6 +133,7 @@ class AppTheme {
           color: lightAppColors.backgroundColor,
           shadowColor: Colors.black.withOpacity(0.3),
           titleTextStyle: lightAppTextStyles.labelMediumTextStyle.copyWith(color: lightAppColors.primaryDark),
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: lightAppColors.backgroundColor,
@@ -282,6 +284,7 @@ class AppTheme {
           color: darkAppColors.backgroundColor,
           shadowColor: darkAppColors.neutrals700.withOpacity(0.8),
           titleTextStyle: darkAppTextStyles.labelMediumTextStyle.copyWith(color: darkAppColors.primaryDark),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: darkAppColors.backgroundColor,

@@ -24,11 +24,11 @@ class HomePage extends ConsumerWidget {
             icon: Icon(Icons.travel_explore),
             label: 'Trips',
           ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.people),
-            icon: Icon(Icons.people_outline),
-            label: 'Friends',
-          ),
+          // NavigationDestination(
+          //   selectedIcon: Icon(Icons.people),
+          //   icon: Icon(Icons.people_outline),
+          //   label: 'Friends',
+          // ),
           NavigationDestination(
             selectedIcon: Icon(Icons.manage_accounts),
             icon: Icon(Icons.manage_accounts_outlined),
@@ -39,11 +39,11 @@ class HomePage extends ConsumerWidget {
       body: SafeArea(
         child: <Widget>[
           const PlannerHomePage(),
-          Container(
-            color: Colors.green,
-            alignment: Alignment.center,
-            child: const Text('Page 2'),
-          ),
+          // Container(
+          //   color: Colors.green,
+          //   alignment: Alignment.center,
+          //   child: const Text('Page 2'),
+          // ),
           const AccountPage(),
         ][state.page.index],
       ),

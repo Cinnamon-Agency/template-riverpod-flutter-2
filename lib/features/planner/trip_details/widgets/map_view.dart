@@ -12,12 +12,17 @@ import 'package:flutter_map/flutter_map.dart';
 ///
 /// [selectedMarkerId] is the ID of the marker/location that is selected and should be highlighted.
 /// Pass the [onSelectMarker] callback to control what happens when tapping a marker.
+///
+/// [mapBottomPadding] defines the bottom padding of [locations] bounds.
+/// Pass this argument if there is something on the bottom of the page blocking the map,
+/// and you want to move the markers up.
 class MapView extends StatelessWidget {
   final MapController? mapController;
   final List<TripLocation> locations;
   final bool isMapEnabled;
   final String? selectedMarkerId;
   final Function(String selectedId)? onSelectMarker;
+  final double mapBottomPadding;
 
   const MapView({
     super.key,
@@ -26,6 +31,7 @@ class MapView extends StatelessWidget {
     this.isMapEnabled = true,
     this.selectedMarkerId,
     this.onSelectMarker,
+    this.mapBottomPadding = 0.0,
   });
 
   @override
@@ -33,8 +39,13 @@ class MapView extends StatelessWidget {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        boundsOptions: const FitBoundsOptions(
-          padding: EdgeInsets.all(32),
+        boundsOptions: FitBoundsOptions(
+          padding: EdgeInsets.only(
+            top: 32,
+            left: 32,
+            right: 32,
+            bottom: 32 + mapBottomPadding,
+          ),
         ),
         bounds: locations.isNotEmpty ? LatLngBounds.fromPoints(locations.map((e) => e.location).toList()) : null,
         interactiveFlags: isMapEnabled ? InteractiveFlag.all : InteractiveFlag.none,
