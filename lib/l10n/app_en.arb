@@ -6,7 +6,7 @@
   "onboardingTravel": "Now that your plans are set, immerse yourself in the joy of the journey.",
   "getStarted": "Get Started",
   
-  "startYourJourney": "Start your\nTripfinder journey!",
+  "startYourJourney": "Start your\nTripFinder journey!",
   "createAccountToPlan": "Create an account to start planning your trips.",
   "or": "Or",
   "continueWithApple": "Continue with Apple",
@@ -20,7 +20,7 @@
   "confirmPassword": "Confirm password",
   "passwordRequirements": "Password should be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one digit.",
   "logIn": "Log in",
-  "logInToAccount": "Log in to your Tripfinder account",
+  "logInToAccount": "Log in to your TripFinder account",
   "logOut": "Log out",
   "logOutConfirmation": "Are you sure you want to log out?",
   "logOutFailed": "Log out failed. Please try again.",

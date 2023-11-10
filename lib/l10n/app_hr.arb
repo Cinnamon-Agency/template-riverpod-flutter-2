@@ -6,7 +6,7 @@
   "onboardingTravel": "Sada kada su vaši planovi postavljeni, uronite u radost putovanja.",
   "getStarted": "Započni",
 
-  "startYourJourney": "Započni svoje\nTripfinder putovanje!",
+  "startYourJourney": "Započni svoje\nTripFinder putovanje!",
   "createAccountToPlan": "Izradi račun za početak planiranja svojih putovanja.",
   "or": "Ili",
   "continueWithApple": "Nastavi s Appleom",
@@ -20,7 +20,7 @@
   "confirmPassword": "Potvrdi lozinku",
   "passwordRequirements": "Lozinka treba imati najmanje 8 znakova i sadržavati barem jedno veliko slovo, jedno malo slovo i jednu znamenku.",
   "logIn": "Prijava",
-  "logInToAccount": "Prijavi se u svoj Tripfinder račun",
+  "logInToAccount": "Prijavi se u svoj TripFinder račun",
   "logOut": "Odjava",
   "logOutConfirmation": "Jeste li sigurni da se želite odjaviti?",
   "logOutFailed": "Odjava nije uspjela. Pokušajte ponovno.",
