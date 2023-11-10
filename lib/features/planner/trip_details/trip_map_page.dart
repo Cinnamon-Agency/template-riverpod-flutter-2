@@ -115,6 +115,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: TripLocationsList(
                             tripLocations: state.tripItinerary.locations,
+                            selectedLocation: state.currentLocation,
                             onTapLocation: (TripLocation location) {
                               controller.selectLocation(location.id);
                               animatedMapController.animateTo(dest: location.location, zoom: 15);
