@@ -25,7 +25,7 @@ class TripProgressCard extends StatelessWidget {
           children: [
             Text(remainingMinutes.toString(), style: context.theme.textTheme.headlineMedium),
             const SizedBox(width: 4),
-            Text("min", style: context.theme.textTheme.bodySmall),
+            Text(context.localization.minutesShort, style: context.theme.textTheme.bodySmall),
           ],
         ),
         PrimaryButton(

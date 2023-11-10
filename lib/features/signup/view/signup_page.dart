@@ -1,5 +1,6 @@
 import 'package:cinnamon_riverpod_2/constants/constants.dart';
 import 'package:cinnamon_riverpod_2/features/signup/controllers/signup_controller.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_exceptions.dart';
@@ -38,7 +39,7 @@ class SignupPage extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  'Sign up for a TripFinder account',
+                  context.localization.signUpForAccount,
                   style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -57,34 +58,34 @@ class SignupPage extends HookConsumerWidget {
                       Column(
                         children: [
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'name', 'Username', [
+                          _buildFormField(formState, 'name', context.localization.username, [
                             FormBuilderValidators.required(),
                           ]),
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'email', 'Email', [
+                          _buildFormField(formState, 'email', context.localization.email, [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.email(),
                           ]),
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'password', 'Password', [
+                          _buildFormField(formState, 'password', context.localization.password, [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.match(AppConstants.passwordRegex.pattern),
                           ]),
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'confirm-password', 'Confirm password', [
+                          _buildFormField(formState, 'confirm-password', context.localization.confirmPassword, [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.equal(password),
                           ]),
                           const SizedBox(height: 16),
                           Text(
-                            "Password should be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one digit.",
+                            context.localization.passwordRequirements,
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
                       ),
                       _buildButton(
                         PrimaryButton(
-                          text: 'Sign up',
+                          text: context.localization.signUp,
                           isLoading: state.isLoading,
                           onPressed: state.allFieldsValid
                               ? () async {
@@ -94,11 +95,11 @@ class SignupPage extends HookConsumerWidget {
                                     GoRouter.of(context).pushAndRemoveUntil(RoutePaths.home);
                                   } on AuthException catch (e) {
                                     if (context.mounted) {
-                                      SnackbarHelper.showTFSnackbar(context, e.message);
+                                      SnackbarHelper.showTFSnackbar(context, e.localizedMessage(context));
                                     }
                                   } on TravelerException catch (e) {
                                     if (context.mounted) {
-                                      SnackbarHelper.showTFSnackbar(context, e.message);
+                                      SnackbarHelper.showTFSnackbar(context, e.localizedMessage(context));
                                     }
                                   }
                                 }

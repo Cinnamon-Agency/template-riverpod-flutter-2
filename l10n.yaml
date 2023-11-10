@@ -1,0 +1,15 @@
+# Localizations config
+
+# Input files directory
+arb-dir: lib/l10n
+
+# Input file template
+template-arb-file: app_en.arb
+
+# Generated localizations file (in .dart_tool/flutter_gen/gen_l10n/ folder)
+output-localization-file: app_localizations.dart
+
+# Preferred (fallback) locale, in case device locale is not supported.
+# By default, gen-l10n sorts the supported locales in alphabetical order,
+# this setting enables English to be the first supported locale.
+preferred-supported-locales: en

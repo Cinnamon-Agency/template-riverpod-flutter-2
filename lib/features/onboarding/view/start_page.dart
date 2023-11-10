@@ -1,5 +1,6 @@
 import 'package:cinnamon_riverpod_2/features/shared/buttons/text_icon_button.dart';
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,12 +39,12 @@ class StartPage extends ConsumerWidget {
                         ),
                         const SizedBox(height: 72),
                         Text(
-                          'Start your\nTripFinder journey!',
+                          context.localization.startYourJourney,
                           style: Theme.of(context).textTheme.headlineLarge,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 32),
-                        const Text('Create an account to start planning your trips.'),
+                        Text(context.localization.createAccountToPlan),
                       ],
                     ),
                   ],
@@ -52,17 +53,18 @@ class StartPage extends ConsumerWidget {
               Column(
                 children: [
                   _buildSignInButton(TextIconButton.emailSignIn(
+                    context: context,
                     onPressed: () => controller.onPressSignUp(context),
                   )),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      'Or',
+                      context.localization.or,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   _buildSignInButton(SecondaryButton(
-                    text: 'Log in',
+                    text: context.localization.logIn,
                     onPressed: () => controller.onPressLogin(context),
                   )),
                 ],

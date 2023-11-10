@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -18,23 +19,23 @@ class TextIconButton extends StatelessWidget {
     this.customColor,
   });
 
-  factory TextIconButton.appleSignIn({VoidCallback? onPressed}) => TextIconButton(
-    text: 'Continue with Apple',
-    iconPath: Assets.icons.socialApple,
-    onPressed: onPressed,
-  );
+  factory TextIconButton.appleSignIn({required BuildContext context, VoidCallback? onPressed}) => TextIconButton(
+        text: context.localization.continueWithApple,
+        iconPath: Assets.icons.socialApple,
+        onPressed: onPressed,
+      );
 
-  factory TextIconButton.googleSignIn({VoidCallback? onPressed}) => TextIconButton(
-    text: 'Continue with Google',
-    iconPath: Assets.icons.socialGoogle,
-    onPressed: onPressed,
-  );
+  factory TextIconButton.googleSignIn({required BuildContext context, VoidCallback? onPressed}) => TextIconButton(
+        text: context.localization.continueWithGoogle,
+        iconPath: Assets.icons.socialGoogle,
+        onPressed: onPressed,
+      );
 
-  factory TextIconButton.emailSignIn({VoidCallback? onPressed}) => TextIconButton(
-    text: 'Continue with email',
-    iconPath: Assets.icons.socialEmail,
-    onPressed: onPressed,
-  );
+  factory TextIconButton.emailSignIn({required BuildContext context, VoidCallback? onPressed}) => TextIconButton(
+        text: context.localization.continueWithEmail,
+        iconPath: Assets.icons.socialEmail,
+        onPressed: onPressed,
+      );
 
   @override
   Widget build(BuildContext context) {

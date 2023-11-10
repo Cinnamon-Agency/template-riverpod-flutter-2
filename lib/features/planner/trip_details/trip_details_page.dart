@@ -64,7 +64,7 @@ class TripDetailsPage extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Trip locations".toUpperCase(),
+                            context.localization.tripLocations.toUpperCase(),
                             style: context.theme.textTheme.labelSmall
                                 ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
                           ),
@@ -72,8 +72,8 @@ class TripDetailsPage extends ConsumerWidget {
                             height: 16,
                           ),
                           if (state.tripItinerary.locations.isEmpty)
-                            const Center(
-                              child: Text("You haven't added any locations to this trip."),
+                            Center(
+                              child: Text(context.localization.noTripLocations),
                             )
                           else
                             ClipRRect(
@@ -129,10 +129,10 @@ class TripDetailsPage extends ConsumerWidget {
                     margin: const EdgeInsets.only(top: 24, left: 16, right: 16),
                     child: PrimaryButton(
                       text: state.tripItinerary.locations.isEmpty
-                          ? 'Add locations before starting your trip'
+                          ? context.localization.addTripLocationsBeforeStarting
                           : state.tripItinerary.isOngoing
-                              ? 'End trip'
-                              : 'Start trip',
+                              ? context.localization.endTrip
+                              : context.localization.startTrip,
                       isDisabled: state.tripItinerary.locations.isEmpty,
                       onPressed: () async {
                         await controller.startOrEndTrip();
