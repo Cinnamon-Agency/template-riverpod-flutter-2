@@ -79,4 +79,32 @@ class TripItinerary extends Equatable {
 
     return now.isBefore(startDate);
   }
+
+  /// Returns the current `TripLocation` in an ongoing trip,
+  /// or `null` if trip has ended or all locations were visited.
+  TripLocation? get currentLocation {
+    if (hasEnded) {
+      // Trip has ended, no more locations to visit
+      return null;
+    } else {
+      // Trip is still ongoing
+      // Current location is the first one that hasn't been visited, or null if all were visited
+      final currentLocationIndex = isOngoing ? locations.indexWhere((location) => !location.isVisited) : -1;
+      return currentLocationIndex == -1 ? null : locations[currentLocationIndex];
+    }
+  }
+
+  /// Returns the next `TripLocation` in an ongoing trip,
+  /// or `null` if trip has ended or there are no more locations to visit.
+  TripLocation? get nextLocation {
+    if (hasEnded) {
+      // Trip has ended, no more locations to visit
+      return null;
+    } else {
+      // Trip is still ongoing
+      // Next location is the one after current one, or null if the current location is last
+      final currentLocationIndex = isOngoing ? locations.indexWhere((location) => !location.isVisited) : -1;
+      return currentLocationIndex + 1 == locations.length ? null : locations[currentLocationIndex + 1];
+    }
+  }
 }

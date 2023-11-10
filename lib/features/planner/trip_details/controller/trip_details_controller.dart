@@ -31,28 +31,11 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
         if (!completer.isCompleted) {
           completer.complete(event);
         } else {
-          TripLocation? currentLocation;
-          TripLocation? nextLocation;
-
-          if (event.hasEnded) {
-            // Trip has ended
-            currentLocation = null;
-            nextLocation = null;
-          } else {
-            // Trip is still ongoing
-            // Current location is the first one that hasn't been visited, or null if all were visited
-            final currentLocationIndex =
-                event.isOngoing ? event.locations.indexWhere((location) => !location.isVisited) : -1;
-            currentLocation = currentLocationIndex == -1 ? null : event.locations[currentLocationIndex];
-            nextLocation =
-                currentLocationIndex + 1 == event.locations.length ? null : event.locations[currentLocationIndex + 1];
-          }
-
           state = AsyncData<TripDetailsState>(
             state.requireValue.copyWithNullableLocations(
               tripItinerary: event,
-              currentLocation: currentLocation,
-              nextLocation: nextLocation,
+              currentLocation: event.currentLocation,
+              nextLocation: event.nextLocation,
             ),
           );
         }
@@ -61,26 +44,10 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
 
     final tripItinerary = await completer.future;
 
-    TripLocation? currentLocation;
-    TripLocation? nextLocation;
-
-    if (tripItinerary.hasEnded) {
-      currentLocation = null;
-      nextLocation = null;
-    } else {
-      // Current location is the first one that hasn't been visited, or null if all were visited
-      int currentLocationIndex =
-          tripItinerary.isOngoing ? tripItinerary.locations.indexWhere((location) => !location.isVisited) : -1;
-      currentLocation = currentLocationIndex == -1 ? null : tripItinerary.locations[currentLocationIndex];
-      nextLocation = currentLocationIndex + 1 == tripItinerary.locations.length
-          ? null
-          : tripItinerary.locations[currentLocationIndex + 1];
-    }
-
     return TripDetailsState(
       tripItinerary: tripItinerary,
-      currentLocation: currentLocation,
-      nextLocation: nextLocation,
+      currentLocation: tripItinerary.currentLocation,
+      nextLocation: tripItinerary.nextLocation,
     );
   }
 

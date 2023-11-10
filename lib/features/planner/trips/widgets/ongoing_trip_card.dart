@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/tertiary_button.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
-import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,12 +16,8 @@ class OngoingTripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int currentLocationIndex = itinerary.locations.indexWhere((location) => !location.isVisited);
-
-    TripLocation? currentLocation = currentLocationIndex == -1 ? null : itinerary.locations[currentLocationIndex];
-
-    TripLocation? nextLocation =
-        currentLocationIndex + 1 == itinerary.locations.length ? null : itinerary.locations[currentLocationIndex + 1];
+    final currentLocation = itinerary.currentLocation;
+    final nextLocation = itinerary.nextLocation;
 
     return Container(
       height: 184,
