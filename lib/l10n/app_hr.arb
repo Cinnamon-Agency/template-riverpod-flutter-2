@@ -1,0 +1,103 @@
+{
+  "@@locale": "hr",
+
+  "onboardingShare": "Jednostavno podijelite svoje uzbudljive planove puta. Šaljite uvid u svoje avanture kako bi svi bili u tijeku s njima.",
+  "onboardingCollaborate": "Učinite planiranje lakim surađujući s drugima. Radite zajedno kako biste stvorili savršeni plan.",
+  "onboardingTravel": "Sada kada su vaši planovi postavljeni, uronite u radost putovanja.",
+  "getStarted": "Započni",
+
+  "startYourJourney": "Započni svoje\nTripfinder putovanje!",
+  "createAccountToPlan": "Izradi račun za početak planiranja svojih putovanja.",
+  "or": "Ili",
+  "continueWithApple": "Nastavi s Appleom",
+  "continueWithGoogle": "Nastavi s Googleom",
+  "continueWithEmail": "Nastavi s e-poštom",
+  "signUp": "Prijavi se",
+  "signUpForAccount": "Napravi svoj TripFinder račun",
+  "username": "Korisničko ime",
+  "email": "E-pošta",
+  "password": "Lozinka",
+  "confirmPassword": "Potvrdi lozinku",
+  "passwordRequirements": "Lozinka treba imati najmanje 8 znakova i sadržavati barem jedno veliko slovo, jedno malo slovo i jednu znamenku.",
+  "logIn": "Prijava",
+  "logInToAccount": "Prijavi se u svoj Tripfinder račun",
+  "logOut": "Odjava",
+  "logOutConfirmation": "Jeste li sigurni da se želite odjaviti?",
+  "logOutFailed": "Odjava nije uspjela. Pokušajte ponovno.",
+
+  "trips": "Putovanja",
+  "friends": "Prijatelji",
+  "account": "Račun",
+  "more": "Više",
+  "edit": "Uredi",
+  "back": "Natrag",
+
+  "planNewTrip": "Planiraj novo putovanje",
+  "upcomingTrips": "Nadolazeća putovanja",
+  "pastTrips": "Prošla putovanja",
+  "currentlyNotTravelling": "Trenutno ne putujete",
+  "noUpcomingTrips": "Nemate nadolazećih putovanja",
+  "noPastTrips": "Nemate prošlih putovanja",
+  "noTripsPlaceholder": "Nemate nijedno putovanje. Isplanirajte jedno!",
+  "current": "Trenutno",
+  "next": "Sljedeće",
+  "details": "Detalji",
+  "minutesShort": "min",
+  "nLocations": "{count, plural, =0{Bez lokacija} =1{1 lokacija} =2{2 lokacije} other{{count} lokacija}}",
+  "@nLocations": {
+    "description": "Plural locations",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "nTravellers": "{count, plural, =0{Bez putnika} =1{1 putnik} other{{count} putnika}}",
+  "@nTravellers": {
+    "description": "Plural travellers",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "tripLocations": "Lokacije putovanja",
+  "noTripLocations": "Niste dodali nikakve lokacije za ovo putovanje.",
+  "startTrip": "Započni putovanje",
+  "endTrip": "Završi putovanje",
+  "moveToNext": "Idi na sljedeće",
+  "addTripLocationsBeforeStarting": "Dodajte lokacije prije početka putovanja",
+  "startDate": "Početni datum",
+  "endDate": "Završni datum",
+  "description": "Opis",
+
+  "usernameNA": "Korisničko ime N/A",
+  "editProfile": "Uredi profil",
+  "settings": "Postavke",
+  "pushNotifications": "Push obavijesti",
+  "submitChanges": "Potvrdi promjene",
+  "failedValueChange": "Promjena vrijednosti nije uspjela. Pokušajte ponovno.",
+  "deleteAccount": "Izbriši račun",
+  "deleteAccountConfirmation": "Jeste li sigurni da želite izbrisati račun?",
+  "deleteAccountMessage": "Brisanje računa je nepovratno, izgubit ćete sve podatke povezane s računom.",
+  "ok": "U redu",
+  "success": "Uspjeh",
+  "error": "Greška",
+  "cancel": "Odustani",
+  "confirm": "Potvrdi",
+
+  "usernameAlreadyInUse": "Korisničko ime se već koristi.",
+  "travelerAlreadyExists": "Putnik već postoji.",
+  "travelerNotFound": "Putnik nije pronađen.",
+  "emailAlreadyInUse": "E-pošta se već koristi.",
+  "wrongPassword": "Pogrešna lozinka.",
+  "passwordTooWeak": "Lozinka je preslaba.",
+  "userNotFound": "Korisnik nije pronađen.",
+  "invalidEmail": "Neispravna e-pošta.",
+  "invalidLoginCredentials": "Neispravni podaci za prijavu.",
+  "operationNotAllowed": "Operacija nije dopuštena.",
+  "tooManyRequests": "Previše zahtjeva.",
+  "undefinedAuthError": "Nedefinirana pogreška autentikacije."
+}

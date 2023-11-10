@@ -50,6 +50,8 @@ dependencies:
   flutter_map_animations:
   latlong2:
   flutter_animate:
+  flutter_localizations:
+    sdk: flutter
 
 
 dev_dependencies:
@@ -63,6 +65,9 @@ dev_dependencies:
 
 
 flutter:
+  # This flag has to be true in order for gen-l10n to generate localizations
+  generate: true
+  
   assets:
     - assets/icons/
     - assets/images/
