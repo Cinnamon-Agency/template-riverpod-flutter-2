@@ -49,7 +49,7 @@ dependencies:
   flutter_map:
   flutter_map_animations:
   latlong2:
-
+  flutter_animate:
 
 
 dev_dependencies:

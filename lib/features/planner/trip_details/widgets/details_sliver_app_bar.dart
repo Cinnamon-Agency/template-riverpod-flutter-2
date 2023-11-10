@@ -22,6 +22,7 @@ class DetailsSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       pinned: true,
+      centerTitle: true,
       expandedHeight: 280,
       leading: Center(
         child: RoundedIconButton(
@@ -45,9 +46,11 @@ class DetailsSliverAppBar extends StatelessWidget {
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.only(bottom: 16),
         title: Text(
-          title,
+          title.trim(),
           style: context.theme.textTheme.labelMedium,
+          textAlign: TextAlign.center,
         ),
         centerTitle: true,
         background: Stack(

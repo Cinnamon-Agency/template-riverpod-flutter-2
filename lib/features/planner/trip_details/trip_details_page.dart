@@ -10,6 +10,7 @@ import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,7 +43,10 @@ class TripDetailsPage extends ConsumerWidget {
             children: [
               CustomScrollView(
                 slivers: [
-                  DetailsSliverAppBar(title: state.tripItinerary.name, imageUrl: state.tripItinerary.imageUrl!),
+                  DetailsSliverAppBar(
+                    title: state.tripItinerary.name,
+                    imageUrl: state.tripItinerary.imageUrl!,
+                  ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
@@ -81,7 +85,7 @@ class TripDetailsPage extends ConsumerWidget {
                                     MapView(
                                       locations: state.tripItinerary.locations,
                                       isMapEnabled: false,
-                                    ),
+                                    ).animate().shimmer().fadeIn(),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(

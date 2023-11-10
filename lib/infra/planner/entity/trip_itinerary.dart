@@ -27,16 +27,17 @@ class TripItineraryEntity {
     this.hasEnded = false,
   });
 
-  factory TripItineraryEntity.fromDoc(DocumentSnapshot doc) {
+  factory TripItineraryEntity.fromDoc(DocumentSnapshot d) {
+    var doc = d.data() as Map<String, dynamic>;
     return TripItineraryEntity(
-      id: doc.id,
+      id: d.id,
       name: doc['name'],
       description: doc['description'],
       imageUrl: doc['imageUrl'],
       locations: (doc['locations'] as List).map((e) => TripLocationEntity.fromMap(e)).toList(),
       ownerIds: (doc['ownerIds'] as List).map((e) => e.toString()).toList(),
-      startDate: DateTime.parse(doc['startDate'] as String),
-      endDate: DateTime.parse(doc['endDate'] as String),
+      startDate: DateTime.tryParse(doc['startDate'].toString()) ?? DateTime.now(),
+      endDate: DateTime.tryParse(doc['endDate'].toString()) ?? DateTime.now(),
       isOngoing: doc['isOngoing'] as bool,
       hasEnded: doc['hasEnded'] as bool,
     );

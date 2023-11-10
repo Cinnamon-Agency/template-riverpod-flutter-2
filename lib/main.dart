@@ -20,7 +20,7 @@ Future<void> main() async {
 Future<void> _prepareApp() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load enviroment variables from .env file
+  // Load enviroment variables from ..env file
   await dotenv.load();
 
   // Initialize Firebase

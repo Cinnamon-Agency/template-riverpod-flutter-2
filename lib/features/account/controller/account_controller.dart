@@ -25,7 +25,7 @@ class AccountController extends AutoDisposeAsyncNotifier<AccountState> {
             await Permission.notification.isProvisional)) {
       PermissionStatus status = await Permission.notification.request();
       if (status.isPermanentlyDenied) {
-        await AppSettings.openAppSettings(type: AppSettingsType.settings);
+        await AppSettings.openAppSettings(type: AppSettingsType.notification);
       }
       if (!(await Permission.notification.isGranted ||
           await Permission.notification.isProvisional)) {

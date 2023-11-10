@@ -13,12 +13,13 @@ class TravelerEntity {
     this.sendPushNotifications = true,
   });
 
-  factory TravelerEntity.fromDoc(DocumentSnapshot doc) {
+  factory TravelerEntity.fromDoc(DocumentSnapshot d) {
+    final doc = d.data() as Map<String, dynamic>;
     return TravelerEntity(
-      id: doc.id,
+      id: d.id,
       username: doc["username"],
       email: doc["email"],
-      sendPushNotifications: doc["sendPushNotifications"],
+      sendPushNotifications: doc["sendPushNotifications"].toString() == "true",
     );
   }
 
