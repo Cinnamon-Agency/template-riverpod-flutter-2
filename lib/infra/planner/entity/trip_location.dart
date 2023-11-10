@@ -1,3 +1,4 @@
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -22,6 +23,18 @@ class TripLocationEntity {
       isVisited: map["isVisited"],
       name: map['name'],
       duration: Duration(seconds: map['duration']),
+    );
+  }
+
+  /// Maps the given [tripLocation] app data model to its [TripLocationEntity],
+  /// for interfacing with a data source.
+  factory TripLocationEntity.fromTripLocation(TripLocation tripLocation) {
+    return TripLocationEntity(
+      id: tripLocation.id,
+      name: tripLocation.name,
+      duration: tripLocation.duration,
+      location: tripLocation.location,
+      isVisited: tripLocation.isVisited,
     );
   }
 

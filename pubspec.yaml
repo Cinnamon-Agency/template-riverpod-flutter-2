@@ -13,7 +13,7 @@ dependencies:
 
 
   # State Management
-  flutter_riverpod:
+  flutter_riverpod: ^3.0.0-dev.0
   hooks_riverpod:
   flutter_hooks:
 
@@ -26,8 +26,10 @@ dependencies:
   flutter_local_notifications:
   purchases_flutter:
   hive_flutter:
+  flutter_dotenv:
 
   # Utils
+  app_settings:
   auto_size_text:
   permission_handler:
   simple_logger:
@@ -45,7 +47,9 @@ dependencies:
   form_builder_validators:
   flutter_svg:
   flutter_map:
-
+  flutter_map_animations:
+  latlong2:
+  flutter_animate:
 
 
 dev_dependencies:
@@ -62,6 +66,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+#    - .env
 
   fonts:
   - family: Manrope

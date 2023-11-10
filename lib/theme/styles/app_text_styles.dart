@@ -19,4 +19,6 @@ abstract class AppTextStyles {
   TextStyle get bodySmallTextStyle;
 
   TextStyle get labelMediumTextStyle;
+
+  TextStyle get labelSmallTextStyle;
 }

@@ -5,6 +5,7 @@ import 'package:cinnamon_riverpod_2/theme/styles/dark_app_text_styles.dart';
 import 'package:cinnamon_riverpod_2/theme/styles/light_app_text_styles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 final appTheme = AppTheme();
 
@@ -17,6 +18,7 @@ class AppTheme {
         scaffoldBackgroundColor: lightAppColors.backgroundColor,
         dialogBackgroundColor: Colors.white,
         shadowColor: lightAppColors.neutrals800.withOpacity(0.2),
+        highlightColor: darkAppColors.primary300,
 
         /// TRANSITION
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -25,6 +27,7 @@ class AppTheme {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
+        iconTheme: IconThemeData(color: darkAppColors.backgroundColor),
 
         /// BUTTONS
         textButtonTheme: TextButtonThemeData(
@@ -77,6 +80,7 @@ class AppTheme {
           bodyMedium: lightAppTextStyles.bodyMediumTextStyle,
           bodySmall: lightAppTextStyles.bodySmallTextStyle,
           labelMedium: lightAppTextStyles.labelMediumTextStyle,
+          labelSmall: lightAppTextStyles.labelSmallTextStyle,
         ),
 
         /// INPUTS
@@ -129,6 +133,7 @@ class AppTheme {
           color: lightAppColors.backgroundColor,
           shadowColor: Colors.black.withOpacity(0.3),
           titleTextStyle: lightAppTextStyles.labelMediumTextStyle.copyWith(color: lightAppColors.primaryDark),
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: lightAppColors.backgroundColor,
@@ -141,6 +146,18 @@ class AppTheme {
             (states) => IconThemeData(color: darkAppColors.backgroundColor),
           ),
         ),
+
+        /// LIST TILE THEME
+        listTileTheme: ListTileThemeData(
+          tileColor: darkAppColors.neutrals100,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          titleAlignment: ListTileTitleAlignment.center,
+          iconColor: darkAppColors.backgroundColor,
+          selectedTileColor: lightAppColors.primary100,
+          selectedColor: darkAppColors.backgroundColor,
+        ),
       );
 
   ThemeData get darkTheme => ThemeData(
@@ -151,6 +168,7 @@ class AppTheme {
         scaffoldBackgroundColor: darkAppColors.backgroundColor,
         dialogBackgroundColor: Colors.black,
         shadowColor: darkAppColors.neutrals800.withOpacity(0.1),
+        highlightColor: lightAppColors.primary100,
 
         /// TRANSITION
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -159,6 +177,8 @@ class AppTheme {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
+
+        iconTheme: IconThemeData(color: lightAppColors.backgroundColor),
 
         /// BUTTONS
         textButtonTheme: TextButtonThemeData(
@@ -211,6 +231,7 @@ class AppTheme {
           bodyMedium: darkAppTextStyles.bodyMediumTextStyle,
           bodySmall: darkAppTextStyles.bodySmallTextStyle,
           labelMedium: darkAppTextStyles.labelMediumTextStyle,
+          labelSmall: darkAppTextStyles.labelSmallTextStyle,
         ),
 
         /// INPUTS
@@ -263,6 +284,7 @@ class AppTheme {
           color: darkAppColors.backgroundColor,
           shadowColor: darkAppColors.neutrals700.withOpacity(0.8),
           titleTextStyle: darkAppTextStyles.labelMediumTextStyle.copyWith(color: darkAppColors.primaryDark),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: darkAppColors.backgroundColor,
@@ -274,6 +296,18 @@ class AppTheme {
           iconTheme: MaterialStateProperty.resolveWith(
             (states) => IconThemeData(color: lightAppColors.backgroundColor),
           ),
+        ),
+
+        /// LIST TILE THEME
+        listTileTheme: ListTileThemeData(
+          tileColor: darkAppColors.neutrals900,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          titleAlignment: ListTileTitleAlignment.center,
+          iconColor: lightAppColors.backgroundColor,
+          selectedTileColor: darkAppColors.primary100,
+          selectedColor: lightAppColors.backgroundColor,
         ),
       );
 }

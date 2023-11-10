@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// when used in [DioHttpService] this value is refreshed so you may add logic to check if its expired before use
 final tokenProvider = FutureProvider<String>((ref) async {
-
   return "Auth Token";
 });
 
@@ -44,6 +43,7 @@ final class DioHttpService implements HttpService {
   Future<T> request<T>(BaseHttpRequest request,
       {required T Function(Map<String, dynamic> response) transformer}) async {
     Map<String, dynamic> value;
+    request.url ??= dio.options.baseUrl;
     switch (request.type) {
       case RequestType.get:
         value = await _get(request);

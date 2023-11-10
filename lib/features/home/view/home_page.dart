@@ -1,12 +1,9 @@
-import 'package:cinnamon_riverpod_2/features/planner/trips/planner_home_page.dart';
 import 'package:cinnamon_riverpod_2/features/account/view/account_page.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_controller.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_state.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trips/planner_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../planner/planner_creator/planner_creator_page.dart';
-import '../../planner/trips/planner_home_page.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -27,11 +24,11 @@ class HomePage extends ConsumerWidget {
             icon: Icon(Icons.travel_explore),
             label: 'Trips',
           ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.people),
-            icon: Icon(Icons.people_outline),
-            label: 'Friends',
-          ),
+          // NavigationDestination(
+          //   selectedIcon: Icon(Icons.people),
+          //   icon: Icon(Icons.people_outline),
+          //   label: 'Friends',
+          // ),
           NavigationDestination(
             selectedIcon: Icon(Icons.manage_accounts),
             icon: Icon(Icons.manage_accounts_outlined),
@@ -42,11 +39,11 @@ class HomePage extends ConsumerWidget {
       body: SafeArea(
         child: <Widget>[
           const PlannerHomePage(),
-          Container(
-            color: Colors.green,
-            alignment: Alignment.center,
-            child: const Text('Page 2'),
-          ),
+          // Container(
+          //   color: Colors.green,
+          //   alignment: Alignment.center,
+          //   child: const Text('Page 2'),
+          // ),
           const AccountPage(),
         ][state.page.index],
       ),

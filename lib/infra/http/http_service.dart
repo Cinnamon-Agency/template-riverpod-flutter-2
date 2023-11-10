@@ -19,11 +19,13 @@ enum RequestType { get, post, patch }
 
 abstract class BaseHttpRequest {
   // use when you want to override the base url set in dio
-  final String? url;
+   String? url;
 
   final String endpoint;
   final RequestType type;
   final String contentType;
+
+
 
   String get path {
     if (url != null) return url! + endpoint;
@@ -32,10 +34,12 @@ abstract class BaseHttpRequest {
 
   FutureOr<Map<String, dynamic>> toMap();
 
-  const BaseHttpRequest({
+    BaseHttpRequest({
     required this.endpoint,
     this.type = RequestType.get,
     this.url,
     this.contentType = Headers.jsonContentType,
   });
+
+
 }
