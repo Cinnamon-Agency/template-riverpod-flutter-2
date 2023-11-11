@@ -99,5 +99,8 @@
   "invalidLoginCredentials": "Neispravni podaci za prijavu.",
   "operationNotAllowed": "Operacija nije dopuštena.",
   "tooManyRequests": "Previše zahtjeva.",
-  "undefinedAuthError": "Nedefinirana pogreška autentikacije."
+  "undefinedAuthError": "Nedefinirana pogreška autentikacije.",
+
+  "developedBy": "Razvio",
+  "inZagreb": "u Zagrebu, Hrvatska"
 }

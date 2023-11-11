@@ -132,7 +132,7 @@ class AppTheme {
         appBarTheme: AppBarTheme(
           color: lightAppColors.backgroundColor,
           shadowColor: Colors.black.withOpacity(0.3),
-          titleTextStyle: lightAppTextStyles.labelMediumTextStyle.copyWith(color: lightAppColors.primaryDark),
+          titleTextStyle: lightAppTextStyles.labelMediumTextStyle,
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         navigationBarTheme: NavigationBarThemeData(
@@ -283,7 +283,7 @@ class AppTheme {
         appBarTheme: AppBarTheme(
           color: darkAppColors.backgroundColor,
           shadowColor: darkAppColors.neutrals700.withOpacity(0.8),
-          titleTextStyle: darkAppTextStyles.labelMediumTextStyle.copyWith(color: darkAppColors.primaryDark),
+          titleTextStyle: darkAppTextStyles.labelMediumTextStyle,
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         navigationBarTheme: NavigationBarThemeData(
