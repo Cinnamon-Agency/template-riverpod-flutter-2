@@ -1,5 +1,5 @@
 name: cinnamon_riverpod_2
-description: "Riverpod Template"
+description: "Cinnamon agency's Riverpod app template"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -39,6 +39,7 @@ dependencies:
   uuid:
   intl:
   cached_network_image:
+  url_launcher:
 
   # UI
   cupertino_icons: ^1.0.2
@@ -60,8 +61,9 @@ dev_dependencies:
   custom_lint:
   riverpod_lint:
   flutter_lints:
-  build_runner:
-  flutter_gen_runner:
+  build_runner: # Trigger by running: dart run build_runner build --delete-conflicting-outputs
+  flutter_gen_runner: # Trigger by running: flutter dart run build_runner build --delete-conflicting-outputs
+  flutter_launcher_icons: # See config in flutter_launcher_icons.yaml
 
 
 flutter:
