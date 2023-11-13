@@ -1,5 +1,7 @@
 import 'package:cinnamon_riverpod_2/features/account/controller/account_controller.dart';
 import 'package:cinnamon_riverpod_2/features/account/controller/account_state.dart';
+import 'package:cinnamon_riverpod_2/features/account/widgets/copyright_info_section.dart';
+import 'package:cinnamon_riverpod_2/features/shared/app_bars/customizable_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/secondary_button.dart';
 import 'package:cinnamon_riverpod_2/features/shared/dialogs/confirmation_dialog.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
@@ -24,37 +26,38 @@ class AccountPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        width: MediaQuery.sizeOf(context).width,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: MediaQuery.sizeOf(context).height * 0.1),
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: Theme.of(context).cardColor,
-              child: Icon(
-                Icons.person_outline_rounded,
-                color: Theme.of(context).primaryColor,
-                size: 40,
+      appBar: CustomizableAppBar(title: context.localization.account),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.05,
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              switch (profileData) {
-                AsyncData<Traveler>(:final Traveler value) => value.name,
-                AsyncError<Traveler>() => context.localization.usernameNA,
-                _ => '',
-              },
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 10),
-            const Divider(),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Column(
+              CircleAvatar(
+                radius: 50,
+                backgroundColor: Theme.of(context).cardColor,
+                child: Icon(
+                  Icons.person_outline_rounded,
+                  color: Theme.of(context).primaryColor,
+                  size: 40,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                switch (profileData) {
+                  AsyncData<Traveler>(:final Traveler value) => value.name,
+                  AsyncError<Traveler>() => context.localization.usernameNA,
+                  _ => '',
+                },
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
+              Column(
                 mainAxisAlignment: state.isLoading
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.start,
@@ -106,8 +109,8 @@ class AccountPage extends ConsumerWidget {
                               ],
                             ),
                             SizedBox(
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.1),
+                              height: MediaQuery.sizeOf(context).height * 0.05,
+                            ),
                             SecondaryButton(
                               text: context.localization.deleteAccount,
                               onPressed: () => showDialog(
@@ -162,9 +165,11 @@ class AccountPage extends ConsumerWidget {
                         ),
                 ],
               ),
-            ),
-            const SizedBox(height: 10),
-          ],
+              const SizedBox(height: 48),
+              const CopyrightInfoSection(),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );

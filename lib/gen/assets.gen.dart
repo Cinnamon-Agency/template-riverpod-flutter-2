@@ -12,6 +12,13 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/app_icon.png
+  AssetGenImage get appIcon => const AssetGenImage('assets/icons/app_icon.png');
+
+  /// File path: assets/icons/app_icon_foreground.png
+  AssetGenImage get appIconForeground =>
+      const AssetGenImage('assets/icons/app_icon_foreground.png');
+
   /// File path: assets/icons/earth_plane.svg
   String get earthPlane => 'assets/icons/earth_plane.svg';
 
@@ -28,7 +35,15 @@ class $AssetsIconsGen {
   String get socialGoogle => 'assets/icons/social_google.svg';
 
   /// List of all assets
-  List<String> get values => [earthPlane, socialApple, socialEmail, socialFacebook, socialGoogle];
+  List<dynamic> get values => [
+        appIcon,
+        appIconForeground,
+        earthPlane,
+        socialApple,
+        socialEmail,
+        socialFacebook,
+        socialGoogle
+      ];
 }
 
 class $AssetsImagesGen {
@@ -38,7 +53,11 @@ class $AssetsImagesGen {
   String get beach => 'assets/images/beach.svg';
 
   /// File path: assets/images/cinnamon.jpeg
-  AssetGenImage get cinnamon => const AssetGenImage('assets/images/cinnamon.jpeg');
+  AssetGenImage get cinnamon =>
+      const AssetGenImage('assets/images/cinnamon.jpeg');
+
+  /// File path: assets/images/cinnamon_logo.svg
+  String get cinnamonLogo => 'assets/images/cinnamon_logo.svg';
 
   /// File path: assets/images/fun_moments.svg
   String get funMoments => 'assets/images/fun_moments.svg';
@@ -56,7 +75,16 @@ class $AssetsImagesGen {
   String get travelling => 'assets/images/travelling.svg';
 
   /// List of all assets
-  List<dynamic> get values => [beach, cinnamon, funMoments, journey, socialSharing, teamCollaboration, travelling];
+  List<dynamic> get values => [
+        beach,
+        cinnamon,
+        cinnamonLogo,
+        funMoments,
+        journey,
+        socialSharing,
+        teamCollaboration,
+        travelling
+      ];
 }
 
 class Assets {

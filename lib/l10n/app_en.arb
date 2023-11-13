@@ -99,5 +99,8 @@
   "invalidLoginCredentials": "Invalid login credentials.",
   "operationNotAllowed": "Operation not allowed.",
   "tooManyRequests": "Too many requests.",
-  "undefinedAuthError": "Undefined authentication error."
+  "undefinedAuthError": "Undefined authentication error.",
+
+  "developedBy": "Developed by",
+  "inZagreb": "in Zagreb, Croatia"
 }

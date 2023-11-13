@@ -11,4 +11,7 @@ class AppConstants {
   /// - contain at least one digit
   /// - are at least 8 characters in length.
   static RegExp passwordRegex = RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$');
+
+  /// Cinnamon website URL.
+  static Uri cinnamonUrl = Uri.parse("https://www.cinnamon.agency/");
 }
