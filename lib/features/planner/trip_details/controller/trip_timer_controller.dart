@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:html';
-
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_timer_state.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
@@ -13,13 +11,13 @@ final tripTimerControllerProvider =
 
 class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, TripLocation> {
   Timer? _ticker;
-  late KeepAliveLink link;
+  late KeepAliveLink _link;
 
   LocalStorageService get _storageService => ref.read(localStorageServiceProvider);
 
   @override
-  TripTimerState build(TripLocation tripLocation) {
-    link = ref.keepAlive();
+  TripTimerState build(TripLocation arg) {
+    _link = ref.keepAlive();
 
     _ticker?.cancel();
 
@@ -31,13 +29,27 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, Trip
       _setupTicker();
     });
 
-    final previousDuration =
-        int.tryParse(_storageService.getValue(LocalStorageKeys.tripTimer(tripLocation.id)).toString());
+    Duration remainingTime = arg.duration;
+
+    final timerStartTime = _storageService.getValue(LocalStorageKeys.tripTimer(arg.id));
+
+    if (timerStartTime != null) {
+      final previousTimerStart = DateTime.parse(timerStartTime);
+
+      final diff = previousTimerStart.difference(DateTime.now());
+
+      if (diff < arg.duration) {
+        remainingTime = DateTime.now().difference(previousTimerStart.add(arg.duration));
+      }
+    } else {
+      _storageService.setValue(
+          key: LocalStorageKeys.tripTimer(state.currentLocation.id), data: DateTime.now().toIso8601String());
+    }
 
     return TripTimerState(
       timeUp: false,
-      currentLocation: tripLocation,
-      remainingTime: previousDuration == null ? tripLocation.duration : Duration(seconds: previousDuration),
+      currentLocation: arg,
+      remainingTime: remainingTime,
     );
   }
 
@@ -46,8 +58,7 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, Trip
       const Duration(seconds: 1),
       (timer) async {
         final duration = state.remainingTime - const Duration(seconds: 1);
-        await _storageService.setValue(
-            key: LocalStorageKeys.tripTimer(state.currentLocation.id), data: duration.inSeconds.toString());
+
         if (duration.inSeconds <= 0) {
           timer.cancel();
           state = state.copyWith(remainingTime: Duration.zero, timeUp: true);
@@ -59,6 +70,6 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, Trip
   }
 
   void dispose() {
-    link.close();
+    _link.close();
   }
 }
