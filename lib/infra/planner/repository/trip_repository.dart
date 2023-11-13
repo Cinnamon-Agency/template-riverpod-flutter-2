@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/infra/planner/data_source/trip_data_source.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository_implementation.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/data_source/traveler_data_source.dart';
@@ -19,6 +20,8 @@ abstract interface class TripRepository {
   Stream<TripItinerary> getSingleTripItinerary(String itineraryId);
 
   Future<void> updateTripItineraryData(TripItinerary tripItinerary);
+
+  Future<void> createTripItinerary(TripItineraryEntity tripItinerary);
 
   Future<void> createMocked();
 

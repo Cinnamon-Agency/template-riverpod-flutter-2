@@ -5,7 +5,7 @@ class PlannerCreatorPage extends StatelessWidget {
   const PlannerCreatorPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         body: Column(children: [
           Expanded(child: PlannerCreatorForm()),
         ]),
