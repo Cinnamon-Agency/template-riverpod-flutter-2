@@ -7,6 +7,7 @@ import 'package:cinnamon_riverpod_2/features/planner/trip_details/widgets/trip_p
 import 'package:cinnamon_riverpod_2/features/shared/adaptive_progress_indicator.dart';
 import 'package:cinnamon_riverpod_2/features/shared/app_bars/customizable_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/rounded_icon_button.dart';
+import 'package:cinnamon_riverpod_2/helpers/extensions/duration_extension.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: TripProgressCard(
-                              remainingMinutes: duration != null ? duration.inSeconds : 0,
+                              remainingMinutes: duration != null ? duration.inCeilMinutes : 0,
                               actionButtonText: data.tripItinerary.isOngoing && data.nextLocation != null
                                   ? context.L.moveToNext
                                   : data.nextLocation == null

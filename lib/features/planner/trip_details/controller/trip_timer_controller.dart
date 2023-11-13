@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_timer_state.dart';
 import 'package:cinnamon_riverpod_2/helpers/extensions/ref_extension.dart';
-import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +24,7 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, (Str
 
     ref.onDispose(() {
       _ticker?.cancel();
+      cleanUpFromStorage(arg.$2.id);
     });
 
     Duration remainingTime = arg.$2.duration;
@@ -33,10 +33,10 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, (Str
     if (timerStartTime != null) {
       final previousTimerStart = DateTime.parse(timerStartTime);
 
-      final diff = previousTimerStart.difference(DateTime.now());
+      final diff = DateTime.now().difference(previousTimerStart);
 
       if (diff < arg.$2.duration) {
-        remainingTime = DateTime.now().difference(previousTimerStart.add(arg.$2.duration));
+        remainingTime = previousTimerStart.add(arg.$2.duration).difference(DateTime.now());
       }
     } else {
       _storageService.setValue(key: LocalStorageKeys.tripTimer(arg.$2.id), data: DateTime.now().toIso8601String());
@@ -48,7 +48,7 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, (Str
     return TripTimerState(
       timeUp: false,
       currentLocation: arg.$2,
-      remainingTime: arg.$2.duration,
+      remainingTime: remainingTime,
     );
   }
 
@@ -66,5 +66,9 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, (Str
         }
       },
     );
+  }
+
+  void cleanUpFromStorage(String locationId) {
+    _storageService.deleteValue(LocalStorageKeys.tripTimer(locationId));
   }
 }
