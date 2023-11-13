@@ -5,11 +5,9 @@ class PlannerCreatorPage extends StatelessWidget {
   const PlannerCreatorPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const Padding(
-    padding: EdgeInsets.all(20.0),
-    child: Column(children: [
-          //  Container(color: Colors.red, height: 100,),
+  Widget build(BuildContext context) => const Scaffold(
+        body: Column(children: [
           Expanded(child: PlannerCreatorForm()),
         ]),
-  );
+      );
 }
