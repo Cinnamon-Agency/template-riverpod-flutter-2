@@ -18,7 +18,7 @@ class TripInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Column(
+    return Column(
       children: [
         Row(
           children: [
@@ -26,7 +26,7 @@ class TripInfo extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Start date".toUpperCase(),
+                    context.localization.startDate.toUpperCase(),
                     style: context.theme.textTheme.labelSmall
                         ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
                   ),
@@ -44,7 +44,7 @@ class TripInfo extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "End date".toUpperCase(),
+                    context.localization.endDate.toUpperCase(),
                     style: context.theme.textTheme.labelSmall
                         ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
                   ),
@@ -66,7 +66,7 @@ class TripInfo extends StatelessWidget {
         Column(
           children: [
             Text(
-              "Description".toUpperCase(),
+              context.localization.description.toUpperCase(),
               style: context.theme.textTheme.labelSmall
                   ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
             ),

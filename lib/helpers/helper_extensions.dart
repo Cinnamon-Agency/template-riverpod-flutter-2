@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension BuildContextExt on BuildContext {
   Size get size => MediaQuery.sizeOf(this);
 
   ThemeData get theme => Theme.of(this);
+
+  AppLocalizations get localization => AppLocalizations.of(this)!;
 }
 
 extension DateTimeExt on DateTime {

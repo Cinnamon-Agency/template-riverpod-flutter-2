@@ -2,6 +2,7 @@ import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/onboarding_page_view.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/widgets/page_indicator.dart';
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,23 +45,18 @@ class OnboardingPage extends ConsumerWidget {
                         child: PageView(
                           controller: controller.pageController,
                           onPageChanged: (newPage) => controller.updateCurrentPage(newPage),
-
-                          /// TODO: Extract this
                           children: [
                             OnboardingPageView(
                               imagePath: Assets.images.socialSharing,
-                              text:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                              text: context.localization.onboardingShare,
                             ),
                             OnboardingPageView(
                               imagePath: Assets.images.teamCollaboration,
-                              text:
-                                  'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                              text: context.localization.onboardingCollaborate,
                             ),
                             OnboardingPageView(
                               imagePath: Assets.images.travelling,
-                              text:
-                                  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                              text: context.localization.onboardingTravel,
                             ),
                           ],
                         ),
@@ -76,8 +72,7 @@ class OnboardingPage extends ConsumerWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: PrimaryButton(
-                    /// TODO: Remove hard-coded text
-                    text: 'Get Started',
+                    text: context.localization.getStarted,
                     onPressed: () => controller.onPressStart(context),
                     isDisabled: !state.onboardingFinished,
                   ),

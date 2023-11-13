@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,7 +22,7 @@ class NoTripsPlaceholder extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
-              "You don't have any trips. Go and plan some!",
+              context.localization.noTripsPlaceholder,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
             ),

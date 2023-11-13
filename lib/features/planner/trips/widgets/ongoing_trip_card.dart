@@ -81,13 +81,13 @@ class OngoingTripCard extends StatelessWidget {
                     const SizedBox(height: 8),
                     currentLocation != null
                         ? Text(
-                            "Current: ${currentLocation.name} (${currentLocation.duration.inMinutes} min)",
+                            "${context.localization.current}: ${currentLocation.name} (${currentLocation.duration.inMinutes} ${context.localization.minutesShort})",
                             style: context.theme.textTheme.labelMedium?.copyWith(color: Colors.white),
                           )
                         : const Text("-"),
                     nextLocation != null
                         ? Text(
-                            "Next: ${nextLocation.name} (${nextLocation.duration.inMinutes} min)",
+                            "${context.localization.next}: ${nextLocation.name} (${nextLocation.duration.inMinutes} ${context.localization.minutesShort})",
                             style: context.theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
                           )
                         : const Text("-"),
@@ -99,7 +99,7 @@ class OngoingTripCard extends StatelessWidget {
                     SizedBox(
                       width: 110,
                       child: TertiaryButton(
-                        text: 'Details >',
+                        text: '${context.localization.details} >',
                         onPressed: () {
                           GoRouter.of(context).push(RoutePaths.tripDetails, extra: itinerary.id);
                         },

@@ -2,6 +2,7 @@ import 'package:cinnamon_riverpod_2/features/account/controller/account_controll
 import 'package:cinnamon_riverpod_2/features/account/controller/account_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/secondary_button.dart';
 import 'package:cinnamon_riverpod_2/features/shared/dialogs/confirmation_dialog.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/traveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
@@ -44,7 +45,7 @@ class AccountPage extends ConsumerWidget {
             Text(
               switch (profileData) {
                 AsyncData<Traveler>(:final Traveler value) => value.name,
-                AsyncError<Traveler>() => 'Username N/A',
+                AsyncError<Traveler>() => context.localization.usernameNA,
                 _ => '',
               },
               style: Theme.of(context).textTheme.headlineSmall,
@@ -67,14 +68,14 @@ class AccountPage extends ConsumerWidget {
                       : Column(
                           children: <Widget>[
                             SecondaryButton(
-                              text: 'Edit Profile',
+                              text: context.localization.editProfile,
                               onPressed: () => GoRouter.of(context)
                                   .push(RoutePaths.editProfile),
                               fullWidthSpan: true,
                             ),
                             const SizedBox(height: 10),
                             SecondaryButton(
-                              text: 'Settings',
+                              text: context.localization.settings,
                               onPressed: () => GoRouter.of(context)
                                   .push(RoutePaths.settings),
                               fullWidthSpan: true,
@@ -84,7 +85,7 @@ class AccountPage extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  'Push notifications',
+                                  context.localization.pushNotifications,
                                   style:
                                       Theme.of(context).textTheme.labelMedium,
                                 ),
@@ -95,8 +96,10 @@ class AccountPage extends ConsumerWidget {
                                       controller.updateProfileData(
                                           sendPushNotifications: value);
                                     } catch (e) {
-                                      SnackbarHelper.showTFSnackbar(context,
-                                          'Failed to change the value. Please try again.');
+                                      SnackbarHelper.showTFSnackbar(
+                                          context,
+                                          context
+                                              .localization.failedValueChange);
                                     }
                                   },
                                 ),
@@ -106,15 +109,15 @@ class AccountPage extends ConsumerWidget {
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.1),
                             SecondaryButton(
-                              text: 'Delete Account',
+                              text: context.localization.deleteAccount,
                               onPressed: () => showDialog(
                                 context: context,
                                 builder: (BuildContext ctx) =>
                                     ConfirmationDialog(
-                                  title:
-                                      'Are you sure you want to delete the account?',
+                                  title: context
+                                      .localization.deleteAccountConfirmation,
                                   bodyText:
-                                      'Deleting an account is irreversible, you will lose all of your account-related data.',
+                                      context.localization.deleteAccountMessage,
                                   onCancel: () => Navigator.pop(ctx),
                                   onConfirm: () async {
                                     GoRouter.of(ctx).pop();
@@ -133,12 +136,13 @@ class AccountPage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 10),
                             SecondaryButton(
-                              text: 'Log Out',
+                              text: context.localization.logOut,
                               onPressed: () => showDialog(
                                 context: context,
                                 builder: (BuildContext ctx) =>
                                     ConfirmationDialog(
-                                  bodyText: 'Are you sure you want to log out?',
+                                  bodyText:
+                                      context.localization.logOutConfirmation,
                                   onCancel: () => Navigator.pop(ctx),
                                   onConfirm: () async {
                                     GoRouter.of(ctx).pop();
@@ -147,7 +151,7 @@ class AccountPage extends ConsumerWidget {
                                           .pushReplacement(RoutePaths.start);
                                     } else {
                                       SnackbarHelper.showTFSnackbar(context,
-                                          'Log out failed. Please try again.');
+                                          context.localization.logOutFailed);
                                     }
                                   },
                                 ),

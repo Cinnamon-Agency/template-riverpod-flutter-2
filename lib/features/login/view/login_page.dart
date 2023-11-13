@@ -1,4 +1,5 @@
 import 'package:cinnamon_riverpod_2/features/login/controllers/login_controller.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
@@ -36,7 +37,7 @@ class LoginPage extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Text(
-                  'Log in to your TripFinder account',
+                  context.localization.logInToAccount,
                   style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -59,7 +60,7 @@ class LoginPage extends HookConsumerWidget {
                             _buildFormField(
                               formState,
                               'email',
-                              'Email',
+                              context.localization.email,
                               [
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.email(),
@@ -70,7 +71,7 @@ class LoginPage extends HookConsumerWidget {
                             _buildFormField(
                               formState,
                               'password',
-                              'Password',
+                              context.localization.password,
                               [
                                 FormBuilderValidators.required(),
                               ],
@@ -80,7 +81,7 @@ class LoginPage extends HookConsumerWidget {
                         ),
                         _buildButton(
                           PrimaryButton(
-                            text: 'Log in',
+                            text: context.localization.logIn,
                             isLoading: state.isLoading,
                             onPressed: state.allFieldsValid
                                 ? () async {
@@ -91,7 +92,7 @@ class LoginPage extends HookConsumerWidget {
                                       GoRouter.of(context).pushAndRemoveUntil(RoutePaths.home);
                                     } on AuthException catch (e) {
                                       if (context.mounted) {
-                                        SnackbarHelper.showTFSnackbar(context, e.message);
+                                        SnackbarHelper.showTFSnackbar(context, e.localizedMessage(context));
                                       }
                                     }
                                   }
