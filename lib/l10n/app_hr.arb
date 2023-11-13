@@ -24,6 +24,8 @@
   "logOut": "Odjava",
   "logOutConfirmation": "Jeste li sigurni da se želite odjaviti?",
   "logOutFailed": "Odjava nije uspjela. Pokušajte ponovno.",
+  "forgotPassword": "Zaboravljena lozinka? ",
+  "resetPassword": "Restiraj lozinku",
 
   "trips": "Putovanja",
   "friends": "Prijatelji",

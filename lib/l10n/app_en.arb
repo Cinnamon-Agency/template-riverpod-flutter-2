@@ -24,6 +24,8 @@
   "logOut": "Log out",
   "logOutConfirmation": "Are you sure you want to log out?",
   "logOutFailed": "Log out failed. Please try again.",
+  "forgotPassword": "Forgot password? ",
+  "resetPassword": "Reset password",
 
   "trips": "Trips",
   "friends": "Friends",
@@ -102,7 +104,5 @@
   "undefinedAuthError": "Undefined authentication error.",
 
   "developedBy": "Developed by",
-  "inZagreb": "in Zagreb, Croatia",
-  "forgotPassword": "Forgot password? ",
-  "resetPassword": "Reset password"
+  "inZagreb": "in Zagreb, Croatia"
 }
