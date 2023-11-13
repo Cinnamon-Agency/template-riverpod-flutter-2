@@ -4,7 +4,7 @@ import 'hive_storage_service.dart';
 
 /// Static class for defining keys for storing values
 class LocalStorageKeys {
-  static String tripTimer(String locationId) => 'tripTimer_$locationId';
+  static String tripTimer(String tripId) => 'tripTimer_$tripId';
 }
 
 final localStorageServiceProvider = Provider<LocalStorageService>(

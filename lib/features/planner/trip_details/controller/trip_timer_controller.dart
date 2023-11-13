@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_timer_state.dart';
+import 'package:cinnamon_riverpod_2/helpers/extensions/ref_extension.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final tripTimerControllerProvider =
-    NotifierProvider.autoDispose.family<TripTimerController, TripTimerState, TripLocation>(
+    NotifierProvider.autoDispose.family<TripTimerController, TripTimerState, (String, TripLocation)>(
   () => TripTimerController(),
 );
 
-class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, TripLocation> {
+class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, (String, TripLocation)> {
   Timer? _ticker;
-  late KeepAliveLink _link;
 
   LocalStorageService get _storageService => ref.read(localStorageServiceProvider);
 
   @override
-  TripTimerState build(TripLocation arg) {
-    _link = ref.keepAlive();
+  TripTimerState build((String, TripLocation) arg) {
+    // keeping alive for 2 seconds because this provider is used in a if condition
+    ref.keepAliveBriefly(seconds: 2);
 
     _ticker?.cancel();
 
@@ -25,31 +27,28 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, Trip
       _ticker?.cancel();
     });
 
-    Future(() {
-      _setupTicker();
-    });
+    Duration remainingTime = arg.$2.duration;
 
-    Duration remainingTime = arg.duration;
-
-    final timerStartTime = _storageService.getValue(LocalStorageKeys.tripTimer(arg.id));
-
+    final timerStartTime = _storageService.getValue(LocalStorageKeys.tripTimer(arg.$2.id));
     if (timerStartTime != null) {
       final previousTimerStart = DateTime.parse(timerStartTime);
 
       final diff = previousTimerStart.difference(DateTime.now());
 
-      if (diff < arg.duration) {
-        remainingTime = DateTime.now().difference(previousTimerStart.add(arg.duration));
+      if (diff < arg.$2.duration) {
+        remainingTime = DateTime.now().difference(previousTimerStart.add(arg.$2.duration));
       }
     } else {
-      _storageService.setValue(
-          key: LocalStorageKeys.tripTimer(state.currentLocation.id), data: DateTime.now().toIso8601String());
+      _storageService.setValue(key: LocalStorageKeys.tripTimer(arg.$2.id), data: DateTime.now().toIso8601String());
     }
+    Future(() {
+      _setupTicker();
+    });
 
     return TripTimerState(
       timeUp: false,
-      currentLocation: arg,
-      remainingTime: remainingTime,
+      currentLocation: arg.$2,
+      remainingTime: arg.$2.duration,
     );
   }
 
@@ -67,9 +66,5 @@ class TripTimerController extends AutoDisposeFamilyNotifier<TripTimerState, Trip
         }
       },
     );
-  }
-
-  void dispose() {
-    _link.close();
   }
 }

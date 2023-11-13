@@ -61,11 +61,12 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
               e.toString(),
             ),
           ),
-          data: (state) {
+          data: (data) {
             Duration? duration;
 
-            if (state.currentLocation != null) {
-              duration = ref.watch(tripTimerControllerProvider(state.currentLocation!)).remainingTime;
+            if (data.currentLocation != null) {
+              duration =
+                  ref.watch(tripTimerControllerProvider((data.tripItinerary.id, data.currentLocation!))).remainingTime;
             }
 
             return Stack(
@@ -74,8 +75,8 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                   height: MediaQuery.sizeOf(context).height,
                   child: MapView(
                     mapController: animatedMapController.mapController,
-                    locations: state.tripItinerary.locations,
-                    selectedMarkerId: state.currentLocation?.id,
+                    locations: data.tripItinerary.locations,
+                    selectedMarkerId: data.currentLocation?.id,
                     onSelectMarker: (String locationId) {
                       controller.selectLocation(locationId);
                     },
@@ -89,7 +90,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                   child: SafeArea(
                     child: Column(
                       children: [
-                        if (state.tripItinerary.isOngoing && state.currentLocation != null)
+                        if (data.tripItinerary.isOngoing && data.currentLocation != null)
                           Container(
                             width: MediaQuery.sizeOf(context).width,
                             height: 65,
@@ -101,15 +102,15 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                             ),
                             child: TripProgressCard(
                               remainingMinutes: duration != null ? duration.inSeconds : 0,
-                              actionButtonText: state.tripItinerary.isOngoing && state.nextLocation != null
+                              actionButtonText: data.tripItinerary.isOngoing && data.nextLocation != null
                                   ? context.L.moveToNext
-                                  : state.nextLocation == null
+                                  : data.nextLocation == null
                                       ? context.L.endTrip
                                       : context.L.startTrip,
-                              onTapActionButton: state.tripItinerary.isOngoing
+                              onTapActionButton: data.tripItinerary.isOngoing
                                   ? () => controller.moveToNextLocation()
                                   : () => controller.startOrEndTrip(),
-                              isActionButtonDisabled: state.tripItinerary.hasEnded,
+                              isActionButtonDisabled: data.tripItinerary.hasEnded,
                             ),
                           ),
                         Container(
@@ -123,13 +124,13 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: TripLocationsList(
-                              tripLocations: state.tripItinerary.locations,
-                              selectedLocation: state.currentLocation,
+                              tripLocations: data.tripItinerary.locations,
+                              selectedLocation: data.currentLocation,
                               onTapLocation: (TripLocation location) {
                                 controller.selectLocation(location.id);
                                 animatedMapController.animateTo(dest: location.location, zoom: 15);
                               },
-                              isEnabled: !state.tripItinerary.isOngoing,
+                              isEnabled: !data.tripItinerary.isOngoing,
                             ),
                           ),
                         ),

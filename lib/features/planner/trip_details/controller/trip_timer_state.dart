@@ -1,6 +1,13 @@
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:equatable/equatable.dart';
 
+// class TripProgress {
+//   final String id;
+//   final DateTime initialTime;
+//   final DateTime lastRecordedTime;
+//   final bool timeUp;
+// }
+
 class TripTimerState extends Equatable {
   final TripLocation currentLocation;
   final Duration remainingTime;
