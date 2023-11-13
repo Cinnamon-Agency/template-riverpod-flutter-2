@@ -31,7 +31,7 @@ class EditProfilePage extends HookConsumerWidget {
           ),
         ),
         title: Text(
-          context.localization.editProfile,
+          context.L.editProfile,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Theme.of(context).dialogBackgroundColor,
@@ -48,7 +48,7 @@ class EditProfilePage extends HookConsumerWidget {
               SizedBox(height: MediaQuery.sizeOf(context).height * 0.3),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: context.localization.username,
+                  labelText: context.L.username,
                 ),
                 controller: usernameTextController,
                 onChanged: controller.onUsernameTextChange,
@@ -58,7 +58,7 @@ class EditProfilePage extends HookConsumerWidget {
                 width: double.infinity,
                 height: 48,
                 child: PrimaryButton(
-                  text: context.localization.submitChanges,
+                  text: context.L.submitChanges,
                   onPressed: controller.onSubmit,
                   isLoading: state.isLoading,
                   isDisabled: !state.requireValue.isUsernameValid,

@@ -31,7 +31,7 @@ class DetailsSliverAppBar extends StatelessWidget {
           iconColor: Colors.black,
           size: 32,
           onPressed: () => GoRouter.of(context).pop(),
-          tooltipMessage: context.localization.back,
+          tooltipMessage: context.L.back,
         ),
       ),
       actions: [
@@ -41,7 +41,7 @@ class DetailsSliverAppBar extends StatelessWidget {
             color: Colors.white.withOpacity(0.7),
             iconColor: Colors.black,
             size: 32,
-            tooltipMessage: context.localization.edit,
+            tooltipMessage: context.L.edit,
           ),
         ),
       ],

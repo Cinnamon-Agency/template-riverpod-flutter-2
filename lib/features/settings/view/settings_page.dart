@@ -25,7 +25,7 @@ class SettingsPage extends ConsumerWidget {
           ),
         ),
         title: Text(
-          context.localization.settings,
+          context.L.settings,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Theme.of(context).dialogBackgroundColor,

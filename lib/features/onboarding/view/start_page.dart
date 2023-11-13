@@ -39,12 +39,12 @@ class StartPage extends ConsumerWidget {
                         ),
                         const SizedBox(height: 72),
                         Text(
-                          context.localization.startYourJourney,
+                          context.L.startYourJourney,
                           style: Theme.of(context).textTheme.headlineLarge,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 32),
-                        Text(context.localization.createAccountToPlan),
+                        Text(context.L.createAccountToPlan),
                       ],
                     ),
                   ],
@@ -59,12 +59,12 @@ class StartPage extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      context.localization.or,
+                      context.L.or,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   _buildSignInButton(SecondaryButton(
-                    text: context.localization.logIn,
+                    text: context.L.logIn,
                     onPressed: () => controller.onPressLogin(context),
                   )),
                 ],

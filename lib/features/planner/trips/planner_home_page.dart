@@ -22,7 +22,7 @@ class PlannerHomePage extends ConsumerWidget {
     return Scaffold(
       primary: true,
       appBar: PlannerAppBar(
-        title: context.localization.trips,
+        title: context.L.trips,
         actions: [
           SizedBox(
             width: 32,
@@ -31,7 +31,7 @@ class PlannerHomePage extends ConsumerWidget {
               icon: CupertinoIcons.add,
               size: 32.0,
               onPressed: controller.createMocked,
-              tooltipMessage: context.localization.planNewTrip,
+              tooltipMessage: context.L.planNewTrip,
             ),
           ),
         ],
@@ -57,7 +57,7 @@ class PlannerHomePage extends ConsumerWidget {
                       child: currentItinerary != null
                           ? OngoingTripCard(itinerary: currentItinerary)
                           : Text(
-                              context.localization.currentlyNotTravelling,
+                              context.L.currentlyNotTravelling,
                               style: context.theme.textTheme.bodyMedium,
                             ),
                     ),
@@ -66,8 +66,8 @@ class PlannerHomePage extends ConsumerWidget {
                     ),
                     TripSection(
                       sectionTitle:
-                          '${context.localization.upcomingTrips} ${upcomingItineraries.isNotEmpty ? "(${upcomingItineraries.length})" : ""}',
-                      emptyMessage: context.localization.noUpcomingTrips,
+                          '${context.L.upcomingTrips} ${upcomingItineraries.isNotEmpty ? "(${upcomingItineraries.length})" : ""}',
+                      emptyMessage: context.L.noUpcomingTrips,
                       itineraries: upcomingItineraries,
                     ),
                     const SizedBox(
@@ -75,8 +75,8 @@ class PlannerHomePage extends ConsumerWidget {
                     ),
                     TripSection(
                       sectionTitle:
-                          '${context.localization.pastTrips} ${pastItineraries.isNotEmpty ? "(${pastItineraries.length})" : ""}',
-                      emptyMessage: context.localization.noPastTrips,
+                          '${context.L.pastTrips} ${pastItineraries.isNotEmpty ? "(${pastItineraries.length})" : ""}',
+                      emptyMessage: context.L.noPastTrips,
                       itineraries: pastItineraries,
                     ),
                     const SizedBox(

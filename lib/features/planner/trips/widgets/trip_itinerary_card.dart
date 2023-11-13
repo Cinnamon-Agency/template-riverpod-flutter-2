@@ -90,18 +90,18 @@ class TripItineraryCard extends StatelessWidget {
                         children: [
                           IconRowWidget(
                             icon: CupertinoIcons.location_solid,
-                            text: context.localization.nLocations(itinerary.locations.length),
+                            text: context.L.nLocations(itinerary.locations.length),
                           ),
                           IconRowWidget(
                             icon: CupertinoIcons.group_solid,
-                            text: context.localization.nTravellers(itinerary.travelers.length),
+                            text: context.L.nTravellers(itinerary.travelers.length),
                           ),
                         ],
                       ),
                       SizedBox(
                         width: 110,
                         child: TertiaryButton(
-                          text: '${context.localization.more} >',
+                          text: '${context.L.more} >',
                           onPressed: () {
                             GoRouter.of(context).push(RoutePaths.tripDetails, extra: itinerary.id);
                           },

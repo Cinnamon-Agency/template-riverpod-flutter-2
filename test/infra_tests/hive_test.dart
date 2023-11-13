@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-  late StorageService storageService;
+  late LocalStorageService storageService;
   setUpAll(() {
     var path = Directory.current.path;
     Hive.init(path + '/test/hive_testing_path');

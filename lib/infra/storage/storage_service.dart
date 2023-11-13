@@ -3,14 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'hive_storage_service.dart';
 
 /// Static class for defining keys for storing values
-class LocalStorageKeys {}
+class LocalStorageKeys {
+  static String tripTimer(String locationId) => 'tripTimer_$locationId';
+}
 
-final localStorageServiceProvider = Provider<StorageService>(
+final localStorageServiceProvider = Provider<LocalStorageService>(
   (_) => HiveStorageService(),
 );
 
-/// Abstract class defining [StorageService] structure
-abstract class StorageService {
+/// Abstract class defining [LocalStorageService] structure
+abstract class LocalStorageService {
   Future<void> init();
 
   /// Delete value by key

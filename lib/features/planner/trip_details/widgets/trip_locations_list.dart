@@ -39,7 +39,7 @@ class TripLocationsList extends StatelessWidget {
                     width: 8,
                   ),
                   Text(
-                    '(${location.duration.inMinutes} ${context.localization.minutesShort})',
+                    '(${location.duration.inMinutes} ${context.L.minutesShort})',
                     style: context.theme.textTheme.bodySmall,
                   ),
                 ],

@@ -20,19 +20,19 @@ class TextIconButton extends StatelessWidget {
   });
 
   factory TextIconButton.appleSignIn({required BuildContext context, VoidCallback? onPressed}) => TextIconButton(
-        text: context.localization.continueWithApple,
+        text: context.L.continueWithApple,
         iconPath: Assets.icons.socialApple,
         onPressed: onPressed,
       );
 
   factory TextIconButton.googleSignIn({required BuildContext context, VoidCallback? onPressed}) => TextIconButton(
-        text: context.localization.continueWithGoogle,
+        text: context.L.continueWithGoogle,
         iconPath: Assets.icons.socialGoogle,
         onPressed: onPressed,
       );
 
   factory TextIconButton.emailSignIn({required BuildContext context, VoidCallback? onPressed}) => TextIconButton(
-        text: context.localization.continueWithEmail,
+        text: context.L.continueWithEmail,
         iconPath: Assets.icons.socialEmail,
         onPressed: onPressed,
       );

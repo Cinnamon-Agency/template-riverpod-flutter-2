@@ -22,7 +22,7 @@ class NoTripsPlaceholder extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
-              context.localization.noTripsPlaceholder,
+              context.L.noTripsPlaceholder,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
             ),

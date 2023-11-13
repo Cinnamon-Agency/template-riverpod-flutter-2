@@ -39,7 +39,7 @@ class SignupPage extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  context.localization.signUpForAccount,
+                  context.L.signUpForAccount,
                   style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -50,6 +50,8 @@ class SignupPage extends HookConsumerWidget {
                   onChanged: () {
                     /// Save the validation status each time a field has changed
                     /// to enable/disable the sign up button
+                    ///
+                    formState!.save();
                     controller.validateFields(formState?.isValid ?? false);
                   },
                   child: Column(
@@ -58,34 +60,34 @@ class SignupPage extends HookConsumerWidget {
                       Column(
                         children: [
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'name', context.localization.username, [
+                          _buildFormField(formState, 'name', context.L.username, [
                             FormBuilderValidators.required(),
                           ]),
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'email', context.localization.email, [
+                          _buildFormField(formState, 'email', context.L.email, [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.email(),
                           ]),
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'password', context.localization.password, [
+                          _buildFormField(formState, 'password', context.L.password, [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.match(AppConstants.passwordRegex.pattern),
                           ]),
                           const SizedBox(height: 24),
-                          _buildFormField(formState, 'confirm-password', context.localization.confirmPassword, [
+                          _buildFormField(formState, 'confirm-password', context.L.confirmPassword, [
                             FormBuilderValidators.required(),
                             FormBuilderValidators.equal(password),
                           ]),
                           const SizedBox(height: 16),
                           Text(
-                            context.localization.passwordRequirements,
+                            context.L.passwordRequirements,
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
                       ),
                       _buildButton(
                         PrimaryButton(
-                          text: context.localization.signUp,
+                          text: context.L.signUp,
                           isLoading: state.isLoading,
                           onPressed: state.allFieldsValid
                               ? () async {

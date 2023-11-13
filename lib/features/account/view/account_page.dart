@@ -26,7 +26,7 @@ class AccountPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: CustomizableAppBar(title: context.localization.account),
+      appBar: CustomizableAppBar(title: context.L.account),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -49,7 +49,7 @@ class AccountPage extends ConsumerWidget {
               Text(
                 switch (profileData) {
                   AsyncData<Traveler>(:final Traveler value) => value.name,
-                  AsyncError<Traveler>() => context.localization.usernameNA,
+                  AsyncError<Traveler>() => context.L.usernameNA,
                   _ => '',
                 },
                 style: Theme.of(context).textTheme.headlineSmall,
@@ -71,14 +71,14 @@ class AccountPage extends ConsumerWidget {
                       : Column(
                           children: <Widget>[
                             SecondaryButton(
-                              text: context.localization.editProfile,
+                              text: context.L.editProfile,
                               onPressed: () => GoRouter.of(context)
                                   .push(RoutePaths.editProfile),
                               fullWidthSpan: true,
                             ),
                             const SizedBox(height: 10),
                             SecondaryButton(
-                              text: context.localization.settings,
+                              text: context.L.settings,
                               onPressed: () => GoRouter.of(context)
                                   .push(RoutePaths.settings),
                               fullWidthSpan: true,
@@ -88,7 +88,7 @@ class AccountPage extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  context.localization.pushNotifications,
+                                  context.L.pushNotifications,
                                   style:
                                       Theme.of(context).textTheme.labelMedium,
                                 ),
@@ -102,7 +102,7 @@ class AccountPage extends ConsumerWidget {
                                       SnackbarHelper.showTFSnackbar(
                                           context,
                                           context
-                                              .localization.failedValueChange);
+                                              .L.failedValueChange);
                                     }
                                   },
                                 ),
@@ -112,15 +112,15 @@ class AccountPage extends ConsumerWidget {
                               height: MediaQuery.sizeOf(context).height * 0.05,
                             ),
                             SecondaryButton(
-                              text: context.localization.deleteAccount,
+                              text: context.L.deleteAccount,
                               onPressed: () => showDialog(
                                 context: context,
                                 builder: (BuildContext ctx) =>
                                     ConfirmationDialog(
                                   title: context
-                                      .localization.deleteAccountConfirmation,
+                                      .L.deleteAccountConfirmation,
                                   bodyText:
-                                      context.localization.deleteAccountMessage,
+                                      context.L.deleteAccountMessage,
                                   onCancel: () => Navigator.pop(ctx),
                                   onConfirm: () async {
                                     GoRouter.of(ctx).pop();
@@ -139,13 +139,13 @@ class AccountPage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 10),
                             SecondaryButton(
-                              text: context.localization.logOut,
+                              text: context.L.logOut,
                               onPressed: () => showDialog(
                                 context: context,
                                 builder: (BuildContext ctx) =>
                                     ConfirmationDialog(
                                   bodyText:
-                                      context.localization.logOutConfirmation,
+                                      context.L.logOutConfirmation,
                                   onCancel: () => Navigator.pop(ctx),
                                   onConfirm: () async {
                                     GoRouter.of(ctx).pop();
@@ -154,7 +154,7 @@ class AccountPage extends ConsumerWidget {
                                           .pushReplacement(RoutePaths.start);
                                     } else {
                                       SnackbarHelper.showTFSnackbar(context,
-                                          context.localization.logOutFailed);
+                                          context.L.logOutFailed);
                                     }
                                   },
                                 ),

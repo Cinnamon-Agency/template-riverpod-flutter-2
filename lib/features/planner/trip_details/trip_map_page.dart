@@ -84,6 +84,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                       if (state.tripItinerary.isOngoing && state.currentLocation != null)
                         Container(
                           width: MediaQuery.sizeOf(context).width,
+                          height: 65,
                           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
@@ -93,10 +94,10 @@ class _TripMapPageState extends ConsumerState<TripMapPage> with TickerProviderSt
                           child: TripProgressCard(
                             remainingMinutes: state.currentLocation!.duration.inMinutes,
                             actionButtonText: state.tripItinerary.isOngoing && state.nextLocation != null
-                                ? context.localization.moveToNext
+                                ? context.L.moveToNext
                                 : state.nextLocation == null
-                                    ? context.localization.endTrip
-                                    : context.localization.startTrip,
+                                    ? context.L.endTrip
+                                    : context.L.startTrip,
                             onTapActionButton: state.tripItinerary.isOngoing
                                 ? () => controller.moveToNextLocation()
                                 : () => controller.startOrEndTrip(),

@@ -37,7 +37,7 @@ class LoginPage extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Text(
-                  context.localization.logInToAccount,
+                  context.L.logInToAccount,
                   style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -48,6 +48,7 @@ class LoginPage extends HookConsumerWidget {
                   onChanged: () {
                     /// Save the validation status each time a field has changed
                     /// to enable/disable the log in button
+                    formState!.save();
                     controller.validateFields(formState?.isValid ?? false);
                   },
                   child: AutofillGroup(
@@ -60,7 +61,7 @@ class LoginPage extends HookConsumerWidget {
                             _buildFormField(
                               formState,
                               'email',
-                              context.localization.email,
+                              context.L.email,
                               [
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.email(),
@@ -71,17 +72,33 @@ class LoginPage extends HookConsumerWidget {
                             _buildFormField(
                               formState,
                               'password',
-                              context.localization.password,
+                              context.L.password,
                               [
                                 FormBuilderValidators.required(),
                               ],
                               autofillHints: [AutofillHints.password],
                             ),
+                            const SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Row(
+                                children: [
+                                  Text(context.L.forgotPassword),
+                                  TextButton(
+                                    onPressed: () {},
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                    child: Text(context.L.resetPassword),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                         _buildButton(
                           PrimaryButton(
-                            text: context.localization.logIn,
+                            text: context.L.logIn,
                             isLoading: state.isLoading,
                             onPressed: state.allFieldsValid
                                 ? () async {

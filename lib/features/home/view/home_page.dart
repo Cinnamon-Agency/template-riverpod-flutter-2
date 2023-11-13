@@ -23,7 +23,7 @@ class HomePage extends ConsumerWidget {
           NavigationDestination(
             selectedIcon: const Icon(Icons.travel_explore_outlined),
             icon: const Icon(Icons.travel_explore),
-            label: context.localization.trips,
+            label: context.L.trips,
           ),
           // NavigationDestination(
           //   selectedIcon: const Icon(Icons.people),
@@ -33,7 +33,7 @@ class HomePage extends ConsumerWidget {
           NavigationDestination(
             selectedIcon: const Icon(Icons.manage_accounts),
             icon: const Icon(Icons.manage_accounts_outlined),
-            label: context.localization.account,
+            label: context.L.account,
           ),
         ],
       ),

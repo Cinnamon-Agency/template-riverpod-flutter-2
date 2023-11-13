@@ -102,5 +102,7 @@
   "undefinedAuthError": "Undefined authentication error.",
 
   "developedBy": "Developed by",
-  "inZagreb": "in Zagreb, Croatia"
+  "inZagreb": "in Zagreb, Croatia",
+  "forgotPassword": "Forgot password? ",
+  "resetPassword": "Reset password"
 }

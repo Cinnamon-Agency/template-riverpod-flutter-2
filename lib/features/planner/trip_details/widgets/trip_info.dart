@@ -26,7 +26,7 @@ class TripInfo extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    context.localization.startDate.toUpperCase(),
+                    context.L.startDate.toUpperCase(),
                     style: context.theme.textTheme.labelSmall
                         ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
                   ),
@@ -44,7 +44,7 @@ class TripInfo extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    context.localization.endDate.toUpperCase(),
+                    context.L.endDate.toUpperCase(),
                     style: context.theme.textTheme.labelSmall
                         ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
                   ),
@@ -66,7 +66,7 @@ class TripInfo extends StatelessWidget {
         Column(
           children: [
             Text(
-              context.localization.description.toUpperCase(),
+              context.L.description.toUpperCase(),
               style: context.theme.textTheme.labelSmall
                   ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
             ),

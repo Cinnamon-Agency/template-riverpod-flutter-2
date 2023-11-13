@@ -4,8 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import './storage_service.dart';
 
-/// Implementation of [StorageService] with [Hive]
-final class HiveStorageService extends StorageService {
+/// Implementation of [LocalStorageService] with [Hive]
+final class HiveStorageService extends LocalStorageService {
   late Box<dynamic> hiveBox;
 
   @override

@@ -7,7 +7,7 @@ extension BuildContextExt on BuildContext {
 
   ThemeData get theme => Theme.of(this);
 
-  AppLocalizations get localization => AppLocalizations.of(this)!;
+  AppLocalizations get L => AppLocalizations.of(this)!;
 }
 
 extension DateTimeExt on DateTime {

@@ -13,7 +13,7 @@ class CopyrightInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(context.localization.developedBy, style: context.theme.textTheme.bodySmall),
+        Text(context.L.developedBy, style: context.theme.textTheme.bodySmall),
         const SizedBox(height: 10),
         GestureDetector(
           onTap: () {
@@ -27,7 +27,7 @@ class CopyrightInfoSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text(context.localization.inZagreb, style: context.theme.textTheme.bodySmall),
+        Text(context.L.inZagreb, style: context.theme.textTheme.bodySmall),
       ],
     );
   }

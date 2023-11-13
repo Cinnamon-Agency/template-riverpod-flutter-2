@@ -47,7 +47,7 @@ class ErrorDialog extends StatelessWidget {
                         constraints: BoxConstraints(
                             maxWidth: MediaQuery.sizeOf(context).width * 0.7),
                         child: AutoSizeText(
-                          context.localization.error,
+                          context.L.error,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
@@ -85,7 +85,7 @@ class ErrorDialog extends StatelessWidget {
                       margin: const EdgeInsets.all(10),
                       child: Center(
                         child: Text(
-                          onOkText ?? context.localization.ok,
+                          onOkText ?? context.L.ok,
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),

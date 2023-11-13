@@ -14,7 +14,7 @@ class UsernameTakenException extends TravelerException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.usernameAlreadyInUse;
+    return context.L.usernameAlreadyInUse;
   }
 }
 
@@ -23,7 +23,7 @@ class TravelerExistsException extends TravelerException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.travelerAlreadyExists;
+    return context.L.travelerAlreadyExists;
   }
 }
 
@@ -32,6 +32,6 @@ class TravelerNotFoundException extends TravelerException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.travelerNotFound;
+    return context.L.travelerNotFound;
   }
 }

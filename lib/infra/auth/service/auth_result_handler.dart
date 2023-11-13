@@ -14,7 +14,7 @@ class EmailAlreadyExistsException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.emailAlreadyInUse;
+    return context.L.emailAlreadyInUse;
   }
 }
 
@@ -23,7 +23,7 @@ class WrongPasswordException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.wrongPassword;
+    return context.L.wrongPassword;
   }
 }
 
@@ -32,7 +32,7 @@ class WeakPasswordException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.passwordTooWeak;
+    return context.L.passwordTooWeak;
   }
 }
 
@@ -41,7 +41,7 @@ class UserNotFoundException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.userNotFound;
+    return context.L.userNotFound;
   }
 }
 
@@ -50,7 +50,7 @@ class InvalidEmailException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.invalidEmail;
+    return context.L.invalidEmail;
   }
 }
 
@@ -59,7 +59,7 @@ class InvalidLoginCredentialsException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.invalidLoginCredentials;
+    return context.L.invalidLoginCredentials;
   }
 }
 
@@ -68,7 +68,7 @@ class OperationNotAllowedException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.operationNotAllowed;
+    return context.L.operationNotAllowed;
   }
 }
 
@@ -77,7 +77,7 @@ class TooManyRequestsException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.tooManyRequests;
+    return context.L.tooManyRequests;
   }
 }
 
@@ -86,7 +86,7 @@ class UndefinedAuthException extends AuthException {
 
   @override
   String localizedMessage(BuildContext context) {
-    return context.localization.undefinedAuthError;
+    return context.L.undefinedAuthError;
   }
 }
 

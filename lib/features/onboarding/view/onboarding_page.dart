@@ -48,15 +48,15 @@ class OnboardingPage extends ConsumerWidget {
                           children: [
                             OnboardingPageView(
                               imagePath: Assets.images.socialSharing,
-                              text: context.localization.onboardingShare,
+                              text: context.L.onboardingShare,
                             ),
                             OnboardingPageView(
                               imagePath: Assets.images.teamCollaboration,
-                              text: context.localization.onboardingCollaborate,
+                              text: context.L.onboardingCollaborate,
                             ),
                             OnboardingPageView(
                               imagePath: Assets.images.travelling,
-                              text: context.localization.onboardingTravel,
+                              text: context.L.onboardingTravel,
                             ),
                           ],
                         ),
@@ -72,9 +72,18 @@ class OnboardingPage extends ConsumerWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: PrimaryButton(
-                    text: context.localization.getStarted,
-                    onPressed: () => controller.onPressStart(context),
-                    isDisabled: !state.onboardingFinished,
+                    text: context.L.getStarted,
+                    onPressed: () {
+                      if (state.onboardingFinished == false) {
+                        controller.pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                        return;
+                      }
+                      controller.onPressStart(context);
+                    },
+                    isDisabled: false,
                   ),
                 )
               ],

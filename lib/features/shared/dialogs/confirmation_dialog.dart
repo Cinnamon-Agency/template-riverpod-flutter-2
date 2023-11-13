@@ -74,7 +74,7 @@ class ConfirmationDialog extends StatelessWidget {
                                 margin: const EdgeInsets.all(10),
                                 child: Center(
                                   child: Text(
-                                    onCancelText ?? context.localization.cancel,
+                                    onCancelText ?? context.L.cancel,
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -97,7 +97,7 @@ class ConfirmationDialog extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     onConfirmText ??
-                                        context.localization.confirm,
+                                        context.L.confirm,
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
