@@ -58,6 +58,8 @@ class PlannerCreatorForm extends ConsumerWidget {
                     decoration: const InputDecoration(
                       labelText: 'Name',
                     ),
+                    onChanged: (value) =>
+                        _formKey.currentState?.fields['name']?.validate(),
                     validator: (value) =>
                         !_nameNode.hasPrimaryFocus && (value?.isEmpty ?? true)
                             ? 'This field is required.'
@@ -83,6 +85,9 @@ class PlannerCreatorForm extends ConsumerWidget {
                       labelText: 'Description',
                       alignLabelWithHint: true,
                     ),
+                    onChanged: (value) => _formKey
+                        .currentState?.fields['description']
+                        ?.validate(),
                     validator: (value) => !_descriptionNode.hasPrimaryFocus &&
                             (value?.isEmpty ?? true)
                         ? 'This field is required.'
@@ -106,6 +111,7 @@ class PlannerCreatorForm extends ConsumerWidget {
 
                   /// ------ Form builder field
                   ListView.builder(
+                    padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     itemCount: state.requireValue.coTravelers.length,
                     itemBuilder: (context, index) =>
@@ -121,27 +127,30 @@ class PlannerCreatorForm extends ConsumerWidget {
                           return Autocomplete<String>(
                             optionsBuilder:
                                 (TextEditingValue textEditingValue) =>
-                                    textEditingValue.text.isNotEmpty
-                                        ? travelers.requireValue
-                                            .map((e) => e.username)
-                                            .where((String option) =>
-                                                option !=
-                                                    userData.requireValue
-                                                        .username &&
-                                                option.contains(textEditingValue
-                                                    .text
-                                                    .toLowerCase()))
-                                        : [],
+                            textEditingValue.text.isNotEmpty
+                                ? travelers.requireValue
+                                .map((e) => e.username)
+                                .where((String option) =>
+                            option !=
+                                userData.requireValue
+                                    .username &&
+                                option.contains(textEditingValue
+                                    .text
+                                    .toLowerCase()))
+                                : [],
                             fieldViewBuilder: (BuildContext context,
                                 TextEditingController textEditingController,
                                 FocusNode focusNode,
                                 VoidCallback onFieldSubmitted) {
-                              textEditingController.text =
-                                  state.requireValue.coTravelers[index].name;
-                              textEditingController.selection =
-                                  TextSelection.collapsed(
-                                      offset:
-                                          textEditingController.text.length);
+                              if (textEditingController.text !=
+                                  state.requireValue.coTravelers[index].name) {
+                                textEditingController.text =
+                                    state.requireValue.coTravelers[index].name;
+                                textEditingController.selection =
+                                    TextSelection.collapsed(
+                                        offset:
+                                            textEditingController.text.length);
+                              }
                               return FormBuilderTextField(
                                 key: ValueKey(
                                     'textField-${state.requireValue.coTravelers[index].id}'),
@@ -149,19 +158,32 @@ class PlannerCreatorForm extends ConsumerWidget {
                                     'coTravelerTextField-${state.requireValue.coTravelers[index].id}',
                                 controller: textEditingController,
                                 focusNode: focusNode,
-                                onChanged: (value) =>
-                                    controller.updateCoTravelerName(
-                                        state
-                                            .requireValue.coTravelers[index].id,
-                                        value ?? ''),
+                                onChanged: (value) {
+                                  controller.updateCoTravelerName(
+                                      state.requireValue.coTravelers[index].id,
+                                      value ?? '');
+                                  _formKey
+                                      .currentState
+                                      ?.fields[
+                                          'coTravelerTextField-${state.requireValue.coTravelers[index].id}']
+                                      ?.validate();
+                                },
                                 decoration: InputDecoration(
                                   labelText: 'Co-traveler',
                                   suffixIcon: IconButton(
-                                    onPressed: () =>
-                                        controller.removeCoTraveler(state
-                                            .requireValue
-                                            .coTravelers[index]
-                                            .id),
+                                    onPressed: () {
+                                      /// Remove form fields
+                                      _formKey.currentState
+                                          ?.removeInternalFieldValue(
+                                              'coTraveler-${state.requireValue.coTravelers[index].id}');
+                                      _formKey.currentState
+                                          ?.removeInternalFieldValue(
+                                              'coTravelerTextField-${state.requireValue.coTravelers[index].id}');
+
+                                      /// Remove from controller's coTravelers list
+                                      controller.removeCoTraveler(state
+                                          .requireValue.coTravelers[index].id);
+                                    },
                                     icon: Icon(
                                       Icons.delete_outline,
                                       color:
@@ -170,7 +192,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                                   ),
                                 ),
                                 validator: (valueCandidate) =>
-                                    !focusNode.hasPrimaryFocus &&
+                                !focusNode.hasPrimaryFocus &&
                                             (valueCandidate?.isEmpty ?? true)
                                         ? 'This field is required.'
                                         : null,
@@ -181,7 +203,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                             },
                           );
                         },
-                        autovalidateMode: AutovalidateMode.disabled,
+                        autovalidateMode: AutovalidateMode.always,
                         validator: FormBuilderValidators.required(),
                       ),
                     ),
@@ -190,13 +212,12 @@ class PlannerCreatorForm extends ConsumerWidget {
                   /// Button:
                   /// ------ Add new co-traveler
                   Center(
-                    child: SizedBox(
-                      height: 50,
-                      child: PrimaryButton(
-                        text: '+',
-                        onPressed: () => controller
-                            .addCoTraveler(CoTraveler(id: uuid.v4(), name: '')),
-                      ),
+                    child: IconButton(
+                      splashRadius: 25,
+                      icon: const Icon(Icons.add),
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () => controller
+                          .addCoTraveler(CoTraveler(id: uuid.v4(), name: '')),
                     ),
                   ),
 
