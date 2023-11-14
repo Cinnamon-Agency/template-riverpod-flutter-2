@@ -32,6 +32,7 @@ final class FirebaseTripDataSource implements TripDataSource {
       await collection.doc().set(trip);
     } catch (e) {
       log('Failed to add trip: $e');
+      rethrow;
     }
   }
 

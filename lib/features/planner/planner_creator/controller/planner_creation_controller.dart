@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:cinnamon_riverpod_2/features/planner/planner_creator/controller/planner_creation_state.dart';
+import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
-import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
+import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final plannerCreationStateProvider =
@@ -10,32 +12,56 @@ final plannerCreationStateProvider =
   () => PlannerCreationController(),
 );
 
-final TripItinerary defaultTripItinerary = TripItinerary(
-  id: '',
-  name: '',
-  description: '',
-  imageUrl: null,
-  locations: const [],
-  travelers: const [],
-  startDate: DateTime.now(),
-  endDate: DateTime.now(),
-  isOngoing: false,
-  hasEnded: false,
-);
-
 /// TODO: Refactor controller to only handle sending form data
 class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
-  Future<void> createTripItinerary(TripItineraryEntity tripItinerary) async {
+  TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
+
+  String get _userId => ref.read(userIdProvider);
+
+  Future<void> createTripItinerary(Map<String, dynamic> formData) async {
     state = const AsyncLoading<PlannerCreationState>();
-    // await _tripRepo.createTripItinerary(tripItinerary);
-    await Future.delayed(Duration(seconds: 3));
-    state = AsyncData(state.requireValue);
+    try {
+      await _tripRepo.createTripItinerary(TripItineraryEntity(
+        id: '',
+        name: formData['name'],
+        description: formData['description'],
+        locations: [],
+        imageUrl:
+            'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        startDate: DateTime(5243523462345624, 2, 1),
+        endDate: DateTime(2024, 2, 15),
+        ownerIds: [_userId, ...state.requireValue.coTravelers.map((e) => e.id)],
+      ));
+      state = AsyncData(state.requireValue);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
   }
 
-  void updateCoTravelersCount(int count) =>
-      state = AsyncData(PlannerCreationState(coTravelersCount: count));
+  void addCoTraveler(CoTraveler newCoTraveler) {
+    state = AsyncData(state.requireValue.copyWith(
+      coTravelers: [...state.requireValue.coTravelers, newCoTraveler],
+    ));
+  }
+
+  void removeCoTraveler(String id) {
+    state = AsyncData(state.requireValue.copyWith(
+      coTravelers:
+          state.requireValue.coTravelers.where((c) => c.id != id).toList(),
+    ));
+  }
+
+  void updateCoTravelerName(String id, String name) {
+    state = AsyncData(state.requireValue.copyWith(
+      coTravelers: state.requireValue.coTravelers
+          .map((c) => c.id == id ? c.copyWith(name: name) : c)
+          .toList(),
+    ));
+  }
+
+  void removeUserTrips() => _tripRepo.removeUserTrips();
 
   @override
   FutureOr<PlannerCreationState> build() =>
-      const PlannerCreationState(coTravelersCount: 0);
+      const PlannerCreationState(coTravelers: []);
 }

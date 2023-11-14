@@ -13,14 +13,14 @@ class EditProfileController extends AutoDisposeAsyncNotifier<EditProfileState> {
   @override
   EditProfileState build() {
     return EditProfileState(
-        username: ref.read(profileDataProvider).value?.name ?? '');
+        username: ref.read(profileDataProvider).value?.username ?? '');
   }
 
   void onUsernameTextChange(String value) {
     state = AsyncData(EditProfileState(
       username: value,
       isUsernameValid:
-          (ref.read(profileDataProvider).value?.name ?? '') != value,
+          (ref.read(profileDataProvider).value?.username ?? '') != value,
     ));
   }
 
@@ -30,7 +30,7 @@ class EditProfileController extends AutoDisposeAsyncNotifier<EditProfileState> {
       'username': state.requireValue.username,
     });
     state = AsyncData(EditProfileState(
-      username: ref.refresh(profileDataProvider).requireValue.name,
+      username: ref.refresh(profileDataProvider).requireValue.username,
       isUsernameValid: false,
     ));
   }

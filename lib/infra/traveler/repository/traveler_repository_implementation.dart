@@ -46,4 +46,10 @@ final class TravelerRepositoryImpl with EquatableMixin implements TravelerReposi
 
   @override
   Future<void> deleteProfile() => _travelerDataSource.deleteTraveler();
+
+  @override
+  Future<List<Traveler>> getAllTravelers() async =>
+      (await _travelerDataSource.getAllTravelers())
+          .map((e) => Traveler.fromEntity(e))
+          .toList();
 }

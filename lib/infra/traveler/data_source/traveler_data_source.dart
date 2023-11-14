@@ -22,4 +22,6 @@ abstract interface class TravelerDataSource {
   Future<void> checkUsernameAvailable(String username);
 
   Future<void> deleteTraveler();
+
+  Future<List<TravelerEntity>> getAllTravelers();
 }
