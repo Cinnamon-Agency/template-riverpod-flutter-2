@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cinnamon_riverpod_2/features/planner/planner_creator/controller/planner_creation_state.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:collection/collection.dart';
@@ -46,10 +47,10 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
   }
 
   void removeCoTraveler(String id) {
-    state = AsyncData(PlannerCreationState(
-        coTravelers: state.requireValue.coTravelers
-            .whereNot((ct) => id == ct.id)
-            .toList()));
+    state = AsyncData(state.requireValue.copyWith(
+      coTravelers:
+          state.requireValue.coTravelers.whereNot((ct) => id == ct.id).toList(),
+    ));
   }
 
   void updateCoTravelerName(String id, String name) {
@@ -60,9 +61,25 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
     ));
   }
 
+  void addTripLocation(TripLocation location) {
+    state = AsyncData(state.requireValue.copyWith(
+      tripLocations: [...state.requireValue.tripLocations, location],
+    ));
+  }
+
+  void removeTripLocation(String id) {
+    state = AsyncData(state.requireValue.copyWith(
+      tripLocations: state.requireValue.tripLocations
+          .whereNot((ct) => id == ct.id)
+          .toList(),
+    ));
+  }
+
   void removeUserTrips() => _tripRepo.removeUserTrips();
 
   @override
-  FutureOr<PlannerCreationState> build() =>
-      const PlannerCreationState(coTravelers: []);
+  FutureOr<PlannerCreationState> build() => const PlannerCreationState(
+        coTravelers: [],
+        tripLocations: [],
+      );
 }
