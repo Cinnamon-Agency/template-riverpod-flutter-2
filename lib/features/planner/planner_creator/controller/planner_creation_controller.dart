@@ -77,6 +77,10 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
 
   void removeUserTrips() => _tripRepo.removeUserTrips();
 
+  void setError(String s) {
+    state = AsyncValue.error(s, StackTrace.current);
+  }
+
   @override
   FutureOr<PlannerCreationState> build() => const PlannerCreationState(
         coTravelers: [],

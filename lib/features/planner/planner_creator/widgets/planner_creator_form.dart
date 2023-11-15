@@ -9,7 +9,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
 
@@ -121,92 +120,84 @@ class PlannerCreatorForm extends ConsumerWidget {
                         /// ------ Form builder field
                         Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: FormBuilderField<String?>(
-                        key: ValueKey(state.requireValue.coTravelers[index].id),
-                        name:
-                            'coTraveler-${state.requireValue.coTravelers[index].id}',
-                        builder: (FormFieldState field) {
-                          return Autocomplete<String>(
-                            optionsBuilder:
-                                (TextEditingValue textEditingValue) =>
+                      child: Autocomplete<String>(
+                        key: ValueKey(
+                            'coTraveler-${state.requireValue.coTravelers[index].id}'),
+                        optionsBuilder: (TextEditingValue textEditingValue) =>
                             textEditingValue.text.isNotEmpty
                                 ? travelers.requireValue
-                                .map((e) => e.username)
-                                .where((String option) =>
-                            option !=
-                                userData.requireValue
-                                    .username &&
-                                option.contains(textEditingValue
-                                    .text
-                                    .toLowerCase()))
+                                    .map((e) => e.username)
+                                    .where((String option) =>
+                                        option !=
+                                            userData.requireValue.username &&
+                                        option.contains(textEditingValue.text
+                                            .toLowerCase()))
                                 : [],
-                            fieldViewBuilder: (BuildContext context,
-                                TextEditingController textEditingController,
-                                FocusNode focusNode,
-                                VoidCallback onFieldSubmitted) {
-                              if (textEditingController.text !=
-                                  state.requireValue.coTravelers[index].name) {
-                                textEditingController.text =
-                                    state.requireValue.coTravelers[index].name;
-                                textEditingController.selection =
-                                    TextSelection.collapsed(
-                                        offset:
-                                            textEditingController.text.length);
-                              }
-                              return FormBuilderTextField(
-                                key: ValueKey(
-                                    'textField-${state.requireValue.coTravelers[index].id}'),
-                                name:
-                                    'coTravelerTextField-${state.requireValue.coTravelers[index].id}',
-                                controller: textEditingController,
-                                focusNode: focusNode,
-                                onChanged: (value) {
-                                  controller.updateCoTravelerName(
-                                      state.requireValue.coTravelers[index].id,
-                                      value ?? '');
-                                  _formKey
-                                      .currentState
-                                      ?.fields[
-                                          'coTravelerTextField-${state.requireValue.coTravelers[index].id}']
-                                      ?.validate();
-                                },
-                                decoration: InputDecoration(
-                                  labelText: 'Co-traveler',
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      /// Remove form fields
-                                      _formKey.currentState
-                                          ?.removeInternalFieldValue(
-                                              'coTraveler-${state.requireValue.coTravelers[index].id}');
-                                      _formKey.currentState
-                                          ?.removeInternalFieldValue(
-                                              'coTravelerTextField-${state.requireValue.coTravelers[index].id}');
+                        fieldViewBuilder: (BuildContext context,
+                            TextEditingController textEditingController,
+                            FocusNode focusNode,
+                            VoidCallback onFieldSubmitted) {
+                          if (textEditingController.text !=
+                              state.requireValue.coTravelers[index].name) {
+                            textEditingController.text =
+                                state.requireValue.coTravelers[index].name;
+                            textEditingController.selection =
+                                TextSelection.collapsed(
+                                    offset: textEditingController.text.length);
+                          }
+                          return FormBuilderTextField(
+                            key: ValueKey(
+                                'coTravelerTextField-${state.requireValue.coTravelers[index].id}'),
+                            name:
+                                'coTravelerTextField-${state.requireValue.coTravelers[index].id}',
+                            controller: textEditingController,
+                            focusNode: focusNode,
+                            onChanged: (value) {
+                              controller.updateCoTravelerName(
+                                  state.requireValue.coTravelers[index].id,
+                                  value ?? '');
+                              _formKey
+                                  .currentState
+                                  ?.fields[
+                                      'coTravelerTextField-${state.requireValue.coTravelers[index].id}']
+                                  ?.validate();
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Co-traveler',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  /// Remove form fields
+                                  _formKey.currentState?.removeInternalFieldValue(
+                                      'coTravelerTextField-${state.requireValue.coTravelers[index].id}');
 
-                                      /// Remove from controller's coTravelers list
-                                      controller.removeCoTraveler(state
-                                          .requireValue.coTravelers[index].id);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete_outline,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
-                                  ),
+                                  log('FORM FIELDS ===> ${_formKey.currentState?.fields}');
+
+                                  /// Remove from controller's coTravelers list
+                                  controller.removeCoTraveler(
+                                      state.requireValue.coTravelers[index].id);
+                                },
+                                icon: Icon(
+                                  Icons.delete_outline,
+                                  color: Theme.of(context).colorScheme.error,
                                 ),
-                                validator: (valueCandidate) =>
+                              ),
+                            ),
+                            validator: (valueCandidate) =>
                                 !focusNode.hasPrimaryFocus &&
-                                            (valueCandidate?.isEmpty ?? true)
-                                        ? 'This field is required.'
-                                        : null,
-                              );
-                            },
-                            onSelected: (String selection) {
-                              field.didChange(selection);
-                            },
+                                        (valueCandidate?.isEmpty ?? true)
+                                    ? 'This field is required.'
+                                    : null,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                           );
                         },
-                        autovalidateMode: AutovalidateMode.always,
-                        validator: FormBuilderValidators.required(),
+                        onSelected: (String selection) {
+                          _formKey
+                              .currentState
+                              ?.fields[
+                                  'coTravelerTextField-${state.requireValue.coTravelers[index].id}']
+                              ?.didChange(selection);
+                        },
                       ),
                     ),
                   ),
@@ -244,95 +235,43 @@ class PlannerCreatorForm extends ConsumerWidget {
                         /// ------ Form builder field
                         Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: FormBuilderField<String?>(
+                      child: FormBuilderTextField(
                         key: ValueKey(
-                            state.requireValue.tripLocations[index].id),
+                            'location-${state.requireValue.tripLocations[index].id}'),
                         name:
-                            'location-${state.requireValue.tripLocations[index].id}',
-                        builder: (FormFieldState field) {
-                          return Autocomplete<String>(
-                            optionsBuilder: (TextEditingValue
-                                    textEditingValue) =>
-                                /*textEditingValue.text.isNotEmpty
-                                        ? travelers.requireValue
-                                            .map((e) => e.username)
-                                            .where((String option) =>
-                                                option !=
-                                                    userData.requireValue
-                                                        .username &&
-                                                option.contains(textEditingValue
-                                                    .text
-                                                    .toLowerCase()))
-                                        : */
-                                [],
-                            fieldViewBuilder: (BuildContext context,
-                                TextEditingController textEditingController,
-                                FocusNode focusNode,
-                                VoidCallback onFieldSubmitted) {
-                              if (textEditingController.text !=
-                                  state
-                                      .requireValue.tripLocations[index].name) {
-                                textEditingController.text = state
-                                    .requireValue.tripLocations[index].name;
-                                textEditingController.selection =
-                                    TextSelection.collapsed(
-                                        offset:
-                                            textEditingController.text.length);
-                              }
-                              return FormBuilderTextField(
-                                key: ValueKey(
-                                    'location-${state.requireValue.tripLocations[index].id}'),
-                                name:
-                                    'locationTextField-${state.requireValue.tripLocations[index].id}',
-                                controller: textEditingController,
-                                focusNode: focusNode,
-                                readOnly: true,
-                                onChanged: (value) {
-                                  _formKey
-                                      .currentState
-                                      ?.fields[
-                                          'locationTextField-${state.requireValue.tripLocations[index].id}']
-                                      ?.validate();
-                                },
-                                decoration: InputDecoration(
-                                  labelText: 'Location',
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      /// Remove form fields
-                                      _formKey.currentState
-                                          ?.removeInternalFieldValue(
-                                              'location-${state.requireValue.tripLocations[index].id}');
-                                      _formKey.currentState
-                                          ?.removeInternalFieldValue(
-                                              'locationTextField-${state.requireValue.tripLocations[index].id}');
-
-                                      /// Remove from tripLocations list
-                                      controller.removeTripLocation(state
-                                          .requireValue
-                                          .tripLocations[index]
-                                          .id);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete_outline,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
-                                  ),
-                                ),
-                                validator: (valueCandidate) =>
-                                    !focusNode.hasPrimaryFocus &&
-                                            (valueCandidate?.isEmpty ?? true)
-                                        ? 'This field is required.'
-                                        : null,
-                              );
-                            },
-                            onSelected: (String selection) {
-                              field.didChange(selection);
-                            },
-                          );
+                            'locationTextField-${state.requireValue.tripLocations[index].id}',
+                        readOnly: true,
+                        onChanged: (value) {
+                          _formKey
+                              .currentState
+                              ?.fields[
+                                  'locationTextField-${state.requireValue.tripLocations[index].id}']
+                              ?.validate();
                         },
-                        autovalidateMode: AutovalidateMode.always,
-                        validator: FormBuilderValidators.required(),
+                        decoration: InputDecoration(
+                          labelText: 'Location',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              /// Remove form fields
+                              _formKey.currentState?.removeInternalFieldValue(
+                                  'location-${state.requireValue.tripLocations[index].id}');
+                              _formKey.currentState?.removeInternalFieldValue(
+                                  'locationTextField-${state.requireValue.tripLocations[index].id}');
+
+                              /// Remove from tripLocations list
+                              controller.removeTripLocation(
+                                  state.requireValue.tripLocations[index].id);
+                            },
+                            icon: Icon(
+                              Icons.delete_outline,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                        validator: (valueCandidate) =>
+                            (valueCandidate?.isEmpty ?? true)
+                                ? 'This field is required.'
+                                : null,
                       ),
                     ),
                   ),
@@ -403,6 +342,18 @@ class PlannerCreatorForm extends ConsumerWidget {
                                             'coTravelerTextField-${traveler.id}']
                                         ?.invalidate('Username is invalid.');
                                   }
+                                }
+
+                                bool containsDuplicateCoTravelers = _formKey
+                                        .currentState?.value.values
+                                        .toSet()
+                                        .length !=
+                                    _formKey.currentState?.value.values.length;
+
+                                if (containsDuplicateCoTravelers) {
+                                  controller.setError(
+                                      'Co-travelers list contains duplicate values.');
+                                  return;
                                 }
 
                                 log('FORM STATE ===> ${_formKey.currentState?.value}');
