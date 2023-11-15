@@ -344,19 +344,24 @@ class PlannerCreatorForm extends ConsumerWidget {
                                   }
                                 }
 
-                                bool containsDuplicateCoTravelers = _formKey
-                                        .currentState?.value.values
-                                        .toSet()
-                                        .length !=
-                                    _formKey.currentState?.value.values.length;
+                                List<String> coTravelersList = List.of(_formKey
+                                        .currentState?.value.entries
+                                        .where((e) => e.key
+                                            .contains('coTravelerTextField'))
+                                        .map((e) => e.value) ??
+                                    []);
+
+                                log('FORM STATE ===> ${_formKey.currentState?.value.entries} :: $coTravelersList');
+
+                                bool containsDuplicateCoTravelers =
+                                    coTravelersList.toSet().length !=
+                                        coTravelersList.length;
 
                                 if (containsDuplicateCoTravelers) {
                                   controller.setError(
                                       'Co-travelers list contains duplicate values.');
                                   return;
                                 }
-
-                                log('FORM STATE ===> ${_formKey.currentState?.value}');
 
                                 if (_formKey.currentState?.isValid == true) {
                                   final Map<String, dynamic> formData =
@@ -369,7 +374,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                                           _formKey.currentState!.reset());
                                 }
                               } catch (e) {
-                                log('Something went wrong with FB query.');
+                                log('Something went wrong with FB query: $e');
                               }
                             },
                           ),
