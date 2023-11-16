@@ -19,7 +19,13 @@ import GoogleMaps
       UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
     }
 
-    GMSServices.provideAPIKey("AIzaSyBFiUgX1FVCWSKrWqf_2dgTn-RGdEbP1HI")
+    guard let filePath = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
+          let plist = NSDictionary(contentsOfFile: filePath),
+          let apiKey = plist.object(forKey: "GOOGLE_MAPS_API_KEY") as? String else {
+      fatalError("Couldn't find file 'Secrets.plist'.")
+    }
+
+    GMSServices.provideAPIKey(apiKey)
 
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
