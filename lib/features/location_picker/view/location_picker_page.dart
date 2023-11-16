@@ -17,8 +17,10 @@ class LocationPickerPage extends ConsumerWidget {
 
     return MapLocationPicker(
       apiKey: googleMapsApiKey,
-      origin: Location(lat: 45, lng: 18),
-      location: Location(lat: 45, lng: 18),
+      currentLatLng: const LatLng(45.7902023, 15.9706199),
+      hideLocationButton: true,
+      hideMapTypeButton: true,
+      bottomCardColor: Colors.white,
       onNext: (location) {
         if (location != null) {
           router.pop();

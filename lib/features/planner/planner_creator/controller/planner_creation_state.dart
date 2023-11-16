@@ -3,7 +3,7 @@ import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:equatable/equatable.dart';
 
 class PlannerCreationState extends Equatable {
-  final List<CoTraveler> coTravelers;
+  final Map<String, CoTraveler> coTravelers;
   final List<TripLocation> tripLocations;
 
   const PlannerCreationState({
@@ -12,7 +12,7 @@ class PlannerCreationState extends Equatable {
   });
 
   PlannerCreationState copyWith({
-    List<CoTraveler>? coTravelers,
+    Map<String, CoTraveler>? coTravelers,
     List<TripLocation>? tripLocations,
   }) {
     return PlannerCreationState(

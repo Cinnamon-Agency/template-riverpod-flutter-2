@@ -125,7 +125,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Autocomplete<String>(
                         key: ValueKey(
-                            'coTraveler-${state.requireValue.coTravelers[index].id}'),
+                            'coTraveler-${state.requireValue.coTravelers.keys.toList()[index]}'),
                         optionsBuilder: (TextEditingValue textEditingValue) =>
                             textEditingValue.text.isNotEmpty
                                 ? travelers.requireValue
@@ -141,28 +141,38 @@ class PlannerCreatorForm extends ConsumerWidget {
                             FocusNode focusNode,
                             VoidCallback onFieldSubmitted) {
                           if (textEditingController.text !=
-                              state.requireValue.coTravelers[index].name) {
-                            textEditingController.text =
-                                state.requireValue.coTravelers[index].name;
+                              state.requireValue.coTravelers.values
+                                  .toList()[index]
+                                  .name) {
+                            textEditingController.text = state
+                                .requireValue.coTravelers.values
+                                .toList()[index]
+                                .name;
                             textEditingController.selection =
                                 TextSelection.collapsed(
                                     offset: textEditingController.text.length);
                           }
                           return FormBuilderTextField(
                             key: ValueKey(
-                                'coTravelerTextField-${state.requireValue.coTravelers[index].id}'),
+                                'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}'),
                             name:
-                                'coTravelerTextField-${state.requireValue.coTravelers[index].id}',
+                                'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}',
                             controller: textEditingController,
                             focusNode: focusNode,
                             onChanged: (value) {
                               controller.updateCoTravelerName(
-                                  state.requireValue.coTravelers[index].id,
+                                  state.requireValue.coTravelers.keys
+                                      .toList()[index],
+                                  travelers.requireValue
+                                          .firstWhereOrNull(
+                                              (t) => t.username == value)
+                                          ?.id ??
+                                      '',
                                   value ?? '');
                               _formKey
                                   .currentState
                                   ?.fields[
-                                      'coTravelerTextField-${state.requireValue.coTravelers[index].id}']
+                                      'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}']
                                   ?.validate();
                             },
                             decoration: InputDecoration(
@@ -171,13 +181,14 @@ class PlannerCreatorForm extends ConsumerWidget {
                                 onPressed: () {
                                   /// Remove form fields
                                   _formKey.currentState?.removeInternalFieldValue(
-                                      'coTravelerTextField-${state.requireValue.coTravelers[index].id}');
+                                      'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}');
 
                                   log('FORM FIELDS ===> ${_formKey.currentState?.fields}');
 
                                   /// Remove from controller's coTravelers list
-                                  controller.removeCoTraveler(
-                                      state.requireValue.coTravelers[index].id);
+                                  controller.removeCoTraveler(state
+                                      .requireValue.coTravelers.keys
+                                      .toList()[index]);
                                 },
                                 icon: Icon(
                                   Icons.delete_outline,
@@ -198,7 +209,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                           _formKey
                               .currentState
                               ?.fields[
-                                  'coTravelerTextField-${state.requireValue.coTravelers[index].id}']
+                                  'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}']
                               ?.didChange(selection);
                         },
                       ),
@@ -212,8 +223,8 @@ class PlannerCreatorForm extends ConsumerWidget {
                       splashRadius: 25,
                       icon: const Icon(Icons.add),
                       color: Theme.of(context).primaryColor,
-                      onPressed: () => controller
-                          .addCoTraveler(CoTraveler(id: uuid.v4(), name: '')),
+                      onPressed: () => controller.addCoTraveler(
+                          uuid.v4(), const CoTraveler(id: '', name: '')),
                     ),
                   ),
 
@@ -254,19 +265,19 @@ class PlannerCreatorForm extends ConsumerWidget {
                             child: InkWell(
                               onTap: () {
                                 router.push(RoutePaths.locationPicker,
-                                    extra: (lp.GeocodingResult gr) {
+                                    extra: (lp.GeocodingResult? gr) {
                                   TripLocation tripLocation =
                                       state.requireValue.tripLocations[index];
 
-                                  tripLocation = tripLocation.copyWith(
-                                    name: gr.formattedAddress,
-                                    location: LatLng(gr.geometry.location.lat,
-                                        gr.geometry.location.lng),
-                                  );
+                                  if (gr != null) {
+                                    tripLocation = tripLocation.copyWith(
+                                      name: gr.formattedAddress,
+                                      location: LatLng(gr.geometry.location.lat,
+                                          gr.geometry.location.lng),
+                                    );
 
-                                  controller.updateTripLocation(tripLocation);
-
-                                  log('LOCATION SET ====> ${tripLocation.name}');
+                                    controller.updateTripLocation(tripLocation);
+                                  }
                                 });
                               },
                               child: Container(
@@ -376,7 +387,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                               try {
                                 _formKey.currentState?.saveAndValidate();
                                 for (var traveler
-                                    in state.requireValue.coTravelers) {
+                                    in state.requireValue.coTravelers.values) {
                                   if (userData.requireValue.username ==
                                           traveler.name ||
                                       travelers.requireValue.firstWhereOrNull(
@@ -391,8 +402,6 @@ class PlannerCreatorForm extends ConsumerWidget {
                                         ?.invalidate('Username is invalid.');
                                   }
                                 }
-
-                                log('TRIP LOCATIONS ==> ${state.requireValue.tripLocations.map((l) => l.name)}');
 
                                 if (state.requireValue.tripLocations
                                     .map((l) => l.name)
@@ -409,8 +418,6 @@ class PlannerCreatorForm extends ConsumerWidget {
                                         .map((e) => e.value) ??
                                     []);
 
-                                log('FORM STATE ===> ${_formKey.currentState?.value.entries} :: $coTravelersList');
-
                                 bool containsDuplicateCoTravelers =
                                     coTravelersList.toSet().length !=
                                         coTravelersList.length;
@@ -425,11 +432,11 @@ class PlannerCreatorForm extends ConsumerWidget {
                                   final Map<String, dynamic> formData =
                                       _formKey.currentState!.value;
                                   await controller
-                                      .createTripItinerary(formData)
-                                      .then((value) =>
+                                      .createTripItinerary(formData);
 
-                                          // TODO: Handle error states in more detail if necessary
-                                          _formKey.currentState!.reset());
+                                  router.pop();
+                                  _formKey.currentState?.reset();
+                                  controller.resetState();
                                 }
                               } catch (e) {
                                 log('Something went wrong with FB query: $e');
