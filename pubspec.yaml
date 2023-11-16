@@ -39,6 +39,7 @@ dependencies:
   uuid:
   intl:
   cached_network_image:
+  map_location_picker:
 
   # UI
   cupertino_icons: ^1.0.2

@@ -36,7 +36,7 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
       ));
       state = AsyncData(state.requireValue);
     } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+      state = AsyncError(e, StackTrace.current);
     }
   }
 
@@ -63,7 +63,17 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
 
   void addTripLocation(TripLocation location) {
     state = AsyncData(state.requireValue.copyWith(
-      tripLocations: [...state.requireValue.tripLocations, location],
+      tripLocations: state.requireValue.tripLocations.isEmpty
+          ? [location]
+          : [...state.requireValue.tripLocations, location],
+    ));
+  }
+
+  void updateTripLocation(TripLocation location) {
+    state = AsyncData(state.requireValue.copyWith(
+      tripLocations: state.requireValue.tripLocations
+          .map((loc) => loc.id == location.id ? location : loc)
+          .toList(),
     ));
   }
 
@@ -78,7 +88,7 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
   void removeUserTrips() => _tripRepo.removeUserTrips();
 
   void setError(String s) {
-    state = AsyncValue.error(s, StackTrace.current);
+    state = AsyncError(s, StackTrace.current);
   }
 
   @override

@@ -1,15 +1,18 @@
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cinnamon_riverpod_2/features/planner/planner_creator/controller/planner_creation_controller.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
+import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:map_location_picker/map_location_picker.dart' as lp;
 import 'package:uuid/uuid.dart';
 
 class PlannerCreatorForm extends ConsumerWidget {
@@ -21,7 +24,7 @@ class PlannerCreatorForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(plannerCreationStateProvider.notifier);
-    final state = ref.watch(plannerCreationStateProvider);
+    var state = ref.watch(plannerCreationStateProvider);
     final userData = ref.watch(profileDataProvider);
     final travelers = ref.watch(travelersProvider);
 
@@ -90,7 +93,7 @@ class PlannerCreatorForm extends ConsumerWidget {
                         .currentState?.fields['description']
                         ?.validate(),
                     validator: (value) => !_descriptionNode.hasPrimaryFocus &&
-                            (value?.isEmpty ?? true)
+                        (value?.isEmpty ?? true)
                         ? 'This field is required.'
                         : null,
                   ),
@@ -226,52 +229,92 @@ class PlannerCreatorForm extends ConsumerWidget {
 
                   const SizedBox(height: 10),
 
-                  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: state.requireValue.tripLocations.length,
-                    itemBuilder: (context, index) =>
+                  FormBuilderField<List<TripLocation>>(
+                    name: 'locations',
+                    /*onChanged: (value) =>
+                        _formKey.currentState?.fields['locations']?.validate(),
+                    validator: (value) => (value
+                                ?.map((l) => l.name)
+                                .contains('Select Location') ??
+                            false)
+                        ? 'This field is required.'
+                        : null,*/
+                    builder: (field) => ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.requireValue.tripLocations.length,
+                      itemBuilder: (context, index) =>
 
-                        /// ------ Form builder field
-                        Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: FormBuilderTextField(
-                        key: ValueKey(
-                            'location-${state.requireValue.tripLocations[index].id}'),
-                        name:
-                            'locationTextField-${state.requireValue.tripLocations[index].id}',
-                        readOnly: true,
-                        onChanged: (value) {
-                          _formKey
-                              .currentState
-                              ?.fields[
-                                  'locationTextField-${state.requireValue.tripLocations[index].id}']
-                              ?.validate();
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Location',
-                          suffixIcon: IconButton(
+                          /// ------ Form builder field
+                          Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                router.push(RoutePaths.locationPicker,
+                                    extra: (lp.GeocodingResult gr) {
+                                  TripLocation tripLocation =
+                                      state.requireValue.tripLocations[index];
+
+                                  tripLocation = tripLocation.copyWith(
+                                    name: gr.formattedAddress,
+                                    location: LatLng(gr.geometry.location.lat,
+                                        gr.geometry.location.lng),
+                                  );
+
+                                  controller.updateTripLocation(tripLocation);
+
+                                  log('LOCATION SET ====> ${tripLocation.name}');
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                height: 70,
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    Container(
+                                      constraints: BoxConstraints(
+                                          maxWidth:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.5),
+                                      child: AutoSizeText(
+                                        state.requireValue.tripLocations[index]
+                                            .name,
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
                             onPressed: () {
-                              /// Remove form fields
-                              _formKey.currentState?.removeInternalFieldValue(
-                                  'location-${state.requireValue.tripLocations[index].id}');
-                              _formKey.currentState?.removeInternalFieldValue(
-                                  'locationTextField-${state.requireValue.tripLocations[index].id}');
-
                               /// Remove from tripLocations list
                               controller.removeTripLocation(
                                   state.requireValue.tripLocations[index].id);
                             },
                             icon: Icon(
-                              Icons.delete_outline,
+                              Icons.delete_outline_outlined,
                               color: Theme.of(context).colorScheme.error,
                             ),
                           ),
-                        ),
-                        validator: (valueCandidate) =>
-                            (valueCandidate?.isEmpty ?? true)
-                                ? 'This field is required.'
-                                : null,
+                        ],
                       ),
                     ),
                   ),
@@ -283,15 +326,20 @@ class PlannerCreatorForm extends ConsumerWidget {
                       splashRadius: 25,
                       icon: const Icon(Icons.add),
                       color: Theme.of(context).primaryColor,
-                      onPressed: () => controller.addTripLocation(
-                        TripLocation(
+                      onPressed: () {
+                        TripLocation newTripLocation = TripLocation(
                           id: uuid.v4(),
                           duration: const Duration(days: 2),
-                          name: 'New York',
+                          name: 'Select Location',
                           isVisited: false,
                           location: const LatLng(45, -42),
-                        ),
-                      ),
+                        );
+
+                        controller.addTripLocation(newTripLocation);
+
+                        // _formKey.currentState?.setInternalFieldValue(
+                        //     'locations', state.requireValue.tripLocations);
+                      },
                     ),
                   ),
 
@@ -342,6 +390,16 @@ class PlannerCreatorForm extends ConsumerWidget {
                                             'coTravelerTextField-${traveler.id}']
                                         ?.invalidate('Username is invalid.');
                                   }
+                                }
+
+                                log('TRIP LOCATIONS ==> ${state.requireValue.tripLocations.map((l) => l.name)}');
+
+                                if (state.requireValue.tripLocations
+                                    .map((l) => l.name)
+                                    .contains('Select Location')) {
+                                  controller.setError(
+                                      'One or more locations have not been set.\nPlease set the locations or remove them from the list.');
+                                  return;
                                 }
 
                                 List<String> coTravelersList = List.of(_formKey
