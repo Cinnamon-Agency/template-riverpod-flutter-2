@@ -1,5 +1,26 @@
 # Riverpod Template (TripFinder app)
 
+![Riverpod template by Cinnamon Agency](https://github.com/Cinnamon-Agency/template-riverpod-flutter-2/assets/118342270/2ea647c1-594f-49fb-bab7-0a1610b34c6d)
+
+Welcome to TripFinder - a Flutter Riverpod template! 🚀
+
+This template is more than just a "Hello World" app — it's a comprehensive showcase of real-world usage of Riverpod, demonstrating best practices for state management, common features, and more in Flutter applications.
+
+### Features
+- 🌐 Environment variables
+- 💾 Repository pattern
+- 🚏 Routing
+- 🌍 Localization
+- 🌞🌚 Light and dark theme
+- 🖼️ Custom font and app icon
+- 🛠️ Asset generation
+- 📨 Login and signup with email
+- 🔐 Firebase auth
+- 🗺️ Maps integration
+- ✨ Animation examples (hero, shimmer, slivers)
+- 📲 Adaptive and common components (loading spinner, buttons with feedback, dialogs)
+
+
 ### Documentation
 https://pub.dev/packages/dcdg
 
