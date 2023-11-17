@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cinnamon_riverpod_2/features/planner/planner_creator/controller/planner_creation_state.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_state.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_location.dart';
@@ -10,19 +10,19 @@ import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final plannerCreationStateProvider =
-    AsyncNotifierProvider<PlannerCreationController, PlannerCreationState>(
-  () => PlannerCreationController(),
+final tripCreationStateProvider =
+    AutoDisposeAsyncNotifierProvider<TripCreationController, TripCreationState>(
+  () => TripCreationController(),
 );
 
-/// TODO: Refactor controller to only handle sending form data
-class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
+class TripCreationController
+    extends AutoDisposeAsyncNotifier<TripCreationState> {
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   String get _userId => ref.read(userIdProvider);
 
   Future<void> createTripItinerary(Map<String, dynamic> formData) async {
-    state = const AsyncLoading<PlannerCreationState>();
+    state = const AsyncLoading<TripCreationState>();
     try {
       await _tripRepo.createTripItinerary(TripItineraryEntity(
         id: '',
@@ -95,14 +95,14 @@ class PlannerCreationController extends AsyncNotifier<PlannerCreationState> {
   }
 
   void resetState() {
-    state = const AsyncData(PlannerCreationState(
+    state = const AsyncData(TripCreationState(
       coTravelers: {},
       tripLocations: [],
     ));
   }
 
   @override
-  FutureOr<PlannerCreationState> build() => const PlannerCreationState(
+  FutureOr<TripCreationState> build() => const TripCreationState(
         coTravelers: {},
         tripLocations: [],
       );

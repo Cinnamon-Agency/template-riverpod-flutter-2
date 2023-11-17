@@ -4,7 +4,7 @@ import 'package:cinnamon_riverpod_2/features/location_picker/view/location_picke
 import 'package:cinnamon_riverpod_2/features/login/view/login_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/start_page.dart';
-import 'package:cinnamon_riverpod_2/features/planner/planner_creator/planner_creator_page.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_creator/trip_creator_page.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_details_page.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_map_page.dart';
 import 'package:cinnamon_riverpod_2/features/settings/view/settings_page.dart';
@@ -106,7 +106,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RoutePaths.plannerCreator,
       builder: (BuildContext context, GoRouterState state) {
-        return const PlannerCreatorPage();
+        return const TripCreatorPage();
       },
       routes: const <RouteBase>[],
     ),

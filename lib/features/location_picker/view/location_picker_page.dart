@@ -1,7 +1,7 @@
-import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
 final mapsAPIKeyProvider = Provider((ref) => dotenv.get('GOOGLE_MAPS_API_KEY'));
@@ -23,7 +23,7 @@ class LocationPickerPage extends ConsumerWidget {
       bottomCardColor: Colors.white,
       onNext: (location) {
         if (location != null) {
-          router.pop();
+          GoRouter.of(context).pop();
           onLocationSelected(location);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
