@@ -69,7 +69,7 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
   }
 
   @override
-  Future<void> deleteTraveler() async{
+  Future<void> deleteTraveler() async {
     try {
       DocumentReference<Map<String, dynamic>> doc = collection.doc(userID);
       await doc.delete();
@@ -77,5 +77,11 @@ class FirebaseTravelerDataSource implements TravelerDataSource {
       log('Failed to delete user $userID.');
       rethrow;
     }
+  }
+
+  @override
+  Future<List<TravelerEntity>> getAllTravelers() async {
+    return await collection.get().then((travelers) =>
+        travelers.docs.map((e) => TravelerEntity.fromDoc(e)).toList());
   }
 }

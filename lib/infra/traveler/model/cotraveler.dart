@@ -17,6 +17,13 @@ class CoTraveler extends Equatable {
     );
   }
 
+  CoTraveler copyWith({String? id, String? name}) {
+    return CoTraveler(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
+
   @override
   List<Object?> get props => [name];
 }

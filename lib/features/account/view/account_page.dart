@@ -48,7 +48,7 @@ class AccountPage extends ConsumerWidget {
               const SizedBox(height: 10),
               Text(
                 switch (profileData) {
-                  AsyncData<Traveler>(:final Traveler value) => value.name,
+                  AsyncData<Traveler>(:final Traveler value) => value.username,
                   AsyncError<Traveler>() => context.localization.usernameNA,
                   _ => '',
                 },

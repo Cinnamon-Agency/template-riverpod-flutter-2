@@ -17,6 +17,11 @@ final AutoDisposeFutureProvider<Traveler> profileDataProvider =
         (AutoDisposeFutureProviderRef<Traveler> ref) =>
             ref.watch(travelerRepositoryProvider).getProfileData());
 
+final AutoDisposeFutureProvider<List<Traveler>> travelersProvider =
+    AutoDisposeFutureProvider<List<Traveler>>(
+        (AutoDisposeFutureProviderRef<List<Traveler>> ref) =>
+            ref.watch(travelerRepositoryProvider).getAllTravelers());
+
 abstract interface class TravelerRepository {
   Future<Traveler> getProfileData();
 
@@ -31,4 +36,6 @@ abstract interface class TravelerRepository {
   });
 
   Future<void> deleteProfile();
+
+  Future<List<Traveler>> getAllTravelers();
 }

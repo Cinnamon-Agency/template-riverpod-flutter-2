@@ -9,9 +9,9 @@ import 'package:cinnamon_riverpod_2/features/shared/buttons/rounded_icon_button.
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_map_animations/flutter_map_animations.dart';
 
 /// Map that shows trip locations from trip with ID of [tripItineraryId].
 class TripMapPage extends ConsumerStatefulWidget {

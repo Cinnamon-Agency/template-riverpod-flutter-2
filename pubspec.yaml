@@ -40,6 +40,7 @@ dependencies:
   intl:
   cached_network_image:
   url_launcher:
+  map_location_picker:
 
   # UI
   cupertino_icons: ^1.0.2

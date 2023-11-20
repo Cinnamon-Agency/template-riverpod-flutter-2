@@ -1,7 +1,7 @@
-import 'package:cinnamon_riverpod_2/features/planner/trips/planner_home_page.dart';
 import 'package:cinnamon_riverpod_2/features/account/view/account_page.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_controller.dart';
 import 'package:cinnamon_riverpod_2/features/home/controller/home_state.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trips/trips_home_page.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,7 +39,7 @@ class HomePage extends ConsumerWidget {
       ),
       body: SafeArea(
         child: <Widget>[
-          const PlannerHomePage(),
+          const TripsHomePage(),
           // Container(
           //   color: Colors.green,
           //   alignment: Alignment.center,

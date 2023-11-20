@@ -1,23 +1,25 @@
+import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/no_trips_placeholder.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/ongoing_trip_card.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/planner_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trips/widgets/trip_section.dart';
 import 'package:cinnamon_riverpod_2/features/shared/adaptive_progress_indicator.dart';
+import 'package:cinnamon_riverpod_2/features/shared/buttons/rounded_icon_button.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
+import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:cinnamon_riverpod_2/features/shared/buttons/rounded_icon_button.dart';
-import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_controller.dart';
-import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
 
-class PlannerHomePage extends ConsumerWidget {
-  const PlannerHomePage({super.key});
+class TripsHomePage extends ConsumerWidget {
+  const TripsHomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(tripPlannerControllerProvider.notifier);
-    final AsyncValue<TripPlannerState> state = ref.watch(tripPlannerControllerProvider);
+    final AsyncValue<TripPlannerState> state =
+        ref.watch(tripPlannerControllerProvider);
 
     return Scaffold(
       primary: true,
@@ -30,7 +32,8 @@ class PlannerHomePage extends ConsumerWidget {
             child: RoundedIconButton(
               icon: CupertinoIcons.add,
               size: 32.0,
-              onPressed: controller.createMocked,
+              onPressed: () =>
+                  GoRouter.of(context).push(RoutePaths.plannerCreator),
               tooltipMessage: context.localization.planNewTrip,
             ),
           ),

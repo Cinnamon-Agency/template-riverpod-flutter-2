@@ -1,11 +1,14 @@
 import 'dart:async';
+
 import 'package:cinnamon_riverpod_2/features/planner/trips/controller/trip_planner_state.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final tripPlannerControllerProvider = AutoDisposeAsyncNotifierProvider<TripPlannerController, TripPlannerState>(() {
+final tripPlannerControllerProvider =
+    AutoDisposeAsyncNotifierProvider<TripPlannerController, TripPlannerState>(
+        () {
   return TripPlannerController();
 });
 

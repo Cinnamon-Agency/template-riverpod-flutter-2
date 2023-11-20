@@ -1,8 +1,10 @@
 import 'package:cinnamon_riverpod_2/features/edit_profile/view/edit_profile_page.dart';
 import 'package:cinnamon_riverpod_2/features/home/view/home_page.dart';
+import 'package:cinnamon_riverpod_2/features/location_picker/view/location_picker_page.dart';
 import 'package:cinnamon_riverpod_2/features/login/view/login_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/onboarding_page.dart';
 import 'package:cinnamon_riverpod_2/features/onboarding/view/start_page.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_creator/trip_creator_page.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_details_page.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_map_page.dart';
 import 'package:cinnamon_riverpod_2/features/settings/view/settings_page.dart';
@@ -10,6 +12,7 @@ import 'package:cinnamon_riverpod_2/features/signup/view/signup_page.dart';
 import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:map_location_picker/map_location_picker.dart';
 
 class RoutePaths {
   static const String splash = '/';
@@ -22,6 +25,8 @@ class RoutePaths {
   static const String settings = '/settings';
   static const String tripDetails = '/trip_details';
   static const String tripMap = '/trip_map';
+  static const String plannerCreator = '/plannerCreator';
+  static const String locationPicker = '/locationPicker';
 }
 
 final GoRouter router = GoRouter(
@@ -95,6 +100,21 @@ final GoRouter router = GoRouter(
       path: RoutePaths.tripMap,
       builder: (BuildContext context, GoRouterState state) {
         return TripMapPage(tripItineraryId: state.extra as String);
+      },
+      routes: const <RouteBase>[],
+    ),
+    GoRoute(
+      path: RoutePaths.plannerCreator,
+      builder: (BuildContext context, GoRouterState state) {
+        return const TripCreatorPage();
+      },
+      routes: const <RouteBase>[],
+    ),
+    GoRoute(
+      path: RoutePaths.locationPicker,
+      builder: (BuildContext context, GoRouterState state) {
+        return LocationPickerPage(
+            onLocationSelected: state.extra as Function(GeocodingResult));
       },
       routes: const <RouteBase>[],
     ),
