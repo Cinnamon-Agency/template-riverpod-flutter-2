@@ -26,4 +26,6 @@ abstract interface class TripRepository {
   Future<void> createMocked();
 
   Future<void> removeUserTrips();
+
+
 }

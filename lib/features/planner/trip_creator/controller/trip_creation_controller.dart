@@ -10,13 +10,11 @@ import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final tripCreationStateProvider =
-    AutoDisposeAsyncNotifierProvider<TripCreationController, TripCreationState>(
+final tripCreationStateProvider = AutoDisposeAsyncNotifierProvider<TripCreationController, TripCreationState>(
   () => TripCreationController(),
 );
 
-class TripCreationController
-    extends AutoDisposeAsyncNotifier<TripCreationState> {
+class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState> {
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   String get _userId => ref.read(userIdProvider);
@@ -28,18 +26,12 @@ class TripCreationController
         id: '',
         name: formData['name'],
         description: formData['description'],
-        locations: [
-          ...state.requireValue.tripLocations
-              .map((e) => TripLocationEntity.fromTripLocation(e))
-        ],
+        locations: [...state.requireValue.tripLocations.map((e) => TripLocationEntity.fromTripLocation(e))],
         imageUrl:
             'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         startDate: DateTime.now().add(const Duration(days: 30)),
         endDate: DateTime.now().add(const Duration(days: 35)),
-        ownerIds: [
-          _userId,
-          ...state.requireValue.coTravelers.values.map((e) => e.id)
-        ],
+        ownerIds: [_userId, ...state.requireValue.coTravelers.values.map((e) => e.id)],
       ));
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
@@ -66,25 +58,20 @@ class TripCreationController
 
   void addTripLocation(TripLocation location) {
     state = AsyncData(state.requireValue.copyWith(
-      tripLocations: state.requireValue.tripLocations.isEmpty
-          ? [location]
-          : [...state.requireValue.tripLocations, location],
+      tripLocations:
+          state.requireValue.tripLocations.isEmpty ? [location] : [...state.requireValue.tripLocations, location],
     ));
   }
 
   void updateTripLocation(TripLocation location) {
     state = AsyncData(state.requireValue.copyWith(
-      tripLocations: state.requireValue.tripLocations
-          .map((loc) => loc.id == location.id ? location : loc)
-          .toList(),
+      tripLocations: state.requireValue.tripLocations.map((loc) => loc.id == location.id ? location : loc).toList(),
     ));
   }
 
   void removeTripLocation(String id) {
     state = AsyncData(state.requireValue.copyWith(
-      tripLocations: state.requireValue.tripLocations
-          .whereNot((ct) => id == ct.id)
-          .toList(),
+      tripLocations: state.requireValue.tripLocations.whereNot((ct) => id == ct.id).toList(),
     ));
   }
 
@@ -101,9 +88,12 @@ class TripCreationController
     ));
   }
 
+
   @override
   FutureOr<TripCreationState> build() => const TripCreationState(
         coTravelers: {},
         tripLocations: [],
       );
 }
+
+
