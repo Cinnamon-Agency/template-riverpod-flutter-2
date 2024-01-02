@@ -41,8 +41,10 @@ final class DioHttpService implements HttpService {
 
   @override
   Future<T> request<T>(BaseHttpRequest request,
-      {required T Function(Map<String, dynamic> response) transformer}) async {
-    Map<String, dynamic> value;
+   //   {required T Function(Map<String, dynamic> response) transformer}) async {
+      {required T Function(dynamic response) transformer}) async {
+   // Map<String, dynamic> value;
+    dynamic value;
     request.url ??= dio.options.baseUrl;
     switch (request.type) {
       case RequestType.get:
@@ -68,9 +70,11 @@ final class DioHttpService implements HttpService {
     return resp.data;
   }
 
-  Future<Map<String, dynamic>> _get(BaseHttpRequest request) async {
+ // Future<Map<String, dynamic>> _get(BaseHttpRequest request) async {
+  Future<dynamic> _get(BaseHttpRequest request) async {
     final resp = await dio.get(request.path,
         queryParameters: await request.toMap(), options: Options(contentType: request.contentType));
-    return resp.data;
+    print('kjjjfjff-------------resp.data: ${resp.data}');
+    return resp.data as dynamic;
   }
 }

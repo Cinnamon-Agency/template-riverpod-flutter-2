@@ -10,9 +10,11 @@ import 'package:cinnamon_riverpod_2/features/planner/trip_details/trip_map_page.
 import 'package:cinnamon_riverpod_2/features/settings/view/settings_page.dart';
 import 'package:cinnamon_riverpod_2/features/signup/view/signup_page.dart';
 import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/osm_location.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:map_location_picker/map_location_picker.dart';
+import 'package:latlong2/latlong.dart';
+
 
 class RoutePaths {
   static const String splash = '/';
@@ -114,7 +116,7 @@ final GoRouter router = GoRouter(
       path: RoutePaths.locationPicker,
       builder: (BuildContext context, GoRouterState state) {
         return LocationPickerPage(
-            onLocationSelected: state.extra as Function(GeocodingResult));
+            onLocationSelected: state.extra as Function(OsmLocation));
       },
       routes: const <RouteBase>[],
     ),
