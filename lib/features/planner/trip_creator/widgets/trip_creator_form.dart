@@ -214,6 +214,7 @@ class TripCreatorForm extends ConsumerWidget {
                               tripLocation = tripLocation.copyWith(
                                 name: locationName,
                                 location: LatLng(double.tryParse(location.lat) ?? 0.0, double.tryParse(location.lng) ?? 0.0),
+                                // todo duration: duration
                               );
                               controller.updateTripLocation(tripLocation);
                             }

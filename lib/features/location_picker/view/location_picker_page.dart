@@ -27,7 +27,7 @@ class LocationPickerPage extends ConsumerStatefulWidget {
 
 class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   late final TextEditingController _textController;
-  late final _mapController;
+  late final MapController _mapController;
   final _nameNode = FocusNode();
 
   // for debouncing api calls to open street map (max 1 call per second)
@@ -35,6 +35,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
 
   // zoom when searching for new location => 13.
   // zoom when editing previously entered location => 15.
+  double minZoom = 1;
+  double maxZoom = 15;
   double currentZoom = 13.0;
   LatLng currentCenter = const LatLng(45.7902023, 15.9706199); // Zagreb
   // LatLng of previously entered location we want to edit
@@ -46,13 +48,17 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   bool isSearchNeeded = true;
 
   void _zoomInMap() {
-    currentZoom = currentZoom + 1;
-    _mapController.move(currentCenter, currentZoom);
+    if (currentZoom < maxZoom) {
+      currentZoom++;
+      _mapController.move(currentCenter, currentZoom);
+    }
   }
 
   void _zoomOutMap() {
-    currentZoom = currentZoom - 1;
-    _mapController.move(currentCenter, currentZoom);
+    if (currentZoom > minZoom) {
+      currentZoom--;
+      _mapController.move(currentCenter, currentZoom);
+    }
   }
 
   void _zoomEditLocation(TripLocation editLocation) {
@@ -91,6 +97,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
       if (index != null && tripLocationState.requireValue.tripLocations[index].name != 'Select Location') {
         _zoomEditLocation(tripLocationState.requireValue.tripLocations[index]);
         editLocation = tripLocationState.requireValue.tripLocations[index].location;
+        if (editLocation != null) {
+          currentCenter = editLocation!;
+        }
         // set index to null so textController.text wouldn't change again on new build
         ref.read(indexProvider.notifier).setIndex(null);
       }
@@ -100,8 +109,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
         options: MapOptions(
           center: currentCenter,
           zoom: currentZoom,
-          minZoom: 1,
-          maxZoom: 15,
+          minZoom: minZoom,
+          maxZoom: maxZoom,
           onTap: (position, latLng) async {
             if (searchLocationsState.requireValue.osmSearchLocations.isEmpty) {
               final location = await searchLocationsController.getLocationNameForLatLng(latLng);
@@ -140,7 +149,10 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
           /// MapLayer 3--------------- zoomIn and zoomOut buttons on map
           Align(
             alignment: Alignment.centerRight,
-            child: ZoomInOutButtons(onZoomIn: _zoomInMap, onZoomOut: _zoomOutMap),
+            child: ZoomInOutButtons(
+              onZoomIn: _zoomInMap,
+              onZoomOut: _zoomOutMap,
+            ),
           ),
 
           /// MapLayer 4----------------top bar & address suggestions listView

@@ -13,6 +13,7 @@ class ZoomInOutButtons extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: () => onZoomIn(),
           child: const Padding(
             padding: EdgeInsets.only(left: 10.0, top: 10, bottom: 5),
@@ -22,6 +23,7 @@ class ZoomInOutButtons extends StatelessWidget {
           ),
         ),
         GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: () => onZoomOut(),
           child: const Padding(
             padding: EdgeInsets.only(left: 10.0, top: 5, bottom: 10),
