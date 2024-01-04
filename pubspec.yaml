@@ -52,6 +52,7 @@ dependencies:
   flutter_map_animations:
   latlong2:
   flutter_animate:
+  flutter_datetime_picker_plus: ^2.1.0
   flutter_localizations:
     sdk: flutter
 

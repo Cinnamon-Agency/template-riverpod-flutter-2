@@ -6,6 +6,7 @@ import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/tri
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/osm_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
@@ -14,6 +15,7 @@ import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repositor
 import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -39,6 +41,8 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
   final uuid = const Uuid();
   final _nameTextController = TextEditingController();
   final _descriptionTextController = TextEditingController();
+  final _startDateTextController = TextEditingController();
+  final _endDateTextController = TextEditingController();
   late final bool _isEditing;
 
   FormBuilderState? get _currentFormState => _formKey.currentState;
@@ -52,6 +56,8 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
       if (_isEditing && editState!.hasValue) {
         _nameTextController.text = editState!.value!.tripItinerary.name;
         _descriptionTextController.text = editState!.value!.tripItinerary.description;
+        _startDateTextController.text = editState!.value!.tripItinerary.startDate.dateString;
+        _endDateTextController.text = editState!.value!.tripItinerary.endDate.dateString;
         ref.read(tripCreationStateProvider.notifier).setInitialValuesWhenEditing(uuid, editState!.value!.tripItinerary);
       }
     });
@@ -61,7 +67,22 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
   void dispose() {
     _nameTextController.dispose();
     _descriptionTextController.dispose();
+    _startDateTextController.dispose();
+    _endDateTextController.dispose();
     super.dispose();
+  }
+
+  void showDatePickerDialog(TextEditingController textEditingController) {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime.now().subtract(const Duration(days: 365)),
+      maxTime: DateTime.now().add(const Duration(days: 365 * 3)),
+      onConfirm: (date) {
+        textEditingController.text = date.dateString;
+      },
+      currentTime: textEditingController.text.isEmpty ? DateTime.now() : textEditingController.text.toDateTime,
+    );
   }
 
   @override
@@ -76,6 +97,10 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
       editController = ref.read(tripDetailsControllerProvider(widget.editTripItineraryId!).notifier);
       editState = ref.watch(tripDetailsControllerProvider(widget.editTripItineraryId!));
     }
+    ref.listen<AsyncValue>(
+      tripCreationStateProvider,
+          (_, state) => state.showSnackbarOnError(context),
+    );
     return FormBuilder(
       key: _formKey,
       child: SingleChildScrollView(
@@ -124,6 +149,50 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
 
             const SizedBox(height: 20),
 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// ----------- START DATE
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.4,
+                  child: FormBuilderTextField(
+                    name: 'start_date',
+                    controller: _startDateTextController,
+                    readOnly: true,
+                    autocorrect: false,
+                    decoration: const InputDecoration(
+                      labelText: 'Start Date',
+                    ),
+                    onChanged: (value) => _currentFormState?.fields['start_date']?.validate(),
+                    validator: (value) => (value?.isEmpty ?? true) ? 'This field is required.' : null,
+                    onTap: () {
+                      showDatePickerDialog(_startDateTextController);
+                    },
+                  ),
+                ),
+                /// ----------- END DATE
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.4,
+                  child: FormBuilderTextField(
+                    name: 'end_date',
+                    controller: _endDateTextController,
+                    readOnly: true,
+                    autocorrect: false,
+                    decoration: const InputDecoration(
+                      labelText: 'End Date',
+                    ),
+                    onChanged: (value) => _currentFormState?.fields['end_date']?.validate(),
+                    validator: (value) => (value?.isEmpty ?? true) ? 'This field is required.' : null,
+                    onTap: () {
+                      showDatePickerDialog(_endDateTextController);
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
             Text(
               'Co-travelers',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
@@ -146,11 +215,12 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Autocomplete<String>(
                   key: ValueKey('coTraveler-${state.requireValue.coTravelers.keys.toList()[index]}'),
-                  optionsBuilder: (TextEditingValue textEditingValue) => textEditingValue.text.isNotEmpty && travelers.hasValue
-                      ? travelers.requireValue.map((e) => e.username).where((String option) =>
-                          option != userData.requireValue.username &&
-                          option.contains(textEditingValue.text.toLowerCase()))
-                      : [],
+                  optionsBuilder: (TextEditingValue textEditingValue) =>
+                      textEditingValue.text.isNotEmpty && travelers.hasValue
+                          ? travelers.requireValue.map((e) => e.username).where((String option) =>
+                              option != userData.requireValue.username &&
+                              option.contains(textEditingValue.text.toLowerCase()))
+                          : [],
                   fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
                       FocusNode focusNode, VoidCallback onFieldSubmitted) {
                     if (textEditingController.text != state.requireValue.coTravelers.values.toList()[index].name) {
@@ -246,7 +316,6 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          //searchLocationsController.setIndexOfSelectedLocation(index);
                           ref.read(indexProvider.notifier).setIndex(index);
                           GoRouter.of(context).push(RoutePaths.locationPicker, extra: (OsmLocation? location) async {
                             TripLocation tripLocation = state.requireValue.tripLocations[index];
@@ -395,6 +464,8 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                               TripItinerary updatedTripItinerary = editState!.value!.tripItinerary.copyWith(
                                 name: _nameTextController.text,
                                 description: _descriptionTextController.text,
+                                startDate: _startDateTextController.text.toDateTime,
+                                endDate: _endDateTextController.text.toDateTime,
                                 travelers: [
                                   CoTraveler(id: userData.requireValue.id, name: userData.requireValue.username),
                                   ...state.requireValue.coTravelers.values
@@ -426,11 +497,13 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     child: PrimaryButton(
                       text: _isEditing ? 'Cancel' : 'Reset',
                       isDisabled: state.isLoading,
-                      onPressed: _isEditing ? GoRouter.of(context).pop : () {
-                        _currentFormState?.reset();
-                        controller.resetState();
-                        // controller.removeUserTrips();
-                      },
+                      onPressed: _isEditing
+                          ? GoRouter.of(context).pop
+                          : () {
+                              _currentFormState?.reset();
+                              controller.resetState();
+                              // controller.removeUserTrips();
+                            },
                     ),
                   ),
                 ),
