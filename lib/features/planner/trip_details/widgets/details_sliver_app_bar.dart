@@ -5,17 +5,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../routing/router.dart';
+
 /// A sliver app bar for a details page.
 ///
 /// Shows an image from [imageUrl] and animates [title].
 class DetailsSliverAppBar extends StatelessWidget {
   final String title;
   final String imageUrl;
+  final String id;
 
   const DetailsSliverAppBar({
     super.key,
     required this.title,
     required this.imageUrl,
+    required this.id,
   });
 
   @override
@@ -42,6 +46,7 @@ class DetailsSliverAppBar extends StatelessWidget {
             iconColor: Colors.black,
             size: 32,
             tooltipMessage: context.localization.edit,
+            onPressed: () => GoRouter.of(context).push(RoutePaths.plannerCreator, extra: id),
           ),
         ),
       ],

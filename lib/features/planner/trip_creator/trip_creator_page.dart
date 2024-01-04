@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TripCreatorPage extends StatelessWidget {
-  const TripCreatorPage({Key? key}) : super(key: key);
+  const TripCreatorPage({Key? key, this.editTripItineraryId}) : super(key: key);
+
+  final String? editTripItineraryId;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -11,7 +13,7 @@ class TripCreatorPage extends StatelessWidget {
           onTap: FocusManager.instance.primaryFocus?.unfocus,
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('Create a new trip'),
+              title: editTripItineraryId == null ? const Text('Create a new trip') : const Text('Edit trip'),
               leading: InkWell(
                 onTap: GoRouter.of(context).pop,
                 child: const Icon(
@@ -22,7 +24,9 @@ class TripCreatorPage extends StatelessWidget {
             ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: TripCreatorForm(),
+              child: TripCreatorForm(
+                editTripItineraryId: editTripItineraryId,
+              ),
             ),
           ),
         ),
