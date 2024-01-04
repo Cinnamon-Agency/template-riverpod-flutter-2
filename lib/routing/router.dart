@@ -13,7 +13,6 @@ import 'package:cinnamon_riverpod_2/features/splash/view/splash_page.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/osm_location.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:latlong2/latlong.dart';
 
 
 class RoutePaths {
@@ -108,7 +107,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RoutePaths.plannerCreator,
       builder: (BuildContext context, GoRouterState state) {
-        return const TripCreatorPage();
+        return TripCreatorPage(editTripItineraryId: state.extra as String?,);
       },
       routes: const <RouteBase>[],
     ),

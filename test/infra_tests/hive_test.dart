@@ -11,7 +11,7 @@ void main() {
   late StorageService storageService;
   setUpAll(() {
     var path = Directory.current.path;
-    Hive.init(path + '/test/hive_testing_path');
+    Hive.init('$path/test/hive_testing_path');
   });
   setUp(() async {
     // Use Riverpod to provide a test instance of storageService.

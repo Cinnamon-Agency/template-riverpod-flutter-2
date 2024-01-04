@@ -74,7 +74,6 @@ final class DioHttpService implements HttpService {
   Future<dynamic> _get(BaseHttpRequest request) async {
     final resp = await dio.get(request.path,
         queryParameters: await request.toMap(), options: Options(contentType: request.contentType));
-    print('kjjjfjff-------------resp.data: ${resp.data}');
     return resp.data as dynamic;
   }
 }

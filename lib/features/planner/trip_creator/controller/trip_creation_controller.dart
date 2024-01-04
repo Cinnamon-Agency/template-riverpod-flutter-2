@@ -4,11 +4,13 @@ import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/tri
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_location.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 final tripCreationStateProvider = AutoDisposeAsyncNotifierProvider<TripCreationController, TripCreationState>(
   () => TripCreationController(),
@@ -33,6 +35,15 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
         endDate: DateTime.now().add(const Duration(days: 35)),
         ownerIds: [_userId, ...state.requireValue.coTravelers.values.map((e) => e.id)],
       ));
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+    }
+  }
+
+  Future<void> updateTripItinerary(TripItinerary updatedTripItinerary) async {
+    state = const AsyncLoading<TripCreationState>();
+    try {
+      await _tripRepo.updateTripItineraryData(updatedTripItinerary);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }
@@ -75,6 +86,18 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
     ));
   }
 
+  void setInitialValuesWhenEditing(Uuid uuid, TripItinerary editTripItinerary) {
+    Map<String, CoTraveler> tmp = {};
+    for (var traveler in editTripItinerary.travelers) {
+      tmp[uuid.v4()] = traveler;
+    }
+    tmp.removeWhere((key, value) => value.id == _userId);
+    state = AsyncData(state.requireValue.copyWith(
+      coTravelers: tmp,
+      tripLocations: editTripItinerary.locations,
+    ));
+  }
+
   void removeUserTrips() => _tripRepo.removeUserTrips();
 
   void setError(String s) {
@@ -88,12 +111,9 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
     ));
   }
 
-
   @override
   FutureOr<TripCreationState> build() => const TripCreationState(
         coTravelers: {},
         tripLocations: [],
       );
 }
-
-
