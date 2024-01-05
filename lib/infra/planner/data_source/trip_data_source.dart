@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cinnamon_riverpod_2/infra/planner/data_source/firebase_trip_datasource.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,9 +12,11 @@ abstract interface class TripDataSource {
 
   Stream<TripItineraryEntity> getSingleTripItinerary(String itineraryId);
 
-  Future<void> createTrip(TripItineraryEntity tripItineraryEntity);
+  Future<void> createTrip(TripItineraryEntity tripItineraryEntity, {File? coverPhoto});
 
   Future<void> updateTripItineraryData(TripItineraryEntity tripItineraryEntity);
 
   Future<void> removeUserTrips(String userId);
+
+
 }

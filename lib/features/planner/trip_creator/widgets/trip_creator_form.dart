@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinnamon_riverpod_2/theme/colors/light_app_colors.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as provider;
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/location_index_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_controller.dart';
@@ -21,6 +24,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
+
+import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
+
+import '../controller/trip_cover_photo_controller.dart';
 
 class TripCreatorForm extends ConsumerStatefulWidget {
   const TripCreatorForm({this.editTripItineraryId});
@@ -87,8 +94,12 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
 
   @override
   Widget build(BuildContext context) {
+    // coTravelers and locations
     final controller = ref.read(tripCreationStateProvider.notifier);
     var state = ref.watch(tripCreationStateProvider);
+    // coverPhoto
+    final coverPhotoController = ref.read(coverPhotoProvider.notifier);
+    var coverPhotoState = ref.watch(coverPhotoProvider);
     final userData = ref.watch(profileDataProvider);
     final travelers = ref.watch(travelersProvider);
 
@@ -99,6 +110,10 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
     }
     ref.listen<AsyncValue>(
       tripCreationStateProvider,
+      (_, state) => state.showSnackbarOnError(context),
+    );
+    ref.listen<AsyncValue>(
+      coverPhotoProvider,
           (_, state) => state.showSnackbarOnError(context),
     );
     return FormBuilder(
@@ -107,9 +122,46 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            /// --- NAME
+            /// ---TRIP COVER PHOTO
             const SizedBox(
               height: 10,
+            ),
+            Center(
+              child: GestureDetector(
+                onTap: () => coverPhotoController.pickImage(),
+                child: CircleAvatar(
+                  radius: 75,
+                  backgroundColor: lightAppColors.neutralsWhite,
+                  backgroundImage: provider.Svg(
+                    Assets.images.travelling,
+                  ),
+                  foregroundImage: (coverPhotoState.requireValue.imagePath ?? '').isEmpty
+                      ? null
+                      : Image.file(
+                          coverPhotoState.requireValue.coverPhotoFile!,
+                          fit: BoxFit.cover,
+                        ).image,
+                  child: _isEditing && editState!.hasValue
+                      ? ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: editState!.value!.tripItinerary.imageUrl ?? '',
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Icon(
+                          Icons.camera_alt,
+                          color: lightAppColors.primary600,
+                          size: 38,
+                        ),
+                ),
+              ),
+            ),
+
+            /// --- NAME
+            const SizedBox(
+              height: 20,
             ),
 
             FormBuilderTextField(
@@ -170,6 +222,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     },
                   ),
                 ),
+
                 /// ----------- END DATE
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.4,

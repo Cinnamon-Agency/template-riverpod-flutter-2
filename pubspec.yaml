@@ -22,6 +22,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   firebase_messaging:
+  firebase_storage:
   cloud_firestore:
   flutter_local_notifications:
   purchases_flutter:
@@ -40,7 +41,6 @@ dependencies:
   intl:
   cached_network_image:
   url_launcher:
-#  map_location_picker:
 
   # UI
   cupertino_icons: ^1.0.2
@@ -48,11 +48,14 @@ dependencies:
   flutter_form_builder:
   form_builder_validators:
   flutter_svg:
+  flutter_svg_provider:
   flutter_map:
   flutter_map_animations:
   latlong2:
   flutter_animate:
   flutter_datetime_picker_plus: ^2.1.0
+  image_cropper:
+  image_picker:
   flutter_localizations:
     sdk: flutter
 
