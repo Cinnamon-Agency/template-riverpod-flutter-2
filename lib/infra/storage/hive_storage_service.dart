@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-import './storage_service.dart';
+import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
 
 /// Implementation of [StorageService] with [Hive]
 final class HiveStorageService extends StorageService {

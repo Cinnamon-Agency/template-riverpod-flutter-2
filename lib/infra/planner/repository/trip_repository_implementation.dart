@@ -115,4 +115,6 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   @override
   Future<void> createTripItinerary(TripItineraryEntity tripItinerary) =>
       _tripDataSource.createTrip(tripItinerary);
+
+
 }

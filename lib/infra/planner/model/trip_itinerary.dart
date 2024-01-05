@@ -3,6 +3,7 @@ import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 class TripItinerary extends Equatable {
   final String id;
@@ -75,9 +76,9 @@ class TripItinerary extends Equatable {
       [id, name, description, imageUrl, locations, travelers, startDate, endDate, isOngoing, hasEnded];
 
   bool get isUpcoming {
-    final now = DateTime.now();
+    final now = DateUtils.dateOnly(DateTime.now());
 
-    return now.isBefore(startDate);
+    return now.isBefore(startDate) || now.isAtSameMomentAs(startDate);
   }
 
   /// Returns the current `TripLocation` in an ongoing trip,

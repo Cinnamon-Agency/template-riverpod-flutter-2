@@ -46,6 +46,7 @@ class TripDetailsPage extends ConsumerWidget {
                   DetailsSliverAppBar(
                     title: state.tripItinerary.name,
                     imageUrl: state.tripItinerary.imageUrl!,
+                    id: state.tripItinerary.id,
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
