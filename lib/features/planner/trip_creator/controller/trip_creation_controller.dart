@@ -26,17 +26,20 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
   Future<void> createTripItinerary(Map<String, dynamic> formData) async {
     state = const AsyncLoading<TripCreationState>();
     try {
-      await _tripRepo.createTripItinerary(TripItineraryEntity(
+
+      final trip = TripItineraryEntity(
         id: '',
         name: formData['name'],
         description: formData['description'],
         locations: [...state.requireValue.tripLocations.map((e) => TripLocationEntity.fromTripLocation(e))],
         imageUrl:
-            'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         startDate: (formData['start_date'] as String).toDateTime,
         endDate: (formData['end_date'] as String).toDateTime,
         ownerIds: [_userId, ...state.requireValue.coTravelers.values.map((e) => e.id)],
-      ));
+      );
+
+     await _tripRepo.createTripItinerary(trip);
      } catch (e) {
       log('Error with creation of new itinerary: $e');
       state = AsyncError(e, StackTrace.current);
