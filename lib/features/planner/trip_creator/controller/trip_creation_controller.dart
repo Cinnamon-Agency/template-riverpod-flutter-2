@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_state.dart';
 import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
@@ -23,7 +24,7 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
 
   String get _userId => ref.read(userIdProvider);
 
-  Future<void> createTripItinerary(Map<String, dynamic> formData) async {
+  Future<void> createTripItinerary(Map<String, dynamic> formData, File? coverPhotoFile) async {
     state = const AsyncLoading<TripCreationState>();
     try {
 
@@ -39,17 +40,17 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
         ownerIds: [_userId, ...state.requireValue.coTravelers.values.map((e) => e.id)],
       );
 
-     await _tripRepo.createTripItinerary(trip);
+     await _tripRepo.createTripItinerary(trip, coverPhotoFile);
      } catch (e) {
       log('Error with creation of new itinerary: $e');
       state = AsyncError(e, StackTrace.current);
     }
   }
 
-  Future<void> updateTripItinerary(TripItinerary updatedTripItinerary) async {
+  Future<void> updateTripItinerary(TripItinerary updatedTripItinerary, File? coverPhotoFile) async {
     state = const AsyncLoading<TripCreationState>();
     try {
-      await _tripRepo.updateTripItineraryData(updatedTripItinerary);
+      await _tripRepo.updateTripItineraryData(updatedTripItinerary, coverPhotoFile);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }

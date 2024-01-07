@@ -1,11 +1,10 @@
 import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cinnamon_riverpod_2/theme/colors/light_app_colors.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as provider;
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/location_index_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_cover_photo_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_creator/widgets/trip_cover_photo.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
@@ -25,9 +24,10 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
-
-import '../controller/trip_cover_photo_controller.dart';
+enum Date {
+  startDate,
+  endDate,
+}
 
 class TripCreatorForm extends ConsumerStatefulWidget {
   const TripCreatorForm({this.editTripItineraryId});
@@ -92,14 +92,27 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
     );
   }
 
+  String? valueDate({required Date dateToValue, String? value}) {
+    return (value?.isEmpty ?? true)
+        ? 'This field is required.'
+        : dateToValue == Date.startDate &&
+                _endDateTextController.text.isNotEmpty &&
+                value!.toDateTime.isAfter(_endDateTextController.text.toDateTime)
+            ? 'Start date must be before end date'
+            : dateToValue == Date.endDate &&
+                    _startDateTextController.text.isNotEmpty &&
+                    value!.toDateTime.isBefore(_startDateTextController.text.toDateTime)
+                ? 'End date must be after start date'
+                : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     // coTravelers and locations
     final controller = ref.read(tripCreationStateProvider.notifier);
     var state = ref.watch(tripCreationStateProvider);
     // coverPhoto
-    final coverPhotoController = ref.read(coverPhotoProvider.notifier);
-    var coverPhotoState = ref.watch(coverPhotoProvider);
+    final coverPhotoState = ref.watch(coverPhotoProvider);
     final userData = ref.watch(profileDataProvider);
     final travelers = ref.watch(travelersProvider);
 
@@ -114,7 +127,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
     );
     ref.listen<AsyncValue>(
       coverPhotoProvider,
-          (_, state) => state.showSnackbarOnError(context),
+      (_, state) => state.showSnackbarOnError(context),
     );
     return FormBuilder(
       key: _formKey,
@@ -122,48 +135,22 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            /// ---TRIP COVER PHOTO
             const SizedBox(
               height: 10,
             ),
+
+            /// ---TRIP COVER PHOTO
             Center(
-              child: GestureDetector(
-                onTap: () => coverPhotoController.pickImage(),
-                child: CircleAvatar(
-                  radius: 75,
-                  backgroundColor: lightAppColors.neutralsWhite,
-                  backgroundImage: provider.Svg(
-                    Assets.images.travelling,
-                  ),
-                  foregroundImage: (coverPhotoState.requireValue.imagePath ?? '').isEmpty
-                      ? null
-                      : Image.file(
-                          coverPhotoState.requireValue.coverPhotoFile!,
-                          fit: BoxFit.cover,
-                        ).image,
-                  child: _isEditing && editState!.hasValue
-                      ? ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: editState!.value!.tripItinerary.imageUrl ?? '',
-                            width: 150,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : Icon(
-                          Icons.camera_alt,
-                          color: lightAppColors.primary600,
-                          size: 38,
-                        ),
-                ),
+              child: TripCoverPhoto(
+                isEditing: _isEditing,
+                editState: editState,
               ),
             ),
-
-            /// --- NAME
             const SizedBox(
               height: 20,
             ),
 
+            /// --- NAME
             FormBuilderTextField(
               name: 'name',
               focusNode: _nameNode,
@@ -177,7 +164,6 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
               validator: (value) =>
                   /*!_nameNode.hasPrimaryFocus && */ (value?.isEmpty ?? true) ? 'This field is required.' : null,
             ),
-
             const SizedBox(
               height: 20,
             ),
@@ -198,9 +184,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
               validator: (value) =>
                   /*!_descriptionNode.hasPrimaryFocus && */ (value?.isEmpty ?? true) ? 'This field is required.' : null,
             ),
-
             const SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -213,10 +197,11 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     readOnly: true,
                     autocorrect: false,
                     decoration: const InputDecoration(
+                      errorMaxLines: 2,
                       labelText: 'Start Date',
                     ),
                     onChanged: (value) => _currentFormState?.fields['start_date']?.validate(),
-                    validator: (value) => (value?.isEmpty ?? true) ? 'This field is required.' : null,
+                    validator: (value) => valueDate(dateToValue: Date.startDate, value: value),
                     onTap: () {
                       showDatePickerDialog(_startDateTextController);
                     },
@@ -232,10 +217,11 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     readOnly: true,
                     autocorrect: false,
                     decoration: const InputDecoration(
+                      errorMaxLines: 2,
                       labelText: 'End Date',
                     ),
                     onChanged: (value) => _currentFormState?.fields['end_date']?.validate(),
-                    validator: (value) => (value?.isEmpty ?? true) ? 'This field is required.' : null,
+                    validator: (value) => valueDate(dateToValue: Date.endDate, value: value),
                     onTap: () {
                       showDatePickerDialog(_endDateTextController);
                     },
@@ -243,9 +229,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
-
             Text(
               'Co-travelers',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
@@ -335,16 +319,12 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                 onPressed: () => controller.addCoTraveler(uuid.v4(), const CoTraveler(id: '', name: '')),
               ),
             ),
-
             const SizedBox(height: 10),
-
             Text(
               'Locations',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
             ),
-
             const SizedBox(height: 10),
-
             FormBuilderField<List<TripLocation>>(
               name: 'locations',
               /*onChanged: (value) =>
@@ -525,10 +505,12 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                                 ],
                                 locations: state.requireValue.tripLocations,
                               );
-                              await controller.updateTripItinerary(updatedTripItinerary);
+                              await controller.updateTripItinerary(
+                                  updatedTripItinerary, coverPhotoState.requireValue.coverPhotoFile);
                             } else {
                               final Map<String, dynamic> formData = _currentFormState!.value;
-                              await controller.createTripItinerary(formData);
+                              await controller.createTripItinerary(
+                                  formData, coverPhotoState.requireValue.coverPhotoFile);
                             }
 
                             GoRouter.of(context).pop();

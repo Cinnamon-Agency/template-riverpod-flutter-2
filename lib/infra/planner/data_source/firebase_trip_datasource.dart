@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cinnamon_riverpod_2/infra/planner/data_source/trip_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 final class FirebaseTripDataSource implements TripDataSource {
@@ -50,10 +49,13 @@ final class FirebaseTripDataSource implements TripDataSource {
   }
 
   @override
-  Future<void> updateTripItineraryData(TripItineraryEntity tripItineraryEntity) async {
+  Future<void> updateTripItineraryData(TripItineraryEntity tripItineraryEntity, {File? coverPhoto}) async {
     try {
       DocumentReference<Map<String, dynamic>> doc = collection.doc(tripItineraryEntity.id);
       await doc.update(tripItineraryEntity.toMap());
+      if (coverPhoto != null) {
+        await uploadTripCoverPhotoToFBStorage(coverPhoto, tripItineraryEntity.id);
+      }
     } catch (e) {
       rethrow;
     }
