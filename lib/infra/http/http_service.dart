@@ -8,7 +8,8 @@ final httpServiceProvider = Provider<HttpService>((ref) => DioHttpService(ref));
 
 abstract interface class HttpService {
   Future<void> init();
-  Future<T> request<T>(BaseHttpRequest request, {required T Function(Map<String, dynamic> response) transformer});
+ // Future<T> request<T>(BaseHttpRequest request, {required T Function(Map<String, dynamic> response) transformer});
+  Future<T> request<T>(BaseHttpRequest request, {required T Function(dynamic) transformer});
 }
 
 Map<String, dynamic> defaultConverter(Map<String, dynamic> map) {

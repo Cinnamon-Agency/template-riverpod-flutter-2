@@ -1,8 +1,13 @@
 import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/location_index_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_controller.dart';
+import 'package:cinnamon_riverpod_2/features/planner/trip_details/controller/trip_details_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/primary_button.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/osm_location.dart';
+import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repository.dart';
@@ -13,24 +18,64 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map_location_picker/map_location_picker.dart' as lp;
 import 'package:uuid/uuid.dart';
 
-class TripCreatorForm extends ConsumerWidget {
+class TripCreatorForm extends ConsumerStatefulWidget {
+  const TripCreatorForm({this.editTripItineraryId});
+
+  final String? editTripItineraryId;
+
+  @override
+  ConsumerState<TripCreatorForm> createState() => _TripCreatorFormState();
+}
+
+class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
+  TripDetailsController? editController;
+  AsyncValue<TripDetailsState>? editState;
+
   final _formKey = GlobalKey<FormBuilderState>();
   final _nameNode = FocusNode();
   final _descriptionNode = FocusNode();
   final uuid = const Uuid();
+  final _nameTextController = TextEditingController();
+  final _descriptionTextController = TextEditingController();
+  late final bool _isEditing;
 
   FormBuilderState? get _currentFormState => _formKey.currentState;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    _isEditing = widget.editTripItineraryId != null;
+    // set initial values if editing
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_isEditing && editState!.hasValue) {
+        _nameTextController.text = editState!.value!.tripItinerary.name;
+        _descriptionTextController.text = editState!.value!.tripItinerary.description;
+        ref.read(tripCreationStateProvider.notifier).setInitialValuesWhenEditing(uuid, editState!.value!.tripItinerary);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameTextController.dispose();
+    _descriptionTextController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final controller = ref.read(tripCreationStateProvider.notifier);
     var state = ref.watch(tripCreationStateProvider);
     final userData = ref.watch(profileDataProvider);
     final travelers = ref.watch(travelersProvider);
 
+    // ----------- editing tripItinerary
+    if (_isEditing) {
+      editController = ref.read(tripDetailsControllerProvider(widget.editTripItineraryId!).notifier);
+      editState = ref.watch(tripDetailsControllerProvider(widget.editTripItineraryId!));
+    }
     return FormBuilder(
       key: _formKey,
       child: SingleChildScrollView(
@@ -46,15 +91,14 @@ class TripCreatorForm extends ConsumerWidget {
               name: 'name',
               focusNode: _nameNode,
               textCapitalization: TextCapitalization.words,
+              controller: _nameTextController,
+              autocorrect: false,
               decoration: const InputDecoration(
                 labelText: 'Name',
               ),
-              onChanged: (value) =>
-                  _currentFormState?.fields['name']?.validate(),
+              onChanged: (value) => _currentFormState?.fields['name']?.validate(),
               validator: (value) =>
-                  /*!_nameNode.hasPrimaryFocus && */ (value?.isEmpty ?? true)
-                      ? 'This field is required.'
-                      : null,
+                  /*!_nameNode.hasPrimaryFocus && */ (value?.isEmpty ?? true) ? 'This field is required.' : null,
             ),
 
             const SizedBox(
@@ -65,29 +109,24 @@ class TripCreatorForm extends ConsumerWidget {
             FormBuilderTextField(
               name: 'description',
               focusNode: _descriptionNode,
+              controller: _descriptionTextController,
               textCapitalization: TextCapitalization.sentences,
+              autocorrect: false,
               maxLines: 5,
               decoration: const InputDecoration(
                 labelText: 'Description',
                 alignLabelWithHint: true,
               ),
-              onChanged: (value) =>
-                  _currentFormState?.fields['description']?.validate(),
+              onChanged: (value) => _currentFormState?.fields['description']?.validate(),
               validator: (value) =>
-                  /*!_descriptionNode.hasPrimaryFocus && */ (value?.isEmpty ??
-                          true)
-                      ? 'This field is required.'
-                      : null,
+                  /*!_descriptionNode.hasPrimaryFocus && */ (value?.isEmpty ?? true) ? 'This field is required.' : null,
             ),
 
             const SizedBox(height: 20),
 
             Text(
               'Co-travelers',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: Theme.of(context).primaryColor),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
             ),
 
             /// ----------- CO TRAVELER(S)
@@ -106,49 +145,29 @@ class TripCreatorForm extends ConsumerWidget {
                   Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Autocomplete<String>(
-                  key: ValueKey(
-                      'coTraveler-${state.requireValue.coTravelers.keys.toList()[index]}'),
-                  optionsBuilder: (TextEditingValue textEditingValue) =>
-                      textEditingValue.text.isNotEmpty
-                          ? travelers.requireValue.map((e) => e.username).where(
-                              (String option) =>
-                                  option != userData.requireValue.username &&
-                                  option.contains(
-                                      textEditingValue.text.toLowerCase()))
-                          : [],
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController textEditingController,
-                      FocusNode focusNode,
-                      VoidCallback onFieldSubmitted) {
-                    if (textEditingController.text !=
-                        state.requireValue.coTravelers.values
-                            .toList()[index]
-                            .name) {
-                      textEditingController.text = state
-                          .requireValue.coTravelers.values
-                          .toList()[index]
-                          .name;
-                      textEditingController.selection = TextSelection.collapsed(
-                          offset: textEditingController.text.length);
+                  key: ValueKey('coTraveler-${state.requireValue.coTravelers.keys.toList()[index]}'),
+                  optionsBuilder: (TextEditingValue textEditingValue) => textEditingValue.text.isNotEmpty && travelers.hasValue
+                      ? travelers.requireValue.map((e) => e.username).where((String option) =>
+                          option != userData.requireValue.username &&
+                          option.contains(textEditingValue.text.toLowerCase()))
+                      : [],
+                  fieldViewBuilder: (BuildContext context, TextEditingController textEditingController,
+                      FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                    if (textEditingController.text != state.requireValue.coTravelers.values.toList()[index].name) {
+                      textEditingController.text = state.requireValue.coTravelers.values.toList()[index].name;
+                      textEditingController.selection =
+                          TextSelection.collapsed(offset: textEditingController.text.length);
                     }
                     return FormBuilderTextField(
-                      key: ValueKey(
-                          'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}'),
-                      name:
-                          'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}',
+                      key: ValueKey('coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}'),
+                      name: 'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}',
                       controller: textEditingController,
                       focusNode: focusNode,
                       onChanged: (value) {
-                        controller.updateCoTravelerName(
-                            state.requireValue.coTravelers.keys.toList()[index],
-                            travelers.requireValue
-                                    .firstWhereOrNull(
-                                        (t) => t.username == value)
-                                    ?.id ??
-                                '',
-                            value ?? '');
-                        _currentFormState?.fields[
-                                'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}']
+                        controller.updateCoTravelerName(state.requireValue.coTravelers.keys.toList()[index],
+                            travelers.requireValue.firstWhereOrNull((t) => t.username == value)?.id ?? '', value ?? '');
+                        _currentFormState
+                            ?.fields['coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}']
                             ?.validate();
                       },
                       decoration: InputDecoration(
@@ -160,9 +179,7 @@ class TripCreatorForm extends ConsumerWidget {
                                 'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}');
 
                             /// Remove from controller's coTravelers list
-                            controller.removeCoTraveler(state
-                                .requireValue.coTravelers.keys
-                                .toList()[index]);
+                            controller.removeCoTraveler(state.requireValue.coTravelers.keys.toList()[index]);
                           },
                           icon: Icon(
                             Icons.delete_outline,
@@ -170,17 +187,15 @@ class TripCreatorForm extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      validator: (valueCandidate) =>
-                          !focusNode.hasPrimaryFocus &&
-                                  (valueCandidate?.isEmpty ?? true)
-                              ? 'This field is required.'
-                              : null,
+                      validator: (valueCandidate) => !focusNode.hasPrimaryFocus && (valueCandidate?.isEmpty ?? true)
+                          ? 'This field is required.'
+                          : null,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                     );
                   },
                   onSelected: (String selection) {
-                    _currentFormState?.fields[
-                            'coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}']
+                    _currentFormState
+                        ?.fields['coTravelerTextField-${state.requireValue.coTravelers.keys.toList()[index]}']
                         ?.didChange(selection);
                   },
                 ),
@@ -194,8 +209,7 @@ class TripCreatorForm extends ConsumerWidget {
                 splashRadius: 25,
                 icon: const Icon(Icons.add),
                 color: Theme.of(context).primaryColor,
-                onPressed: () => controller.addCoTraveler(
-                    uuid.v4(), const CoTraveler(id: '', name: '')),
+                onPressed: () => controller.addCoTraveler(uuid.v4(), const CoTraveler(id: '', name: '')),
               ),
             ),
 
@@ -203,10 +217,7 @@ class TripCreatorForm extends ConsumerWidget {
 
             Text(
               'Locations',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: Theme.of(context).primaryColor),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
             ),
 
             const SizedBox(height: 10),
@@ -235,18 +246,22 @@ class TripCreatorForm extends ConsumerWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          GoRouter.of(context).push(RoutePaths.locationPicker,
-                              extra: (lp.GeocodingResult? gr) {
-                            TripLocation tripLocation =
-                                state.requireValue.tripLocations[index];
-
-                            if (gr != null) {
+                          //searchLocationsController.setIndexOfSelectedLocation(index);
+                          ref.read(indexProvider.notifier).setIndex(index);
+                          GoRouter.of(context).push(RoutePaths.locationPicker, extra: (OsmLocation? location) async {
+                            TripLocation tripLocation = state.requireValue.tripLocations[index];
+                            if (location != null) {
+                              final locationName = location.name.isNotEmpty
+                                  ? location.name
+                                  : location.displayName.isNotEmpty
+                                      ? location.displayName
+                                      : 'Name not provided by api';
                               tripLocation = tripLocation.copyWith(
-                                name: gr.formattedAddress,
-                                location: LatLng(gr.geometry.location.lat,
-                                    gr.geometry.location.lng),
+                                name: locationName,
+                                location:
+                                    LatLng(double.tryParse(location.lat) ?? 0.0, double.tryParse(location.lng) ?? 0.0),
+                                // todo duration: duration
                               );
-
                               controller.updateTripLocation(tripLocation);
                             }
                           });
@@ -258,8 +273,7 @@ class TripCreatorForm extends ConsumerWidget {
                           ),
                           height: 70,
                           margin: const EdgeInsets.symmetric(vertical: 5),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                           child: Row(
                             children: [
                               Icon(
@@ -270,9 +284,7 @@ class TripCreatorForm extends ConsumerWidget {
                                 width: 15,
                               ),
                               Container(
-                                constraints: BoxConstraints(
-                                    maxWidth:
-                                        MediaQuery.sizeOf(context).width * 0.5),
+                                constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.5),
                                 child: AutoSizeText(
                                   state.requireValue.tripLocations[index].name,
                                   maxLines: 2,
@@ -286,8 +298,7 @@ class TripCreatorForm extends ConsumerWidget {
                     IconButton(
                       onPressed: () {
                         /// Remove from tripLocations list
-                        controller.removeTripLocation(
-                            state.requireValue.tripLocations[index].id);
+                        controller.removeTripLocation(state.requireValue.tripLocations[index].id);
                       },
                       icon: Icon(
                         Icons.delete_outline_outlined,
@@ -346,54 +357,55 @@ class TripCreatorForm extends ConsumerWidget {
                   child: SizedBox(
                     height: 50,
                     child: PrimaryButton(
-                      text: 'Create',
+                      text: _isEditing ? 'Save' : 'Create',
                       isLoading: state.isLoading,
                       isDisabled: state.isLoading,
                       onPressed: () async {
                         try {
                           _currentFormState?.saveAndValidate();
-                          for (MapEntry traveler
-                              in state.requireValue.coTravelers.entries) {
-                            if (userData.requireValue.username ==
-                                    traveler.value.name ||
-                                travelers.requireValue.firstWhereOrNull((t) =>
-                                        t.username == traveler.value.name) ==
+                          for (MapEntry traveler in state.requireValue.coTravelers.entries) {
+                            if (userData.requireValue.username == traveler.value.name ||
+                                travelers.requireValue.firstWhereOrNull((t) => t.username == traveler.value.name) ==
                                     null) {
-                              _currentFormState?.fields[
-                                      'coTravelerTextField-${traveler.key}']
+                              _currentFormState?.fields['coTravelerTextField-${traveler.key}']
                                   ?.invalidate('Username is invalid.');
                             }
                           }
 
-                          if (state.requireValue.tripLocations
-                              .map((l) => l.name)
-                              .contains('Select Location')) {
+                          if (state.requireValue.tripLocations.map((l) => l.name).contains('Select Location')) {
                             controller.setError(
                                 'One or more locations have not been set.\nPlease set the locations or remove them from the list.');
                             return;
                           }
 
-                          List<String> coTravelersList = List.of(
-                              _currentFormState?.value.entries
-                                      .where((e) =>
-                                          e.key.contains('coTravelerTextField'))
-                                      .map((e) => e.value) ??
-                                  []);
+                          List<String> coTravelersList = List.of(_currentFormState?.value.entries
+                                  .where((e) => e.key.contains('coTravelerTextField'))
+                                  .map((e) => e.value) ??
+                              []);
 
-                          bool containsDuplicateCoTravelers =
-                              coTravelersList.toSet().length !=
-                                  coTravelersList.length;
+                          bool containsDuplicateCoTravelers = coTravelersList.toSet().length != coTravelersList.length;
 
                           if (containsDuplicateCoTravelers) {
-                            controller.setError(
-                                'Co-travelers list contains duplicate values.');
+                            controller.setError('Co-travelers list contains duplicate values.');
                             return;
                           }
 
                           if (_currentFormState?.isValid == true) {
-                            final Map<String, dynamic> formData =
-                                _currentFormState!.value;
-                            await controller.createTripItinerary(formData);
+                            if (_isEditing) {
+                              TripItinerary updatedTripItinerary = editState!.value!.tripItinerary.copyWith(
+                                name: _nameTextController.text,
+                                description: _descriptionTextController.text,
+                                travelers: [
+                                  CoTraveler(id: userData.requireValue.id, name: userData.requireValue.username),
+                                  ...state.requireValue.coTravelers.values
+                                ],
+                                locations: state.requireValue.tripLocations,
+                              );
+                              await controller.updateTripItinerary(updatedTripItinerary);
+                            } else {
+                              final Map<String, dynamic> formData = _currentFormState!.value;
+                              await controller.createTripItinerary(formData);
+                            }
 
                             GoRouter.of(context).pop();
                           }
@@ -412,9 +424,9 @@ class TripCreatorForm extends ConsumerWidget {
                   child: SizedBox(
                     height: 50,
                     child: PrimaryButton(
-                      text: 'Reset',
+                      text: _isEditing ? 'Cancel' : 'Reset',
                       isDisabled: state.isLoading,
-                      onPressed: () {
+                      onPressed: _isEditing ? GoRouter.of(context).pop : () {
                         _currentFormState?.reset();
                         controller.resetState();
                         // controller.removeUserTrips();
