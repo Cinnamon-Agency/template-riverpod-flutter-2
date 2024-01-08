@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_state.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
@@ -8,6 +9,7 @@ import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -24,18 +26,22 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
   Future<void> createTripItinerary(Map<String, dynamic> formData) async {
     state = const AsyncLoading<TripCreationState>();
     try {
-      await _tripRepo.createTripItinerary(TripItineraryEntity(
+
+      final trip = TripItineraryEntity(
         id: '',
         name: formData['name'],
         description: formData['description'],
         locations: [...state.requireValue.tripLocations.map((e) => TripLocationEntity.fromTripLocation(e))],
         imageUrl:
-            'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        startDate: DateTime.now().add(const Duration(days: 30)),
-        endDate: DateTime.now().add(const Duration(days: 35)),
+        'https://images.unsplash.com/photo-1572455044327-7348c1be7267?auto=format&fit=crop&q=80&w=3603&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        startDate: (formData['start_date'] as String).toDateTime,
+        endDate: (formData['end_date'] as String).toDateTime,
         ownerIds: [_userId, ...state.requireValue.coTravelers.values.map((e) => e.id)],
-      ));
-    } catch (e) {
+      );
+
+     await _tripRepo.createTripItinerary(trip);
+     } catch (e) {
+      log('Error with creation of new itinerary: $e');
       state = AsyncError(e, StackTrace.current);
     }
   }

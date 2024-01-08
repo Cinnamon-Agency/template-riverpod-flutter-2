@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../routing/router.dart';
+import 'package:cinnamon_riverpod_2/routing/router.dart';
 
 /// A sliver app bar for a details page.
 ///
