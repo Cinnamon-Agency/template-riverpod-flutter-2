@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_cover_photo_state.dart';
-import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
