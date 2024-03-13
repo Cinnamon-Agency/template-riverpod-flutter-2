@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cinnamon_riverpod_2/infra/planner/data_source/trip_data_source.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
@@ -47,8 +48,8 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   }
 
   @override
-  Future<void> updateTripItineraryData(TripItinerary tripItinerary) {
-    return _tripDataSource.updateTripItineraryData(TripItineraryEntity.fromTripItinerary(tripItinerary));
+  Future<void> updateTripItineraryData(TripItinerary tripItinerary, File? coverPhotoFile) {
+    return _tripDataSource.updateTripItineraryData(TripItineraryEntity.fromTripItinerary(tripItinerary), coverPhoto: coverPhotoFile);
   }
 
   @override
@@ -113,8 +114,8 @@ class TripRepositoryImplementation with EquatableMixin implements TripRepository
   List<Object?> get props => <Object?>[_userId];
 
   @override
-  Future<void> createTripItinerary(TripItineraryEntity tripItinerary) =>
-      _tripDataSource.createTrip(tripItinerary);
+  Future<void> createTripItinerary(TripItineraryEntity tripItinerary, File? coverPhotoFile) =>
+      _tripDataSource.createTrip(tripItinerary, coverPhoto: coverPhotoFile);
 
 
 }

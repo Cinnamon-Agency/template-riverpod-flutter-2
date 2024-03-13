@@ -51,6 +51,7 @@ class TripsHomePage extends ConsumerWidget {
             }
 
             return SingleChildScrollView(
+
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/trip_creation_state.dart';
+import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/firebase_auth_service.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/entity/trip_location.dart';
@@ -9,7 +11,6 @@ import 'package:cinnamon_riverpod_2/infra/planner/model/trip_itinerary.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/model/trip_location.dart';
 import 'package:cinnamon_riverpod_2/infra/planner/repository/trip_repository.dart';
 import 'package:cinnamon_riverpod_2/infra/traveler/model/cotraveler.dart';
-import 'package:cinnamon_riverpod_2/helpers/helper_extensions.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -23,7 +24,7 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
 
   String get _userId => ref.read(userIdProvider);
 
-  Future<void> createTripItinerary(Map<String, dynamic> formData) async {
+  Future<void> createTripItinerary(Map<String, dynamic> formData, File? coverPhotoFile) async {
     state = const AsyncLoading<TripCreationState>();
     try {
 
@@ -39,17 +40,17 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
         ownerIds: [_userId, ...state.requireValue.coTravelers.values.map((e) => e.id)],
       );
 
-     await _tripRepo.createTripItinerary(trip);
+     await _tripRepo.createTripItinerary(trip, coverPhotoFile);
      } catch (e) {
       log('Error with creation of new itinerary: $e');
       state = AsyncError(e, StackTrace.current);
     }
   }
 
-  Future<void> updateTripItinerary(TripItinerary updatedTripItinerary) async {
+  Future<void> updateTripItinerary(TripItinerary updatedTripItinerary, File? coverPhotoFile) async {
     state = const AsyncLoading<TripCreationState>();
     try {
-      await _tripRepo.updateTripItineraryData(updatedTripItinerary);
+      await _tripRepo.updateTripItineraryData(updatedTripItinerary, coverPhotoFile);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }
@@ -116,6 +117,7 @@ class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState>
       tripLocations: [],
     ));
   }
+
 
   @override
   FutureOr<TripCreationState> build() => const TripCreationState(

@@ -88,11 +88,11 @@ class FirebaseAuthService implements AuthService {
 final firebaseUserProvider = StreamProvider<UserEntity>((ref) async* {
   final stream = ref.watch(authServiceProvider).authStateChanges;
   await for (final user in stream) {
-    logger.info("User is $user");
+   // logger.info("User is $user");
     if (user?.uid == null) {
       await ref.read(authServiceProvider).signInAnon();
     } else {
-      yield UserEntity(uid: user!.uid, jwt: user.refreshToken!, isAnonymous: user.isAnonymous);
+      yield UserEntity(uid: user!.uid, jwt: user.refreshToken ?? '', isAnonymous: user.isAnonymous);
     }
   }
 });

@@ -76,7 +76,7 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
       updatedTripItinerary = state.requireValue.tripItinerary.copyWith(isOngoing: true);
     }
 
-    await _tripRepo.updateTripItineraryData(updatedTripItinerary);
+    await _tripRepo.updateTripItineraryData(updatedTripItinerary, null);
   }
 
   /// Moves to the next trip location, if it exists.
@@ -104,7 +104,7 @@ class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsSt
       isOngoing: !hasReachedEnd,
     );
 
-    await _tripRepo.updateTripItineraryData(updatedTripItinerary);
+    await _tripRepo.updateTripItineraryData(updatedTripItinerary, null);
   }
 
   /// Selects a trip location with ID [locationId].

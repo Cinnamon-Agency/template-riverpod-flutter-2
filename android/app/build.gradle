@@ -22,7 +22,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def googleMapsApiKey = properties.getProperty('GOOGLE_MAPS_API_KEY')
+
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
