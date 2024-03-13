@@ -1,16 +1,27 @@
+import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:equatable/equatable.dart';
 
-import '../entity/traveler_entity.dart';
-
 class Traveler extends Equatable {
-  final String name;
+  final String id;
+  final String username;
+  final String email;
+  final bool sendPushNotifications;
 
-  Traveler(this.name);
+  const Traveler({
+    required this.id,
+    required this.username,
+    required this.email,
+    this.sendPushNotifications = true,
+  });
 
-  factory Traveler.fromEntity(TravelerEntity entity) {
-    return Traveler(entity.name);
-  }
+  factory Traveler.fromEntity(TravelerEntity entity) => Traveler(
+        id: entity.id,
+        username: entity.username,
+        email: entity.email,
+        sendPushNotifications: entity.sendPushNotifications,
+      );
 
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props =>
+      <Object?>[id, username, email, sendPushNotifications];
 }

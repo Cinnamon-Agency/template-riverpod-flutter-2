@@ -1,8 +1,10 @@
+import 'package:cinnamon_riverpod_2/constants/enums.dart';
 import 'package:cinnamon_riverpod_2/features/splash/controller/splash_controller.dart';
-import 'package:cinnamon_riverpod_2/features/splash/controller/splash_state.dart';
+import 'package:cinnamon_riverpod_2/gen/assets.gen.dart';
 import 'package:cinnamon_riverpod_2/helpers/logger.dart';
 import 'package:cinnamon_riverpod_2/infra/lifecycle/lifecycle_provider.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
+import 'package:cinnamon_riverpod_2/theme/icons/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,7 +19,7 @@ class SplashPage extends ConsumerStatefulWidget {
 class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObserver {
   @override
   void initState() {
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -25,8 +27,12 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (previous, next) {
       if (next.hasValue) {
-        final state = next.asData!.value as SplashState;
-        GoRouter.of(context).push(RoutePaths.home);
+        Future.delayed(const Duration(seconds: 1), () {
+          final value = next.requireValue;
+
+          /// Delay routing 1 second, so that the logo is seen
+          GoRouter.of(context).go(value.isAnon ? RoutePaths.onboarding : RoutePaths.home);
+        });
       }
       if (next.hasError) {
         logger.info('Error in splash page ${next.error}');
@@ -34,17 +40,27 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
       }
     });
 
-    return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    return Scaffold(
+        body: Center(
+      child: Hero(
+        tag: HeroAnimationTags.splashLogo,
+        child: AppIcons.icon(
+          Assets.icons.earthPlane,
+          size: 80,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+    ));
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    ref.read(lifecycleProvider.notifier).state = state;
+    ref.read(lifeCycleControllerProvider.notifier).updateState(state);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

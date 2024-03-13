@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'hive_storage_service.dart';
+import 'package:cinnamon_riverpod_2/infra/storage/hive_storage_service.dart';
 
 /// Static class for defining keys for storing values
 class LocalStorageKeys {}

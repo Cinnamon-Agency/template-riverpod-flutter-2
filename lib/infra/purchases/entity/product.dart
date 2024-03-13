@@ -1,16 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:purchases_flutter/models/package_wrapper.dart';
-import 'package:purchases_flutter/models/store_product_wrapper.dart';
 
-typedef RevenuecatProduct = Product<Package>;
+typedef RevenuecatProduct = ProductEntity<Package>;
 
-class Product<T> extends Equatable {
+class ProductEntity<T> extends Equatable {
   final String id;
   final String name;
   final String description;
   final String price;
+
+  // This is the original object from the purchases library
   final T implRef;
-  const Product({
+  const ProductEntity({
     required this.id,
     required this.name,
     required this.description,

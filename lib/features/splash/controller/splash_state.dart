@@ -1,8 +1,12 @@
-final class SplashState {
+import 'package:equatable/equatable.dart';
+
+final class SplashState extends Equatable {
   final bool isAnon;
 
-  SplashState(this.isAnon);
+  const SplashState(this.isAnon);
+
+  @override
+  List<Object?> get props => [
+        isAnon,
+      ];
 }
-
-
-

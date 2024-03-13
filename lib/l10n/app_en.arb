@@ -1,0 +1,106 @@
+{
+  "@@locale": "en",
+
+  "onboardingShare": "Easily share your exciting travel itineraries. Keep everyone in the loop by sending them a glimpse of your adventures.",
+  "onboardingCollaborate": "Make planning a breeze by collaborating with others. Work together to create the perfect itinerary.",
+  "onboardingTravel": "Now that your plans are set, immerse yourself in the joy of the journey.",
+  "getStarted": "Get Started",
+  
+  "startYourJourney": "Start your\nTripFinder journey!",
+  "createAccountToPlan": "Create an account to start planning your trips.",
+  "or": "Or",
+  "continueWithApple": "Continue with Apple",
+  "continueWithGoogle": "Continue with Google",
+  "continueWithEmail": "Continue with email",
+  "signUp": "Sign up",
+  "signUpForAccount": "Sign up for a TripFinder account",
+  "username": "Username",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "passwordRequirements": "Password should be at least 8 characters long, and contain at least one uppercase letter, one lowercase letter, and one digit.",
+  "logIn": "Log in",
+  "logInToAccount": "Log in to your TripFinder account",
+  "logOut": "Log out",
+  "logOutConfirmation": "Are you sure you want to log out?",
+  "logOutFailed": "Log out failed. Please try again.",
+
+  "trips": "Trips",
+  "friends": "Friends",
+  "account": "Account",
+  "more": "More",
+  "edit": "Edit",
+  "back": "Back",
+
+  "planNewTrip": "Plan new trip",
+  "upcomingTrips": "Upcoming trips",
+  "pastTrips": "Past trips",
+  "currentlyNotTravelling": "You're currently not travelling",
+  "noUpcomingTrips": "You don't have any upcoming trips",
+  "noPastTrips": "You don't have any past trips",
+  "noTripsPlaceholder": "You don't have any trips. Go and plan some!",
+  "current": "Current",
+  "next": "Next",
+  "details": "Details",
+  "minutesShort": "min",
+  "nLocations": "{count, plural, =0{No locations} =1{1 location} other{{count} locations}}",
+  "@nLocations": {
+    "description": "Plural locations",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "nTravellers": "{count, plural, =0{No travellers} =1{1 traveller} other{{count} travellers}}",
+  "@nTravellers": {
+    "description": "Plural travellers",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "tripLocations": "Trip locations",
+  "noTripLocations": "You haven't added any locations to this trip.",
+  "startTrip": "Start trip",
+  "endTrip": "End trip",
+  "moveToNext": "Move to next",
+  "addTripLocationsBeforeStarting": "Add locations before starting your trip",
+  "startDate": "Start date",
+  "endDate": "End date",
+  "description": "Description",
+
+  "usernameNA": "Username N/A",
+  "editProfile": "Edit Profile",
+  "settings": "Settings",
+  "pushNotifications": "Push notifications",
+  "submitChanges": "Submit changes",
+  "failedValueChange": "Failed to change the value. Please try again.",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirmation": "Are you sure you want to delete the account?",
+  "deleteAccountMessage": "Deleting an account is irreversible, you will lose all of your account-related data.",
+  "ok": "Ok",
+  "success": "Success",
+  "error": "Error",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+
+  "usernameAlreadyInUse": "Username is already in use.",
+  "travelerAlreadyExists": "Traveler already exists.",
+  "travelerNotFound": "Traveler not found.",
+  "emailAlreadyInUse": "Email is already in use.",
+  "wrongPassword": "Wrong password.",
+  "passwordTooWeak": "Password is too weak.",
+  "userNotFound": "User not found.",
+  "invalidEmail": "Invalid email.",
+  "invalidLoginCredentials": "Invalid login credentials.",
+  "operationNotAllowed": "Operation not allowed.",
+  "tooManyRequests": "Too many requests.",
+  "undefinedAuthError": "Undefined authentication error.",
+
+  "developedBy": "Developed by",
+  "inZagreb": "in Zagreb, Croatia"
+}

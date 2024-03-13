@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cinnamon_riverpod_2/infra/purchases/entity/product.dart';
 import 'package:cinnamon_riverpod_2/infra/purchases/entity/purchase_entity.dart';
 import 'package:cinnamon_riverpod_2/infra/purchases/purchases_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class RevenuecatPurchasesService implements PurchasesService {
@@ -24,7 +23,7 @@ class RevenuecatPurchasesService implements PurchasesService {
   }
 
   @override
-  Future<List<Product>> getProducts() {
+  Future<List<ProductEntity>> getProducts() {
     return Purchases.getOfferings().then((value) =>
         value.current?.availablePackages
             .map((e) => RevenuecatProduct(
@@ -39,8 +38,8 @@ class RevenuecatPurchasesService implements PurchasesService {
   }
 
   @override
-  Future<PurchaseEntity> purchaseProduct(Product product) {
-    return Purchases.purchasePackage((product as RevenuecatProduct).implRef).then((value) async{
+  Future<PurchaseEntity> purchaseProduct(ProductEntity product) {
+    return Purchases.purchasePackage((product as RevenuecatProduct).implRef).then((value) async {
       await Purchases.syncPurchases();
       return _getPurchaseStatus();
     });
