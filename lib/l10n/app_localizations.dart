@@ -398,6 +398,72 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get description;
 
+  /// No description provided for @createANewTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new trip'**
+  String get createANewTrip;
+
+  /// No description provided for @editTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit trip'**
+  String get editTrip;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @coTravelers.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-travelers'**
+  String get coTravelers;
+
+  /// No description provided for @locations.
+  ///
+  /// In en, this message translates to:
+  /// **'Locations'**
+  String get locations;
+
+  /// No description provided for @thisFieldIsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required.'**
+  String get thisFieldIsRequired;
+
+  /// No description provided for @startDateMustBeBeforeEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date must be before end date'**
+  String get startDateMustBeBeforeEndDate;
+
+  /// No description provided for @endDateMustBeAfterStartDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End date must be after start date'**
+  String get endDateMustBeAfterStartDate;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
   /// No description provided for @usernameNA.
   ///
   /// In en, this message translates to:

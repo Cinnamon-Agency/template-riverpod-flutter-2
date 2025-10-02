@@ -196,6 +196,41 @@ class AppLocalizationsHr extends AppLocalizations {
   String get description => 'Opis';
 
   @override
+  String get createANewTrip => 'Kreiraj novo putovanje';
+
+  @override
+  String get editTrip => 'Editiraj putovanje';
+
+  @override
+  String get name => 'Ime';
+
+  @override
+  String get coTravelers => 'Suputnici';
+
+  @override
+  String get locations => 'Lokacije';
+
+  @override
+  String get thisFieldIsRequired => 'Ovo polje je obavezno.';
+
+  @override
+  String get startDateMustBeBeforeEndDate =>
+      'Početni datum mora biti prije završnog datuma';
+
+  @override
+  String get endDateMustBeAfterStartDate =>
+      'Završni datum mora biti nakon početnog datuma';
+
+  @override
+  String get save => 'Spremi';
+
+  @override
+  String get create => 'Kreiraj';
+
+  @override
+  String get reset => 'Poništi';
+
+  @override
   String get usernameNA => 'Korisničko ime N/A';
 
   @override

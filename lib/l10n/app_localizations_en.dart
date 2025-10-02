@@ -195,6 +195,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get description => 'Description';
 
   @override
+  String get createANewTrip => 'Create a new trip';
+
+  @override
+  String get editTrip => 'Edit trip';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get coTravelers => 'Co-travelers';
+
+  @override
+  String get locations => 'Locations';
+
+  @override
+  String get thisFieldIsRequired => 'This field is required.';
+
+  @override
+  String get startDateMustBeBeforeEndDate =>
+      'Start date must be before end date';
+
+  @override
+  String get endDateMustBeAfterStartDate => 'End date must be after start date';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
   String get usernameNA => 'Username N/A';
 
   @override
