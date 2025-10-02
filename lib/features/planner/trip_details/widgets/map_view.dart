@@ -39,34 +39,37 @@ class MapView extends StatelessWidget {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        boundsOptions: FitBoundsOptions(
-          padding: EdgeInsets.only(
-            top: 32,
-            left: 32,
-            right: 32,
-            bottom: 32 + mapBottomPadding,
-          ),
-        ),
-        bounds: locations.isNotEmpty ? LatLngBounds.fromPoints(locations.map((e) => e.location).toList()) : null,
-        interactiveFlags: isMapEnabled ? InteractiveFlag.all : InteractiveFlag.none,
+        // boundsOptions: FitBoundsOptions(
+        //   padding: EdgeInsets.only(
+        //     top: 32,
+        //     left: 32,
+        //     right: 32,
+        //     bottom: 32 + mapBottomPadding,
+        //   ),
+        // ),
+        // bounds: locations.isNotEmpty ? LatLngBounds.fromPoints(locations.map((e) => e.location).toList()) : null,
+        // interactiveFlags: isMapEnabled ? InteractiveFlag.all : InteractiveFlag.none,
       ),
       children: [
         TileLayer(
           // For this to work, both light and dark style URLs should be provided in the .env file.
           // Styles can be obtained from different providers, such as Mapbox.
           // In case URLs are not set in the .env file, this will use the fallback URL.
-          urlTemplate: MediaQuery.of(context).platformBrightness == Brightness.dark
-              ? dotenv.env['MAPS_TILE_DARK_URL']
-              : dotenv.env['MAPS_TILE_LIGHT_URL'],
-          fallbackUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+          // urlTemplate: MediaQuery.of(context).platformBrightness == Brightness.dark
+          //     ? dotenv.env['MAPS_TILE_DARK_URL']
+          //     : dotenv.env['MAPS_TILE_LIGHT_URL'],
+        //  fallbackUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
           userAgentPackageName: AppConstants.mapUserAgent,
+          tileBounds: locations.isNotEmpty ? LatLngBounds.fromPoints(locations.map((e) => e.location).toList()) : null,
+
         ),
         MarkerLayer(
           markers: locations
               .map(
                 (location) => Marker(
                   point: location.location,
-                  builder: (_) => GestureDetector(
+                  child: GestureDetector(
                     onTap: () {
                       if (isMapEnabled && onSelectMarker != null) {
                         onSelectMarker?.call(location.id);

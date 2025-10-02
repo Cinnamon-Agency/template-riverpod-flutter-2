@@ -7,7 +7,7 @@ final loginControllerProvider = NotifierProvider.autoDispose<LoginController, Lo
   () => LoginController(),
 );
 
-class LoginController extends AutoDisposeNotifier<LoginState> {
+class LoginController extends Notifier<LoginState> {
   AuthService get _authService => ref.read(authServiceProvider);
 
   @override

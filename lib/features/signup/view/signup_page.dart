@@ -69,7 +69,7 @@ class SignupPage extends HookConsumerWidget {
                           const SizedBox(height: 24),
                           _buildFormField(formState, 'password', context.localization.password, [
                             FormBuilderValidators.required(),
-                            FormBuilderValidators.match(AppConstants.passwordRegex.pattern),
+                            FormBuilderValidators.match(AppConstants.passwordRegex),
                           ]),
                           const SizedBox(height: 24),
                           _buildFormField(formState, 'confirm-password', context.localization.confirmPassword, [

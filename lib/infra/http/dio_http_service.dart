@@ -14,7 +14,7 @@ final tokenProvider = FutureProvider<String>((ref) async {
 });
 
 final class DioHttpService implements HttpService {
-  final ProviderRef ref;
+  final Ref ref;
   final dio = Dio();
 
   DioHttpService(this.ref);
@@ -41,9 +41,7 @@ final class DioHttpService implements HttpService {
 
   @override
   Future<T> request<T>(BaseHttpRequest request,
-   //   {required T Function(Map<String, dynamic> response) transformer}) async {
       {required T Function(dynamic response) transformer}) async {
-   // Map<String, dynamic> value;
     dynamic value;
     request.url ??= dio.options.baseUrl;
     switch (request.type) {

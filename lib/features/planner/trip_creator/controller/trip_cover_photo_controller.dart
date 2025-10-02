@@ -7,11 +7,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-final coverPhotoProvider = AutoDisposeAsyncNotifierProvider<CoverPhotoController, TripCoverPhotoState>(
-  () => CoverPhotoController(),
+final coverPhotoProvider = AsyncNotifierProvider.autoDispose<CoverPhotoController, TripCoverPhotoState>(
+  CoverPhotoController.new,
 );
 
-class CoverPhotoController extends AutoDisposeAsyncNotifier<TripCoverPhotoState> {
+class CoverPhotoController extends AsyncNotifier<TripCoverPhotoState> {
 
   // Open gallery so user can choose trip cover photo
   Future<void> pickImage() async {

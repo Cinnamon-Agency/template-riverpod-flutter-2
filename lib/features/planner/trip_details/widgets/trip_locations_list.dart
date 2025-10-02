@@ -34,7 +34,7 @@ class TripLocationsList extends StatelessWidget {
               leading: Text((index + 1).toString(), style: context.theme.textTheme.labelSmall),
               title: Row(
                 children: [
-                  Text(location.name, style: context.theme.textTheme.labelSmall),
+                  Expanded(child: Text(location.name, style: context.theme.textTheme.labelSmall)),
                   const SizedBox(
                     width: 8,
                   ),

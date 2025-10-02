@@ -8,11 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 
 final osmSearchLocationsStateProvider =
-    AutoDisposeAsyncNotifierProvider<OsmSearchLocationsController, OsmSearchLocationsState>(
-  () => OsmSearchLocationsController(),
+    AsyncNotifierProvider.autoDispose<OsmSearchLocationsController, OsmSearchLocationsState>(
+  OsmSearchLocationsController.new,
 );
 
-class OsmSearchLocationsController extends AutoDisposeAsyncNotifier<OsmSearchLocationsState> {
+class OsmSearchLocationsController extends AsyncNotifier<OsmSearchLocationsState> {
   HttpService get _httpService => ref.read(httpServiceProvider);
 
   void resetState() {
@@ -71,7 +71,7 @@ class SearchLocationFromQueryRequest extends BaseHttpRequest {
 
   SearchLocationFromQueryRequest(this.query)
       : super(
-            endpoint: "/search?addressdetails=1&q=$query&format=jsonv2&limit=5",
+            endpoint: "/search?addressdetails=1&q=$query&format=json&limit=5",  // before: "...format=jsonv2..."
             url: 'https://nominatim.openstreetmap.org');
 
   @override
@@ -85,7 +85,7 @@ class SearchLocationFromLatlngRequest extends BaseHttpRequest {
 
   SearchLocationFromLatlngRequest(this.latLng)
       : super(
-            endpoint: "/reverse?format=jsonv2&lat=${latLng.latitude}&lon=${latLng.longitude}",
+            endpoint: "/reverse?format=json&lat=${latLng.latitude}&lon=${latLng.longitude}",  // before: "...format=jsonv2..."
             url: 'https://nominatim.openstreetmap.org');
 
   @override
