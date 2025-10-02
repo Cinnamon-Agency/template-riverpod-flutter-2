@@ -20,11 +20,11 @@ class SplashController extends AsyncNotifier<SplashState> {
     // warmup user id provider
     final userId = ref.read(userIdProvider);
     final http = ref.read(httpServiceProvider);
-    final localStorageService = ref.read(localStorageServiceProvider);
+   // final localStorageService = ref.read(localStorageServiceProvider);
     final purchases = ref.read(purchaseServiceProvider);
     final notifications = ref.read(notificationServiceProvider);
 
-    await localStorageService.init();
+  //  await localStorageService.init();
     await http.init();
     // await purchases.init();
     //

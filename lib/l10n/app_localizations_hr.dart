@@ -312,6 +312,12 @@ class AppLocalizationsHr extends AppLocalizations {
   String get undefinedAuthError => 'Nedefinirana pogreška autentikacije.';
 
   @override
+  String get currentLanguage => 'Trenutni jezik: ';
+
+  @override
+  String get changeLanguage => 'Promijeni jezik: ';
+
+  @override
   String get developedBy => 'Razvio';
 
   @override

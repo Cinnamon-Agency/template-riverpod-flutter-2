@@ -112,6 +112,9 @@
   "tooManyRequests": "Too many requests.",
   "undefinedAuthError": "Undefined authentication error.",
 
+  "currentLanguage": "Current language: ",
+  "changeLanguage": "Change language: ",
+
   "developedBy": "Developed by",
   "inZagreb": "in Zagreb, Croatia"
 }

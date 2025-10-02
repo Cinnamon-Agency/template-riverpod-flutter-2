@@ -310,6 +310,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get undefinedAuthError => 'Undefined authentication error.';
 
   @override
+  String get currentLanguage => 'Current language: ';
+
+  @override
+  String get changeLanguage => 'Change language: ';
+
+  @override
   String get developedBy => 'Developed by';
 
   @override

@@ -112,6 +112,9 @@
   "tooManyRequests": "Previše zahtjeva.",
   "undefinedAuthError": "Nedefinirana pogreška autentikacije.",
 
+  "currentLanguage": "Trenutni jezik: ",
+  "changeLanguage": "Promijeni jezik: ",
+
   "developedBy": "Razvio",
   "inZagreb": "u Zagrebu, Hrvatska"
 }

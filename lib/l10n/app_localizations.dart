@@ -620,6 +620,18 @@ abstract class AppLocalizations {
   /// **'Undefined authentication error.'**
   String get undefinedAuthError;
 
+  /// No description provided for @currentLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Current language: '**
+  String get currentLanguage;
+
+  /// No description provided for @changeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language: '**
+  String get changeLanguage;
+
   /// No description provided for @developedBy.
   ///
   /// In en, this message translates to:

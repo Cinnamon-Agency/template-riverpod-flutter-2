@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinnamon_riverpod_2/infra/storage/hive_storage_service.dart';
 
 /// Static class for defining keys for storing values
-class LocalStorageKeys {}
+class LocalStorageKeys {
+  static const String language = 'selected_language';
+}
 
 final localStorageServiceProvider = Provider<StorageService>(
   (_) => HiveStorageService(),
