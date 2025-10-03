@@ -18,7 +18,6 @@ class LanguageNotifier extends Notifier<LanguageState> {
 
   // Initialize language on app start
   Future<void> initializeLanguage() async {
-    print('jshjsdhj-----------initializing language');
     if (state.isInitialized) return;
 
     final storageService = ref.read(localStorageServiceProvider);

@@ -25,12 +25,7 @@ class HomePage extends ConsumerWidget {
             icon: const Icon(Icons.travel_explore),
             label: context.localization.trips,
           ),
-          // NavigationDestination(
-          //   selectedIcon: const Icon(Icons.people),
-          //   icon: const Icon(Icons.people_outline),
-          //   label: context.localization.friends,
-          // ),
-          NavigationDestination(
+         NavigationDestination(
             selectedIcon: const Icon(Icons.manage_accounts),
             icon: const Icon(Icons.manage_accounts_outlined),
             label: context.localization.account,

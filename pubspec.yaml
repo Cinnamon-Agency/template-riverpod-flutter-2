@@ -25,6 +25,7 @@ dependencies:
   firebase_storage:
   cloud_firestore:
   flutter_local_notifications:
+  google_sign_in: ^6.3.0
   purchases_flutter:
   hive_flutter:
   flutter_dotenv:

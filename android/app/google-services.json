@@ -12,7 +12,20 @@
           "package_name": "agency.cinnamon.cinnamon_riverpod_2"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "884763953749-flrq9qfknt0868ta2co95639g1dku5pt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "agency.cinnamon.cinnamon_riverpod_2",
+            "certificate_hash": "609d4cb8ae5c8384f8c46f84a5e5ab41c8a9be90"
+          }
+        },
+        {
+          "client_id": "884763953749-2f80qe314hie3d15ft9rl2179vj51rg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBw9E7XlRACZdcsnKKQONRpMzasc4_J_Ps"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884763953749-2f80qe314hie3d15ft9rl2179vj51rg7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "884763953749-3dc9dq019c0cch5akjlhfhvtpq3kpfqo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "agency.cinnamon.cinnamonRiverpod2"
+              }
+            }
+          ]
         }
       }
     }
