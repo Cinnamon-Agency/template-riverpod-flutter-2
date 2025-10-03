@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cinnamon_riverpod_2/features/onboarding/controllers/onboarding_state.dart';
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
 import 'package:cinnamon_riverpod_2/infra/auth/service/auth_result_handler.dart';
@@ -46,8 +48,8 @@ class OnboardingController extends StateNotifier<OnboardingState> {
     try {
       final authService = ref.read(authServiceProvider);
       await authService.signInWithGoogle();
+      await _ensureTravelerProfileExists(ref);
       if (context.mounted) {
-        await _ensureTravelerProfileExists(ref);
         GoRouter.of(context).pushAndRemoveUntil(RoutePaths.home);
       }
     } on AuthException catch (e) {
@@ -71,23 +73,33 @@ class OnboardingController extends StateNotifier<OnboardingState> {
 
       // Try to get existing profile
       try {
-        await travelerRepo.getProfileData();
+        final traveler = await travelerRepo.getProfileData();
+        log('---------------traveler exists: $traveler');
         // Profile exists, nothing to do
         return;
       } catch (e) {
         // Profile doesn't exist, create one
         if (e is TravelerNotFoundException) {
           // Request notification permission
-          final PermissionStatus status = await Permission.notification.request();
+          final PermissionStatus status =
+              await Permission.notification.request();
           final bool notificationsPermissionGranted =
               status.isGranted || status.isProvisional;
 
+          log('-------------- Creating profile using Google account info');
           // Create profile using Google account info
-          await travelerRepo.createProfile(
-            username: user.displayName ?? user.email?.split('@').first ?? 'User',
-            email: user.email ?? '',
-            sendPushNotifications: notificationsPermissionGranted,
-          );
+          try {
+            final newTraveler = await travelerRepo.createProfile(
+              username:
+                  user.displayName ?? user.email?.split('@').first ?? 'User',
+              email: user.email ?? '',
+              sendPushNotifications: notificationsPermissionGranted,
+            );
+            log('------------------ Traveler created: $newTraveler');
+          } catch (e) {
+            log('-----------------Error creating profile: ${e.toString()}');
+            rethrow;
+          }
         } else {
           rethrow;
         }
@@ -98,5 +110,4 @@ class OnboardingController extends StateNotifier<OnboardingState> {
       print('Failed to create traveler profile: $e');
     }
   }
-
 }
