@@ -8,22 +8,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final tripDetailsControllerProvider =
     AsyncNotifierProvider.autoDispose.family<TripDetailsController, TripDetailsState, String>(
-  () => TripDetailsController(),
+  TripDetailsController.new,
 );
 
-class TripDetailsController extends AutoDisposeFamilyAsyncNotifier<TripDetailsState, String> {
+class TripDetailsController extends AsyncNotifier<TripDetailsState> {
   StreamSubscription<TripItinerary>? _tripItineraryStream;
+  late String _arg; // Store the family argument
+  TripDetailsController(this._arg); // Constructor to receive the family argument
 
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   @override
-  FutureOr<TripDetailsState> build(String arg) async {
+  FutureOr<TripDetailsState> build() async {
     ref.onDispose(() {
       _tripItineraryStream?.cancel();
     });
 
     await _tripItineraryStream?.cancel();
-    final stream = _tripRepo.getSingleTripItinerary(arg);
+    final stream = _tripRepo.getSingleTripItinerary(_arg);
 
     final completer = Completer<TripItinerary>();
     _tripItineraryStream = stream.listen(

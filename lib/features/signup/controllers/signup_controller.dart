@@ -9,7 +9,7 @@ final signupControllerProvider =
   () => SignupController(),
 );
 
-class SignupController extends AutoDisposeNotifier<SignupState> {
+class SignupController extends Notifier<SignupState> {
   AuthService get _authService => ref.read(authServiceProvider);
 
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);

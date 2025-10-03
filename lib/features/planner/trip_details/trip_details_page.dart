@@ -67,7 +67,7 @@ class TripDetailsPage extends ConsumerWidget {
                           Text(
                             context.localization.tripLocations.toUpperCase(),
                             style: context.theme.textTheme.labelSmall
-                                ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withOpacity(0.6)),
+                                ?.copyWith(color: context.theme.textTheme.labelSmall?.color?.withValues(alpha: 0.6)),
                           ),
                           const SizedBox(
                             height: 16,

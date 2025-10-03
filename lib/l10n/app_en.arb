@@ -72,6 +72,17 @@
   "startDate": "Start date",
   "endDate": "End date",
   "description": "Description",
+  "createANewTrip": "Create a new trip",
+  "editTrip": "Edit trip",
+  "name": "Name",
+  "coTravelers": "Co-travelers",
+  "locations": "Locations",
+  "thisFieldIsRequired": "This field is required.",
+  "startDateMustBeBeforeEndDate": "Start date must be before end date",
+  "endDateMustBeAfterStartDate": "End date must be after start date",
+  "save": "Save",
+  "create": "Create",
+  "reset": "Reset",
 
   "usernameNA": "Username N/A",
   "editProfile": "Edit Profile",
@@ -100,6 +111,9 @@
   "operationNotAllowed": "Operation not allowed.",
   "tooManyRequests": "Too many requests.",
   "undefinedAuthError": "Undefined authentication error.",
+
+  "currentLanguage": "Current language: ",
+  "changeLanguage": "Change language: ",
 
   "developedBy": "Developed by",
   "inZagreb": "in Zagreb, Croatia"

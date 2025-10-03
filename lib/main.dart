@@ -1,4 +1,7 @@
 import 'package:cinnamon_riverpod_2/firebase_options.dart';
+import 'package:cinnamon_riverpod_2/infra/language/language_provider.dart';
+import 'package:cinnamon_riverpod_2/infra/storage/storage_service.dart';
+import 'package:cinnamon_riverpod_2/l10n/app_localizations.dart';
 import 'package:cinnamon_riverpod_2/routing/router.dart';
 import 'package:cinnamon_riverpod_2/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Future<void> main() async {
   await _prepareApp();
@@ -28,10 +31,28 @@ Future<void> _prepareApp() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
 }
 
-class TripFinder extends StatelessWidget {
+class TripFinder extends ConsumerStatefulWidget {
   const TripFinder({super.key});
+
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _TripFinderState();
+}
+
+class _TripFinderState extends ConsumerState<TripFinder> {
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize storage and language after the widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+     await ref.read(localStorageServiceProvider).init();
+     await ref.read(languageProvider.notifier).initializeLanguage();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +61,8 @@ class TripFinder extends StatelessWidget {
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
 
+    final languageState = ref.watch(languageProvider);
+
     return MaterialApp.router(
       title: 'Trip Finder',
       routerDelegate: router.routerDelegate,
@@ -47,8 +70,11 @@ class TripFinder extends StatelessWidget {
       routeInformationProvider: router.routeInformationProvider,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: languageState.locale,
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
     );
   }
+
+
 }

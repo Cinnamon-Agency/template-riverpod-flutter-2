@@ -8,11 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 final accountControllerProvider =
-    AutoDisposeAsyncNotifierProvider<AccountController, AccountState>(
+    AsyncNotifierProvider.autoDispose<AccountController, AccountState>(
   () => AccountController(),
 );
 
-class AccountController extends AutoDisposeAsyncNotifier<AccountState> {
+class AccountController extends AsyncNotifier<AccountState> {
   FirebaseAuthService get _authService => ref.read(authServiceProvider);
 
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);

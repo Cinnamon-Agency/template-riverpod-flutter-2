@@ -4,7 +4,7 @@ import 'package:cinnamon_riverpod_2/infra/traveler/entity/traveler_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final Provider<TravelerDataSource> travelerDataSourceProvider =
-    Provider<TravelerDataSource>((ProviderRef<TravelerDataSource> ref) =>
+    Provider<TravelerDataSource>((Ref ref) =>
         FirebaseTravelerDataSource(ref.watch(userIdProvider)));
 
 abstract interface class TravelerDataSource {

@@ -4,10 +4,10 @@ import 'package:cinnamon_riverpod_2/infra/auth/service/auth_service.dart';
 import 'package:cinnamon_riverpod_2/features/login/controllers/login_state.dart';
 
 final loginControllerProvider = NotifierProvider.autoDispose<LoginController, LoginState>(
-  () => LoginController(),
+  LoginController.new,
 );
 
-class LoginController extends AutoDisposeNotifier<LoginState> {
+class LoginController extends Notifier<LoginState> {
   AuthService get _authService => ref.read(authServiceProvider);
 
   @override
@@ -23,6 +23,13 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
     state = state.copyWith(isLoading: true);
     return _authService
         .logIn(email: email, password: password)
+        .whenComplete(() => state = state.copyWith(isLoading: false));
+  }
+
+  Future triggerLoginWithGoogle() {
+    state = state.copyWith(isLoading: true);
+    return _authService
+        .signInWithGoogle()
         .whenComplete(() => state = state.copyWith(isLoading: false));
   }
 }

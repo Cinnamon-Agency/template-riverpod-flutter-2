@@ -7,12 +7,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final tripPlannerControllerProvider =
-    AutoDisposeAsyncNotifierProvider<TripPlannerController, TripPlannerState>(
-        () {
-  return TripPlannerController();
-});
+    AsyncNotifierProvider.autoDispose<TripPlannerController, TripPlannerState>(
+         TripPlannerController.new
+);
 
-class TripPlannerController extends AutoDisposeAsyncNotifier<TripPlannerState> {
+class TripPlannerController extends AsyncNotifier<TripPlannerState> {
   StreamSubscription<List<TripItinerary>>? _trips;
 
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);

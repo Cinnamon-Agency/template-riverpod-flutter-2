@@ -5,21 +5,21 @@ import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repositor
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final Provider<TravelerRepository> travelerRepositoryProvider =
-    Provider<TravelerRepository>((ProviderRef<TravelerRepository> ref) {
+    Provider<TravelerRepository>((Ref ref) {
   final TravelerDataSource travelerDataSource =
       ref.watch(travelerDataSourceProvider);
   final String userId = ref.watch(userIdProvider);
   return TravelerRepositoryImpl(travelerDataSource, userId);
 });
 
-final AutoDisposeFutureProvider<Traveler> profileDataProvider =
-    AutoDisposeFutureProvider<Traveler>(
-        (AutoDisposeFutureProviderRef<Traveler> ref) =>
+final profileDataProvider =
+    FutureProvider.autoDispose<Traveler>(
+        (Ref ref) =>
             ref.watch(travelerRepositoryProvider).getProfileData());
 
-final AutoDisposeFutureProvider<List<Traveler>> travelersProvider =
-    AutoDisposeFutureProvider<List<Traveler>>(
-        (AutoDisposeFutureProviderRef<List<Traveler>> ref) =>
+final travelersProvider =
+    FutureProvider.autoDispose<List<Traveler>>(
+        (Ref ref) =>
             ref.watch(travelerRepositoryProvider).getAllTravelers());
 
 abstract interface class TravelerRepository {

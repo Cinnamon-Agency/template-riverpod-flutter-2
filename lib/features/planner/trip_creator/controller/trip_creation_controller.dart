@@ -15,11 +15,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-final tripCreationStateProvider = AutoDisposeAsyncNotifierProvider<TripCreationController, TripCreationState>(
-  () => TripCreationController(),
+final tripCreationStateProvider = AsyncNotifierProvider.autoDispose<TripCreationController, TripCreationState>(
+  TripCreationController.new,
 );
 
-class TripCreationController extends AutoDisposeAsyncNotifier<TripCreationState> {
+class TripCreationController extends AsyncNotifier<TripCreationState> {
   TripRepository get _tripRepo => ref.read(tripRepositoryProvider);
 
   String get _userId => ref.read(userIdProvider);

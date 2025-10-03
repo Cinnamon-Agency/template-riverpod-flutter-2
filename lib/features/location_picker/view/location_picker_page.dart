@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cinnamon_riverpod_2/constants/constants.dart';
 import 'package:cinnamon_riverpod_2/features/location_picker/view/zoom_in_out_buttons.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/location_index_controller.dart';
 import 'package:cinnamon_riverpod_2/features/planner/trip_creator/controller/osm_search_locations_controller.dart';
@@ -36,8 +37,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   // zoom when searching for new location => 13.
   // zoom when editing previously entered location => 15.
   double minZoom = 1;
-  double maxZoom = 15;
-  double currentZoom = 13.0;
+  double maxZoom = 12; // osm block issues (previously 15)
+  double currentZoom = 12.0; // osm block issues (previously 13)
   LatLng currentCenter = const LatLng(45.7902023, 15.9706199); // Zagreb
   // LatLng of previously entered location we want to edit
   LatLng? editLocation;
@@ -88,15 +89,19 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   Widget build(BuildContext context) {
     final tripLocationState = ref.watch(tripCreationStateProvider);
     final searchLocationsState = ref.watch(osmSearchLocationsStateProvider);
-    final searchLocationsController = ref.read(osmSearchLocationsStateProvider.notifier);
+    final searchLocationsController =
+        ref.read(osmSearchLocationsStateProvider.notifier);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_nameNode.canRequestFocus) {
         _nameNode.requestFocus();
       }
       final index = ref.watch(indexProvider);
-      if (index != null && tripLocationState.requireValue.tripLocations[index].name != 'Select Location') {
+      if (index != null &&
+          tripLocationState.requireValue.tripLocations[index].name !=
+              'Select Location') {
         _zoomEditLocation(tripLocationState.requireValue.tripLocations[index]);
-        editLocation = tripLocationState.requireValue.tripLocations[index].location;
+        editLocation =
+            tripLocationState.requireValue.tripLocations[index].location;
         if (editLocation != null) {
           currentCenter = editLocation!;
         }
@@ -107,13 +112,14 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     return Scaffold(
       body: FlutterMap(
         options: MapOptions(
-          center: currentCenter,
-          zoom: currentZoom,
+          initialCenter: currentCenter,
+          initialZoom: currentZoom,
           minZoom: minZoom,
           maxZoom: maxZoom,
           onTap: (position, latLng) async {
             if (searchLocationsState.requireValue.osmSearchLocations.isEmpty) {
-              final location = await searchLocationsController.getLocationNameForLatLng(latLng);
+              final location = await searchLocationsController
+                  .getLocationNameForLatLng(latLng);
               if (location != null) {
                 widget.onLocationSelected(location);
                 GoRouter.of(context).pop();
@@ -128,7 +134,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
           /// MapLayer 1------------------ default
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.app',
+            userAgentPackageName: AppConstants.mapUserAgent,
           ),
 
           /// MapLayer 2----------------- set Marker if editing location
@@ -137,7 +143,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               markers: [
                 Marker(
                   point: editLocation!,
-                  builder: (BuildContext context) => const Icon(
+                  child: const Icon(
                     Icons.location_on,
                     color: Colors.red,
                     size: 38,
@@ -169,7 +175,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                     ///------------------- back btn
                     RoundedIconButton(
                       icon: CupertinoIcons.left_chevron,
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: 0.7),
                       iconColor: Colors.black,
                       size: 32,
                       onPressed: () {
@@ -192,7 +198,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                         onChanged: (text) async {
                           if (text != null && isSearchNeeded) {
                             _debounce(() async {
-                              await searchLocationsController.getLocationFromSearchField(text);
+                              await searchLocationsController
+                                  .getLocationFromSearchField(text);
                             });
                           }
                         },
@@ -213,7 +220,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                       ? const Center(child: CircularProgressIndicator())
                       : Container(
                           decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha: 0.8),
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: Colors.black26)),
                           child: searchLocationsState.hasError
@@ -221,26 +228,38 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text('${searchLocationsState.error}'),
                                 )
-                              : searchLocationsState.requireValue.osmSearchLocations.isNotEmpty
+                              : searchLocationsState.requireValue
+                                      .osmSearchLocations.isNotEmpty
                                   ? ListView.separated(
                                       padding: const EdgeInsets.all(15),
                                       shrinkWrap: true,
-                                      itemCount: searchLocationsState.requireValue.osmSearchLocations.length,
+                                      itemCount: searchLocationsState
+                                          .requireValue
+                                          .osmSearchLocations
+                                          .length,
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           behavior: HitTestBehavior.translucent,
                                           onTap: () {
-                                            searchLocationsController.resetState();
+                                            searchLocationsController
+                                                .resetState();
                                             widget.onLocationSelected(
-                                                searchLocationsState.requireValue.osmSearchLocations[index]);
+                                                searchLocationsState
+                                                    .requireValue
+                                                    .osmSearchLocations[index]);
                                             GoRouter.of(context).pop();
                                           },
                                           child: Text(
-                                            searchLocationsState.requireValue.osmSearchLocations[index].displayName,
+                                            searchLocationsState
+                                                .requireValue
+                                                .osmSearchLocations[index]
+                                                .displayName,
                                           ),
                                         );
                                       },
-                                      separatorBuilder: (BuildContext context, int index) => const Divider(),
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              const Divider(),
                                     )
                                   : const SizedBox(),
                         ),

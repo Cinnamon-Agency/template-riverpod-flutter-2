@@ -94,15 +94,15 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
 
   String? valueDate({required Date dateToValue, String? value}) {
     return (value?.isEmpty ?? true)
-        ? 'This field is required.'
+        ? context.localization.thisFieldIsRequired
         : dateToValue == Date.startDate &&
                 _endDateTextController.text.isNotEmpty &&
                 value!.toDateTime.isAfter(_endDateTextController.text.toDateTime)
-            ? 'Start date must be before end date'
+            ? context.localization.startDateMustBeBeforeEndDate
             : dateToValue == Date.endDate &&
                     _startDateTextController.text.isNotEmpty &&
                     value!.toDateTime.isBefore(_startDateTextController.text.toDateTime)
-                ? 'End date must be after start date'
+                ? context.localization.endDateMustBeAfterStartDate
                 : null;
   }
 
@@ -157,12 +157,12 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
               textCapitalization: TextCapitalization.words,
               controller: _nameTextController,
               autocorrect: false,
-              decoration: const InputDecoration(
-                labelText: 'Name',
+              decoration: InputDecoration(
+                labelText: context.localization.name,
               ),
               onChanged: (value) => _currentFormState?.fields['name']?.validate(),
               validator: (value) =>
-                  /*!_nameNode.hasPrimaryFocus && */ (value?.isEmpty ?? true) ? 'This field is required.' : null,
+                  /*!_nameNode.hasPrimaryFocus && */ (value?.isEmpty ?? true) ? context.localization.thisFieldIsRequired : null,
             ),
             const SizedBox(
               height: 20,
@@ -176,8 +176,8 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
               textCapitalization: TextCapitalization.sentences,
               autocorrect: false,
               maxLines: 5,
-              decoration: const InputDecoration(
-                labelText: 'Description',
+              decoration: InputDecoration(
+                labelText: context.localization.description,
                 alignLabelWithHint: true,
               ),
               onChanged: (value) => _currentFormState?.fields['description']?.validate(),
@@ -196,9 +196,9 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     controller: _startDateTextController,
                     readOnly: true,
                     autocorrect: false,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       errorMaxLines: 2,
-                      labelText: 'Start Date',
+                      labelText: context.localization.startDate,
                     ),
                     onChanged: (value) => _currentFormState?.fields['start_date']?.validate(),
                     validator: (value) => valueDate(dateToValue: Date.startDate, value: value),
@@ -216,9 +216,9 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                     controller: _endDateTextController,
                     readOnly: true,
                     autocorrect: false,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       errorMaxLines: 2,
-                      labelText: 'End Date',
+                      labelText: context.localization.endDate,
                     ),
                     onChanged: (value) => _currentFormState?.fields['end_date']?.validate(),
                     validator: (value) => valueDate(dateToValue: Date.endDate, value: value),
@@ -231,7 +231,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Co-travelers',
+              context.localization.coTravelers,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
             ),
 
@@ -295,7 +295,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                         ),
                       ),
                       validator: (valueCandidate) => !focusNode.hasPrimaryFocus && (valueCandidate?.isEmpty ?? true)
-                          ? 'This field is required.'
+                          ? context.localization.thisFieldIsRequired
                           : null,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                     );
@@ -321,7 +321,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
             ),
             const SizedBox(height: 10),
             Text(
-              'Locations',
+              context.localization.locations,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).primaryColor),
             ),
             const SizedBox(height: 10),
@@ -459,7 +459,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                   child: SizedBox(
                     height: 50,
                     child: PrimaryButton(
-                      text: _isEditing ? 'Save' : 'Create',
+                      text: _isEditing ? context.localization.save : context.localization.create,
                       isLoading: state.isLoading,
                       isDisabled: state.isLoading,
                       onPressed: () async {
@@ -530,7 +530,7 @@ class _TripCreatorFormState extends ConsumerState<TripCreatorForm> {
                   child: SizedBox(
                     height: 50,
                     child: PrimaryButton(
-                      text: _isEditing ? 'Cancel' : 'Reset',
+                      text: _isEditing ? context.localization.cancel : context.localization.reset,
                       isDisabled: state.isLoading,
                       onPressed: _isEditing
                           ? GoRouter.of(context).pop

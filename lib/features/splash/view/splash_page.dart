@@ -16,7 +16,8 @@ class SplashPage extends ConsumerStatefulWidget {
   ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObserver {
+class _SplashPageState extends ConsumerState<SplashPage>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -31,7 +32,8 @@ class _SplashPageState extends ConsumerState<SplashPage> with WidgetsBindingObse
           final value = next.requireValue;
 
           /// Delay routing 1 second, so that the logo is seen
-          GoRouter.of(context).go(value.isAnon ? RoutePaths.onboarding : RoutePaths.home);
+          GoRouter.of(context)
+              .go(value.isAnon ? RoutePaths.onboarding : RoutePaths.home);
         });
       }
       if (next.hasError) {

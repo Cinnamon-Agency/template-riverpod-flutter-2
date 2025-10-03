@@ -1,6 +1,8 @@
 import 'package:cinnamon_riverpod_2/features/account/controller/account_controller.dart';
 import 'package:cinnamon_riverpod_2/features/account/controller/account_state.dart';
 import 'package:cinnamon_riverpod_2/features/account/widgets/copyright_info_section.dart';
+import 'package:cinnamon_riverpod_2/features/home/controller/home_controller.dart';
+import 'package:cinnamon_riverpod_2/features/home/controller/home_state.dart';
 import 'package:cinnamon_riverpod_2/features/shared/app_bars/customizable_app_bar.dart';
 import 'package:cinnamon_riverpod_2/features/shared/buttons/secondary_button.dart';
 import 'package:cinnamon_riverpod_2/features/shared/dialogs/confirmation_dialog.dart';
@@ -150,6 +152,7 @@ class AccountPage extends ConsumerWidget {
                                   onConfirm: () async {
                                     GoRouter.of(ctx).pop();
                                     if (await controller.logOut()) {
+                                      ref.read(homeControllerProvider.notifier).selectPage(SelectedHomePage.trips);
                                       GoRouter.of(context)
                                           .pushReplacement(RoutePaths.start);
                                     } else {

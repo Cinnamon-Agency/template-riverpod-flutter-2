@@ -12,7 +12,7 @@ class LocalNotificationServiceImpl implements NotificationService {
   Future<void> init() async {
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
     final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+        DarwinInitializationSettings();
     final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
@@ -39,6 +39,7 @@ class LocalNotificationServiceImpl implements NotificationService {
   Future<void> _schedule(int index, AppNotification element) {
     return _flutterLocalNotificationsPlugin.zonedSchedule(
         index, element.title, element.description, element.scheduledDate, const NotificationDetails(),
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime);
+       // androidScheduleMode: UILocalNotificationDateInterpretation.wallClockTime);
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
   }
 }

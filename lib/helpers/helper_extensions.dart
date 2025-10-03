@@ -1,8 +1,8 @@
 import 'package:cinnamon_riverpod_2/helpers/snackbar_helper.dart';
+import 'package:cinnamon_riverpod_2/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension BuildContextExt on BuildContext {
   Size get size => MediaQuery.sizeOf(this);
@@ -28,9 +28,7 @@ extension DateStringExt on String {
 extension AsyncValueUI on AsyncValue {
   void showSnackbarOnError(BuildContext context) {
     if (!isLoading && hasError) {
-      SnackbarHelper.showTFSnackbar(
-          context,
-          error.toString());
+      SnackbarHelper.showTFSnackbar(context, error.toString());
     }
   }
 }

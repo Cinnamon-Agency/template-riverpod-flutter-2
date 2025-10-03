@@ -52,9 +52,15 @@ class StartPage extends ConsumerWidget {
               ),
               Column(
                 children: [
+                  /// ------------- email signUp
                   _buildSignInButton(TextIconButton.emailSignIn(
                     context: context,
                     onPressed: () => controller.onPressSignUp(context),
+                  )),
+                  /// ------------- continue with Google
+                  _buildSignInButton(TextIconButton.googleSignIn(
+                    context: context,
+                    onPressed: () => controller.onPressSignUpWithGoogle(context, ref),
                   )),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -63,6 +69,7 @@ class StartPage extends ConsumerWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
+                  /// ------------- email logIn
                   _buildSignInButton(SecondaryButton(
                     text: context.localization.logIn,
                     onPressed: () => controller.onPressLogin(context),

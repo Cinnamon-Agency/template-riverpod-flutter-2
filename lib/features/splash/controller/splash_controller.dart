@@ -13,18 +13,15 @@ final splashControllerProvider = AsyncNotifierProvider.autoDispose<SplashControl
   () => SplashController(),
 );
 
-class SplashController extends AutoDisposeAsyncNotifier<SplashState> {
+class SplashController extends AsyncNotifier<SplashState> {
   @override
   FutureOr<SplashState> build() async {
-    final user = await ref.read(firebaseUserProvider.future);
+    final user = await ref.watch(firebaseUserProvider.future);
     // warmup user id provider
     final userId = ref.read(userIdProvider);
     final http = ref.read(httpServiceProvider);
-    final localStorageService = ref.read(localStorageServiceProvider);
     final purchases = ref.read(purchaseServiceProvider);
     final notifications = ref.read(notificationServiceProvider);
-
-    await localStorageService.init();
 
     await http.init();
     // await purchases.init();

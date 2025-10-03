@@ -3,11 +3,11 @@ import 'package:cinnamon_riverpod_2/infra/traveler/repository/traveler_repositor
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final editProfileControllerProvider =
-    AutoDisposeAsyncNotifierProvider<EditProfileController, EditProfileState>(
-  () => EditProfileController(),
+    AsyncNotifierProvider.autoDispose<EditProfileController, EditProfileState>(
+   EditProfileController.new,
 );
 
-class EditProfileController extends AutoDisposeAsyncNotifier<EditProfileState> {
+class EditProfileController extends AsyncNotifier<EditProfileState> {
   TravelerRepository get _travelerRepo => ref.read(travelerRepositoryProvider);
 
   @override
